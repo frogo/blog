@@ -1,0 +1,74 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .panel.panel-default
+                .panel-heading
+                    | 用户信息
+                .panel-body
+                    .form-horizontal
+                        .form-group
+                            label.col-sm-2.control-label ID
+                            .col-sm-10 
+                                p.form-control-static #{user.id}
+                        .form-group
+                            label.col-sm-2.control-label 名称
+                            .col-sm-10 
+                                p.form-control-static #{user.name}
+                        .form-group
+                            label.col-sm-2.control-label 用户名
+                            .col-sm-10 
+                                p.form-control-static #{user.username}
+                        .form-group
+                            label.col-sm-2.control-label Email
+                            .col-sm-10 
+                                p.form-control-static #{user.email}
+                        .form-group
+                            label.col-sm-2.control-label 手机号
+                            .col-sm-10 
+                                p.form-control-static #{user.mobile || '无'}
+                        .form-group
+                            label.col-sm-2.control-label 性别
+                            .col-sm-10 
+                                p.form-control-static #{user.gender || '无'}
+                        .form-group
+                            label.col-sm-2.control-label 角色
+                            .col-sm-10 
+                                p.form-control-static
+                                    if (user.roles)
+                                        - each role in user.roles
+                                            span.label.label-info(data-href='#{adminDir}/role/#{role._id}')
+                                                | #{role.name}
+                        .form-group
+                            label.col-sm-2.control-label 创建人
+                            .col-sm-10 
+                                p.form-control-static
+                                    if (user.author)
+                                        | #{user.author.username}
+                                    else
+                                        | 无
+                        .form-group
+                            label.col-sm-2.control-label 注册时间
+                            .col-sm-10
+                                p.form-control-static #{moment(user.created).format('LLL')}
+                        .form-group
+                            label.col-sm-2.control-label 上次登录时间
+                            .col-sm-10
+                                p.form-control-static #{moment(user.last_login_date).format('LLL')}
+                        .form-group
+                            label.col-sm-2.control-label 上次登录IP
+                            .col-sm-10
+                                p.form-control-static #{user.last_login_ip}
+
+    //.row
+        .col-md-12
+            h3 Ta发布的内容
+            table.table.table-striped
+                thead
+                    tr
+                        th 标题
+                        th 日期
+                        th 分类
+                        th 操作
+

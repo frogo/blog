@@ -1,0 +1,180 @@
+extends ../layout
+block head-css
+    link(rel='stylesheet', href='//cdn.jsdelivr.net/select2/4.0.3/css/select2.min.css')
+block content
+    .row
+        .col-md-12
+            a.btn.btn-info.J_post(href='#{adminDir}/notification/add') 发私信
+            table.table.table-striped
+                thead
+                    tr
+                        th 内容
+                        th 来自
+                        th 发给
+                        //th 是否已读
+                        th 未读
+                        th 已读
+                        th 时间
+                        th 操作
+                tbody
+                    - each notification in notifications
+                        tr
+                            td
+                                a(href='#{adminDir}/notification/#{notification.id}') #{notification.content}
+                            td #{notification.from.username}
+                            td 
+                                each item in notification.to
+                                    span.badge.badge-default #{item.username}
+                            //td #{notification.isRead ? '已读' : '未读'}
+                            td
+                                each item in notification.unread
+                                    span.badge.badge-default #{item.username}
+                            td
+                                each item in notification.read
+                                    span.badge.badge-default #{item.username}
+                            td
+                                | #{moment(notification.created).format('LLL')}
+                            td
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/notification/#{notification.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                - pageInfo.query = query
+                include ../mixin
+                +pagination(pageInfo)
+    script#J_tmpl_add(type='x-tmpl-mustache')
+        .form-group
+            label 收信人
+            //input.form-control(name='kw')
+            select.form-control.J_to_users(name='kw', style='width: 60%', multiple='multiple')
+                
+        .form-group
+            label 内容
+            textarea.form-control(rows='4')
+block foot-js
+    script(src='//cdn.jsdelivr.net/select2/4.0.3/js/select2.min.js')
+    script.
+        //var user = !{JSON.stringify(User)};
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(document).on('click', '.J_post', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var url = $this.attr('href');
+            var request = function(to, content, dialog) {
+                $.post(url, {
+                    _csrf: token,
+                    //from: user._id,
+                    to: to,
+                    content: content
+                }, function(json) {
+                    console.log(json);
+                    dialog.close();
+                    swal('发送成功!', '', 'success')
+                });
+            };
+            
+            var $dialog = BootstrapDialog.show({
+                title: '发送私信',
+                message: $('<div/>').append($('#J_tmpl_add').html()),
+                buttons: [
+                    {
+                        label: '发送',
+                        cssClass: 'btn-primary',
+                        action: function(dialog) {
+                            console.log(dialog)
+                            var to = dialog.$modalBody.find('.J_to_users').val();
+                            var content = dialog.$modalBody.find('textarea').val();
+                            request(to, content, dialog);
+                        }
+                    },
+                    {
+                        label: '取消',
+                        action: function(dialogItself) {
+                            dialogItself.close();
+                        }
+                    }
+                ]
+            });
+            
+            $dialog.$modalBody.find(".J_to_users").select2({
+                ajax: {
+                    //url: "https://api.github.com/search/repositories",
+                    url: '#{core.translateAdminDir("/user/query"))',
+                    //dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
+                        data.items.map(function(item) {
+                            item.id = item._id;
+                            return item;
+                        });
+                        console.log(data.items);
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+                minimumInputLength: 1,
+                templateResult: function (repo) {
+                    if (repo.loading) return repo.text;
+
+                    var markup = '<div class="clearfix">' +
+                        '<div clas="col-sm-10">' +
+                        '<div class="clearfix">' +
+                        '<div class="col-sm-6">' + repo.name + '</div>' +
+                        '</div>';
+
+                    markup += '</div></div>';
+
+                    return markup;
+                },
+                templateSelection: function (repo) {
+                    return repo.name || repo.text;
+                }
+            });
+        });
+
+        $(document).on('click', '.J_del', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $tr = $this.closest('tr');
+            var url = $this.attr('href');
+            var messenger = Messenger().post("处理中...");
+            $.post(url, {_csrf: token}, function(json) {
+                console.log(json);
+                var status = json.status;
+                if(status === true) {
+                    messenger.update({
+                        message: '删除成功',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                    $tr.remove();
+                } else {
+                    messenger.update({
+                        message: '删除失败',
+                        hideAfter: 3,
+                        type: 'error'
+                    });
+                }
+            })
+        });

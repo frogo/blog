@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>内容</th>
+                <th>作者</th>
+                <th>来自</th>
+                <th>IP</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each comments}}
+            <tr>
+                <td><a href="{{../adminDir}}/comment/{{id}}">{{content}}</a></td>
+                <td>{{#if author }}{{author.name}} {{else}}匿名{{/if}}</td>
+                <td>{{#if from }}<a href="/content/{{from._id}}#{{id}}" target="_blank">{{from.title}} <i class="fa fa-external-link"></i></a>{{/if}}
+                </td>
+                <td>{{ip}}</td>
+                <td>{{created}}</td>
+                <td><a href="{{../adminDir}}/comment/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        <ul class="pagination">{{{pagination pageInfo}}}</ul>
+    </div>
+</div>
+
+
+<!-- Load these page level functions-->
+{{#section 'scripts'}}
+    <script type="text/javascript">
+        var token = '{{token}}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(document).on('click', '.J_del', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $tr = $this.closest('tr');
+            var url = $this.attr('href');
+            var messenger = Messenger().post("处理中...");
+            $.post(url, {_csrf: token}, function(json) {
+                console.log(json);
+                var status = json.status;
+                if(status === true) {
+                    //- Messenger().post({
+                    //-     message: '删除成功',
+                    //-     hideAfter: 3,
+                    //-     type: 'success'
+                    //- });
+                    messenger.update({
+                        message: '删除成功',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                    $tr.remove();
+                } else {
+                    //- Messenger().post({
+                    //-     message: '删除失败',
+                    //-     hideAfter: 3,
+                    //-     type: 'error'
+                    //- });
+                    messenger.update({
+                        message: '删除失败',
+                        hideAfter: 3,
+                        type: 'error'
+                    });
+                }
+            })
+        });
+    </script>
+{{/section}}

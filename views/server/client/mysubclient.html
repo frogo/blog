@@ -1,0 +1,119 @@
+
+    <!-- main content start-->
+    <section class="main-content-wrapper">
+        <section id="main-content">
+            <div class="row">
+                <div class="col-md-12">
+
+                  <div>等待开发...</div>
+
+                </div>
+            </div>
+        </section>
+    </section>
+    <!-- main content end-->
+    </section>
+
+
+<!-- Load these page level functions-->
+    {{#section 'scripts'}}
+    <script type="text/javascript">
+    var token = '{{token}}';
+    Messenger.options = {
+    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+    theme: 'flat'
+    };
+    $(function() {
+
+
+        $(document).on('click', '.J_del', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var url = $this.attr('href');
+            var confirm = BootstrapDialog.confirm('<p>确定删除该分类吗</p>', function (result) {
+                if(result) { window.location.href = url; }else{ }
+
+            })
+
+        })
+
+        $('.from').each(function(i,e){
+            if($(e).attr('data-value')==='0'){
+                $(e).text('面销')
+            }else if($(e).attr('data-value')==='1'){
+                $(e).text('电销')
+            }else if($(e).attr('data-value')==='2'){
+                $(e).text('寿险')
+            }else if($(e).attr('data-value')==='3'){
+                $(e).text('金融公司')
+            }
+
+        })
+
+        $('.matched_condition').each(function(i,e){
+            var arr = $(e).attr('data-value').split(',');
+            $.each(arr,function(j,f){
+                if(arr[j]==='0'){
+                    arr[j]='银行抵押'
+                }else if(arr[j]==='1'){
+                    arr[j]="自由资金"
+                }else if(arr[j]==='2'){
+                    arr[j]="信用贷款"
+                }
+            })
+            $(e).text(arr)
+        })
+        $('.remarks').each(function(i,e){
+            if($(e).attr('data-value')){
+                $(e).text($(e).attr('data-value').slice(0,8)+'...')
+            }
+
+        })
+        $('#qBeginTime').datetimepicker({
+            todayBtn : "linked",
+            format: "yyyy-mm-dd hh:ii",
+            minView: "month",
+            autoclose : true,
+            todayHighlight : true,
+            endDate : new Date()
+        }).on('changeDate',function(e){
+            var startTime = e.date;
+            $('#qEndTime').datetimepicker('setStartDate',startTime);
+        });
+//结束时间：
+        $('#qEndTime').datetimepicker({
+            todayBtn : "linked",
+            format: "yyyy-mm-dd hh:ii",
+            minView: "month",
+            autoclose : true,
+            todayHighlight : true,
+            endDate : new Date()
+        }).on('changeDate',function(e){
+            var endTime = e.date;
+            $('#qBeginTime').datetimepicker('setEndDate',endTime);
+        });
+
+
+        //点击下拉表单不隐藏
+        $("div.dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+            e.stopPropagation();
+        });
+
+
+        $("input[name='dateInterval']").on('click',function(){
+            if($(this).is(':checked')){
+                $('#datepicker').removeClass('hide')
+            }else{
+                $('#datepicker').addClass('hide');
+                $('#datepicker input').val('')
+            }
+
+        })
+
+
+
+
+
+    })
+    </script>
+    {{/section}}

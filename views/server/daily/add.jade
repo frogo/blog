@@ -1,0 +1,48 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 日期
+                    input.form-control(name='date')
+                .form-group
+                    label 项目
+                    input.form-control(name='project')
+                .form-group
+                    label 任务
+                    input.form-control(name='task')
+                .form-group
+                    label 时间计划
+                    input.form-control(name='schedule')
+                .form-group
+                    label 预估工作量
+                    input.form-control(name='estimated_workload')
+                .form-group
+                    label 累计投入量
+                    input.form-control(name='cumulative_input')
+                .form-group
+                    label 昨天投入时间
+                    input.form-control(name='yesterday_input_hours')
+                .form-group
+                    label 总体进度
+                    input.form-control(name='current_progress')
+                .form-group
+                    label 今天计划投入时间
+                    input.form-control(name='today_plan_hours')
+                .form-group
+                    label 状态
+                    select.form-control.input-sm(name='state')
+                        option(value='0') 快
+                        option(value='1') 慢
+                        option(value='2') 一般
+                        option(value='3') 暂停
+                .form-group
+                    label 备注
+                    textarea.form-control(name='remarks', rows='8')
+                input(type='hidden', name='_csrf', value='#{token}')
+                button.btn.btn-primary(type='submit') 提交
+
+block foot-js
+    script.

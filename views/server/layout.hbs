@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{title}}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="/assets/server/img/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap dialog-->
+    <link href="https://cdn.bootcss.com/bootstrap3-dialog/1.35.4/css/bootstrap-dialog.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/limonte-sweetalert2/6.6.10/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/plugins/messenger/css/messenger.css">
+    <link rel="stylesheet" href="/assets/plugins/messenger/css/messenger-theme-flat.css">
+    <!-- Bootstrap datetimepicker-->
+    <link rel="stylesheet" href="/assets/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <!-- Fonts from Font Awsome-->
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Animate-->
+    <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <!-- Custom styles for this theme-->
+    <link rel="stylesheet" href="/assets/server/css/main.css">
+    <link rel="stylesheet" href="/assets/server/css/style.css">
+    <!-- Custom styles for this page-->
+    {{#each cssList}}
+        <link rel='stylesheet' href={{this}} />
+    {{/each}}
+</head>
+<body>
+<section id="container">
+    {{> header}}
+
+    <!-- sidebar left start-->
+    {{> sidebar}}
+
+    <!-- sidebar left end-->
+    <!-- main content start-->
+    <section class="main-content-wrapper">
+        <section id="main-content">
+            {{{body}}}
+        </section>
+    </section>
+
+    <!-- main content end-->
+</section>
+<!-- Global JS-->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery.form/4.2.0/jquery.form.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap3-dialog/1.35.4/js/bootstrap-dialog.min.js"></script>
+<script src="https://cdn.bootcss.com/limonte-sweetalert2/6.6.10/sweetalert2.min.js"></script>
+<script src="/assets/plugins/messenger/js/messenger.min.js"></script>
+<!-- Bootstrap datetimepicker-->
+<script src="/assets/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/assets/plugins/messenger/js/messenger-theme-future.js"></script>
+<script src="https://cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="/assets/server/js/application.js"></script>
+<!-- Load these page level functions-->
+{{#each jsList}}
+  <script src={{this}}></script>
+{{/each}}
+    {{{_sections.scripts}}}
+</body>
+</html>

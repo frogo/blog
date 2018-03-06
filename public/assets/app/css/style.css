@@ -1,0 +1,141 @@
+.gallery{
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+.gallery img{
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
+.gallery:after{
+    content: '';
+    clear: both;
+    display: table;
+}
+.gallery-item{
+    width: 20%;
+    height: 200px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border: 1px solid #fff;
+    background-size: cover;
+    text-align: center;
+    position: relative;
+    display: -webkit-flex;
+    -webkit-flex-direction: row;
+    -webkit-align-items: center;
+    -webkit-justify-content: center;
+}
+.gallery-item .file-holder{
+    font-size: 100px;
+}
+.gallery-item img{
+    max-width: 100%;
+    max-height: 100%;
+}
+.gallery-item video{
+    max-width: 100%;
+    max-height: 100%;
+}
+.gallery-remove{
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    font-size: 24px;
+    line-height: 0;
+    color: #000 !important;
+}
+.preview img{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.video-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ui.body{
+    padding: 8rem 0;
+}
+
+.comment .reply.form{
+    margin-left: 3.5rem;
+}
+.post-comments{
+
+}
+
+.page-index .content .header{
+
+}
+html, body{
+    font-size: 16px;
+}
+.welcome{
+    min-height: 350px;
+}
+.welcome h1.ui.header {
+  margin-top: 3em;
+  margin-bottom: 0em;
+  font-size: 4em;
+  font-weight: normal;
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+.masthead .ui.menu .ui.button{
+    margin-left: .5rem;
+}
+.page{
+    min-height: 80rem;
+}
+.right-search{
+    margin-bottom: 1rem;
+}
+
+.post{
+
+}
+.ui.segment.post-content{
+    padding-left: 0;
+    padding-right: 0;
+}
+.post-content img{
+    max-width: 100%;
+}
+.post-content blockquote{
+    padding: 0 1em;
+    color: #777;
+    border-left: .25em solid #ddd;
+    margin: 0 0 16px;
+}
+.post-content table{
+    border-spacing: 0;
+    border-collapse: collapse;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    margin: 0 0 16px;
+}
+.post-content table tr{
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+.post-content table tr:nth-child(2n){
+    background-color: #f8f8f8;
+}
+.post-content table td,
+.post-content table th{
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+.post-content table th{
+    font-weight: 700;
+}
+
+

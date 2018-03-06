@@ -1,0 +1,68 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            a.btn.btn-info(href='#{adminDir}/tag/add') 添加标签
+            table.table.table-striped
+                thead
+                    tr
+                        th 名称
+                        th 创建者
+                        th 创建时间
+                        th 操作
+                tbody
+                    - each tag in tags
+                        tr
+                            td
+                                a(href='#{adminDir}/tag/#{tag.id}') #{tag.name}
+                            td
+                                if (tag.author)
+                                    | #{tag.author.name}
+                            td
+                                | #{moment(tag.created).format('LLL')}
+                            td
+                                a.btn.btn-default.btn-xs(href='#{adminDir}/tag/#{tag.id}/edit') 编辑
+                                | &nbsp;
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/tag/#{tag.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                - pageInfo.query = query
+                include ../mixin
+                +pagination(pageInfo)
+
+block foot-js
+    script.
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            $(document).on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var url = $this.attr('href');
+                var messenger = Messenger().post("处理中...");
+                $.post(url, {_csrf: token}, function(res) {
+                    console.log(res);
+                    var status = res.status;
+                    if (status) {
+                        messenger.update({
+                            message: '删除成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                        setTimeout(function() {
+                            $this.closest('tr').remove();
+                        }, 1000)
+                        
+                    } else {
+                        messenger.update({
+                            message: '删除失败',
+                            hideAfter: 3,
+                            type: 'error'
+                        });
+                    }
+                })
+            })
+        })

@@ -1,2 +1,2 @@
 # blog
-node.js express mongoDB 
+node.js express mongoose mongoDB handlebars 

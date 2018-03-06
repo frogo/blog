@@ -1,0 +1,71 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 用户名
+                    input.form-control(name='username', value='#{user.username}')
+                .form-group
+                    label 姓名
+                    input.form-control(name='name', value='#{user.name}')
+                .form-group
+                    label Email
+                    input.form-control(name='email', value='#{user.email}')
+                .form-group
+                    label 角色
+                    select.form-control.input-sm(multiple, name='roles')
+                        - each role in roles
+                            if (user.roles.indexOf(role.id) > -1)
+                                option(value='#{role.id}', selected)
+                                    | #{role.name}
+                            else
+                                option(value='#{role.id}')
+                                    | #{role.name}
+                input(type='hidden', name='_csrf', value='#{token}')
+                button.btn.btn-primary(type='submit') 提交
+
+block foot-js
+    script.
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            var messenger;
+            $('form').ajaxForm({
+                beforeSerialize: function() {
+                    console.log('beforeSerialize')
+                },
+                beforeSubmit: function() {
+                    console.log('beforeSubmit')
+                    messenger = Messenger().post("处理中...");
+                },
+                success: function(data, status, xhr, $form) {
+                    console.log(data)
+                    var status = data.status;
+                    if (status) {
+                        messenger.update({
+                            message: '更新成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                    } else {
+                        messenger.update({
+                            message: '更新失败',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                    }
+                },
+                err: function() {
+                    console.log('error')
+                    messenger.update({
+                        message: '系统繁忙',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                }
+            })
+        })

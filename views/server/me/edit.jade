@@ -1,0 +1,57 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .panel.panel-default
+                .panel-heading
+                    h3.panel-title 修改我的信息
+                .panel-body
+                    form.form-horizontal(role='form', action='#{adminDir}/me/edit', method='post')
+                        //.form-group
+                            label.col-sm-2.control-label(for='inputEmail2') 用户名
+                            .col-sm-10
+                                input#inputEmail2.form-control(type='text', name='username', value='#{user.username}', placeholder='用户名')
+                        .form-group
+                            label.col-sm-2.control-label(for='inputPassword4') 姓名
+                            .col-sm-10
+                                input#inputPassword4.form-control(type='text', name='name', value='#{user.name}', placeholder='姓名')
+                        //.form-group
+                            label.col-sm-2.control-label(for='inputPassword5') Email
+                            .col-sm-10
+                                input#inputPassword5.form-control(type='email', name='email', value='#{user.email}' placeholder='Email')
+                        .form-group
+                            label.col-sm-2.control-label(for='inputPassword6') 手机号
+                            .col-sm-10
+                                input#inputPassword6.form-control(type='mobile', name='mobile', value='#{user.mobile || ""}' placeholder='手机号')
+                        .form-group
+                            label.col-sm-2.control-label(for='J_birthday') 生日
+                            .col-sm-10
+                                input#J_birthday.form-control(type='text', name='birthday', value='#{moment(user.birthday || "").format("YYYY-MM-DD")}' placeholder='生日')
+
+                        .form-group
+                            label.col-sm-2.control-label(for='inputPassword5') 性别
+                            .col-sm-10
+                                select.form-control.input-sm(name='gender')
+                                    if (user.gender === '保密')
+                                        option(value='保密', selected) 保密
+                                    else 
+                                        option(value='保密') 保密
+                                    if (user.gender === '男')
+                                        option(value='男', selected) 男
+                                    else 
+                                        option(value='男') 男
+
+                                    if (user.gender === '女')
+                                        option(value='女', selected) 女
+                                    else 
+                                        option(value='女') 女
+                        input(type='hidden', name='_csrf', value='#{token}')
+                        .form-group
+                            .col-sm-offset-2.col-sm-10
+                                button.btn.btn-primary(type='submit') 提交
+
+                    
+
+                    
+

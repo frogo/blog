@@ -1,0 +1,197 @@
+
+{{css '/assets/plugins/mditor/css/mditor.min.css'}}
+{{css 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/css/jquery.fileupload.css'}}
+
+{{js '/assets/plugins/mditor/js/mditor.min.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/vendor/jquery.ui.widget.js' }}
+{{js 'http://cdn.jsdelivr.net/load-image/1.11.1/js/load-image.min.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-process.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-image.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-audio.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-video.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-validate.js' }}
+
+
+
+<div class="col-md-12">
+    <form action="" method="post">
+        <div class="form-group">
+            <label>标题</label>
+            <input name="title" class="form-control" value='{{content.title}}'>
+        </div>
+        <div class="form-group">
+            <label>分类</label>
+            <select name="category" class="form-control input-sm">
+                <option value="">请选择</option>
+
+                {{#each categorys}}
+                    <option value="{{id}}" {{#compare ../content.category '==' id}}selected{{else}}{{/compare}} >{{name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>图集</label>
+            <div id="J_gallery" class="gallery">
+                 {{#each content.gallery}}
+                     <div class="gallery-item"><img src="{{url}}" class="gallery-image">
+                          <input type="hidden" name="gallery[]" value="{{id}}"><a href="" class="gallery-remove J_del"><span class="fa fa-times-circle"></span></a>
+                          </div>
+                     {{/each}}
+            </div><span class="btn btn-success fileinput-button"><i class="glyphicon glyphicon-plus"></i><span>添加文件</span>
+                    <input id="fileupload" type="file" name="files[]" multiple="multiple"></span>
+            <div id="progress" class="progress progress-striped">
+                <div class="progress-bar progress-bar-default progress-bar-success"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>内容</label>
+            <textarea id="J_editor" name="content" rows="20" style="background-color: rgb(255, 255, 255); border: none;" class="form-control">{{content.content}}</textarea>
+        </div>
+        <div class="form-group">
+            <label>标签</label>
+            <div>
+                <select id="J_select_tags" data-placeholder="请选择标签" name="tags[]" multiple="" style="width: 500px;">
+                    {{#each tags}}
+                        <option value="{{id}}" {{#where ../content.tags 'id' id}}selected{{else}}{{/where}} {{../content.tags}}>{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <!--.help-blockspan.btn.btn-info.btn-xs 新增标签
+        -->
+        <input type="hidden" name="_csrf" value="{{token}}">
+        <button type="submit" class="btn btn-primary">提交</button>
+    </form>
+</div>
+
+<!-- Load these page level functions-->
+    {{#section 'scripts'}}
+    <script type="text/javascript">
+    var token = '{{token}}';
+    Messenger.options = {
+        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+        theme: 'flat'
+    };
+    $(function () {
+        var mditor =  Mditor.fromTextarea(document.getElementById('J_editor'));
+        mditor.split = false;
+
+        $('#fileupload').fileupload({
+            //url: '/upload',
+            url: '/admin/file/add',
+            formData: {
+                _csrf: '{{token}}'
+            },
+            dataType: 'json',
+            progressall: function(e, data) {
+                //console.log(e, data);
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                //console.log(progress)
+                $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                ).text(progress + '%');
+            },
+            done: function (e, data) {
+                $('#progress .progress-bar').addClass('progress-bar-success').css(
+                        'width',
+                        100 + '%'
+                ).text('100%');
+                $.each(data.result.files, function (index, file) {
+                    console.log(file)
+                    var url = file.md_url || file.url,
+                        id = file._id;
+                    var html = ' <div class="gallery-item"><img src="'+ url +'" class="gallery-image">' +
+                               ' <input type="hidden" name="gallery[]" value="'+ id +'"><a href="" class="gallery-remove J_del"><span class="fa fa-times-circle"></span></a>' +
+                               ' </div>'
+                    $('#J_gallery').append(html);
+                });
+            }
+        });
+        //删除图集
+        $('#J_gallery').on('click', '.J_del', function(e) {
+            e.preventDefault()
+            var $this = $(this);
+            var $item = $this.closest('.gallery-item');
+            swal({
+                title: '确定删除图片吗?',
+                text: '选中下方的复选框将会删除原图',
+                type: 'question',
+                input: 'checkbox',
+                inputValue: true,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                confirmButtonText: '是的',
+                cancelButtonText: '不了',
+                preConfirm: function(checked) {
+                    return new Promise(function(resolve, reject) {
+                        if (checked) {
+                            var id = $this.siblings('input').val();
+                            var url = '/admin/file/' + id + '/del';
+                            $.post(url, {
+                                _csrf: '{{token}}'
+                            }, function(json) {
+                                if(json.success) {
+                                    resolve()
+                                    $item.remove();
+                                } else{
+                                    reject('删除失败')
+                                }
+                            });
+
+                        } else {
+                            $item.remove();
+                            resolve()
+                        }
+                    })
+                }
+            }).then(function() {
+                var checked = swal.getInput().checked;
+                swal('已删除!', '', 'success')
+            }, function(dismiss) {
+                // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            })
+        });
+        var messenger;
+        $('form').ajaxForm({
+            beforeSerialize: function() {
+                console.log('beforeSerialize')
+            },
+            beforeSubmit: function() {
+                console.log('beforeSubmit')
+                messenger = Messenger().post("处理中...");
+            },
+            success: function(data, status, xhr, $form) {
+                console.log(data)
+                var status = data.status;
+                if (status) {
+                    messenger.update({
+                        message: '发布成功',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                    $form[0].reset();
+                    mditor.editor.value = ''
+                    $('#J_gallery').empty();
+                } else {
+                    messenger.update({
+                        message: '发布失败',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                }
+            },
+            err: function() {
+                console.log('error')
+                messenger.update({
+                    message: '系统繁忙',
+                    hideAfter: 3,
+                    type: 'success'
+                });
+            }
+        })
+
+    });
+    </script>
+    {{/section}}

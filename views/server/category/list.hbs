@@ -1,0 +1,62 @@
+<div class="row">
+<div class="col-md-12"><a href="/admin/category/add" class="btn btn-info">添加分类</a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>名称</th>
+            <th>副名稱</th>
+            <th>标记</th>
+            <th>创建者</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+{{#each categorys}}
+            <td><a href="{{../adminDir}}/category/{{id}}">{{name}}</a></td>
+            <td>{{subName}}</td>
+            <td>{{flag}}</td>
+            <td>{{author.name}}</td>
+            <td>{{created}}</td>
+            <td><a href="{{../adminDir}}/category/{{id}}/edit" class="btn btn-default btn-xs">编辑</a>&nbsp;<a href="{{../adminDir}}/category/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+        </tr>
+{{/each}}
+        </tbody>
+    </table>
+    {{#if pageInfo}}
+        {{#compare pageInfo.totalPage '>' 1}}
+            <ul class="pagination">{{{pagination pageInfo}}}</ul>
+        {{/compare}}
+    {{/if}}
+</div>
+</div>
+
+
+<!-- Load these page level functions-->
+{{#section 'scripts'}}
+    <script type="text/javascript">
+        var token = '{{token}}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+
+
+            $(document).on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var url = $this.attr('href');
+                var confirm = BootstrapDialog.confirm('<p>确定删除该分类吗</p>', function (result) {
+                    if(result) { window.location.href = url; }else{ }
+
+                })
+
+            })
+
+
+
+        })
+    </script>
+{{/section}}

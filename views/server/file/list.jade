@@ -1,0 +1,80 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            a.btn.btn-info(href='#{adminDir}/file/add') 添加文件
+            table.table.table-striped
+                thead
+                    tr
+                        th 名称
+                        th 创建人
+                        th 类型
+                        th 创建时间
+                        th 操作
+                tbody
+                    - each file in files
+                        tr
+                            td
+                                .gallery-item
+                                    a(href='#{file.url}', target='_blank')
+                                        if (file.type.indexOf('image') > -1)
+                                            img(src='#{file.md_url || file.url}', title='#{file.name}')
+                                        else
+                                            span.fa.file-holder(class='#{core.fileToIcon(file.type)}', title='#{file.name}')
+
+                            td
+                                if (file.author)
+                                    | #{file.author.username}
+                                else
+                                    | 无
+                            td #{file.type}
+                            td
+                                | #{moment(file.created).format('LLL')}
+                            td
+                                a.btn.btn-default.btn-xs(href='#{adminDir}/file/#{file.id}/edit') 编辑
+                                | &nbsp;
+                                if (file.status !== -1)
+                                    a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/file/#{file.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                - pageInfo.query = query
+                include ../mixin
+                +pagination(pageInfo)
+block foot-js
+    script.
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function () {
+            $(document).on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var $item = $this.closest('tr');
+                var url = $this.attr('href');
+                var messenger = Messenger().post("处理中...");
+                $.post(url, {
+                    _csrf: token
+                }, function(json) {
+                    if(json.success) {
+                        messenger.update({
+                            message: '删除成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                        $item.remove();
+                        if ($('tbody tr').length < 1) {
+                            location.reload();
+                        }
+                    } else{
+                        messenger.update({
+                            message: '删除失败',
+                            hideAfter: 3,
+                            type: 'error'
+                        });
+                        //BootstrapDialog.alert('删除失败');
+                    }
+                });
+            })
+        })

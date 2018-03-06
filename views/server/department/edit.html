@@ -1,0 +1,94 @@
+
+    <!-- main content start-->
+    <section class="main-content-wrapper">
+        <section id="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <label>机构/部门名称：</label>
+                            <input name="name" class="form-control" value="{{department.name}}">
+                        </div>
+                        <div class="form-group">
+                            <label>类型： </label>
+                            <select name="level" class="form-control input-sm">
+                                <option value="">请选择</option>
+                                <option style="" value="7"  {{#compare department.level '==' '7'}}selected{{else}}{{/compare}}   >公司</option>
+                                <option style="" value="6"  {{#compare department.level '==' '6'}}selected{{else}}{{/compare}}>总经办</option>
+                                <option style="" value="5" {{#compare department.level '==' '5'}}selected{{else}}{{/compare}} >市场部</option>
+                                <option value="4" {{#compare department.level '==' '4'}}selected{{else}}{{/compare}}>大区</option>
+                                <option value="3" {{#compare department.level '==' '3'}}selected{{else}}{{/compare}}>大组</option>
+                                <option value="2" {{#compare department.level '==' '2'}}selected{{else}}{{/compare}}>小组</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>上级部门：</label>
+                            <select name="parent" class="form-control input-sm" data-id="{{department.parent}}">
+                                <option value="">请选择 </option>
+                                {{#each departments}}
+                                <option value="{{id}}" data-level="{{level}}">{{parent.name}}-{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <input type="hidden" name="_csrf" value="{{token}}">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!-- main content end-->
+    <!-- Load these page level functions-->
+
+    {{#section 'scripts'}}
+    <script type="text/javascript">
+        $(function(){
+
+            var level = $("select[name='level'] option:selected").attr("value");
+             function parentInit(level){
+                     var parent_level = level;
+                     parent_level++;
+                     var parents = $("select[name='parent'] option[data-level="+parent_level+"]");
+                     if(parents.length>0){
+                         parents.show()
+                     }else{
+                         alert('请至少建立一个父级')
+                     }
+             }
+            parentInit(level);
+            var parentArr = $("select[name='parent'] option");
+            var parentId = $("select[name='parent']").attr('data-id')
+            $("select[name='parent'] option[value="+ parentId +"]").attr("selected",true)
+
+            $("select[name='level'] ").change(function(){
+                var level = $("select[name='level'] option:selected").attr("value");
+                $("select[name='parent'] option:selected").attr('selected',false)
+                parentArr.hide();
+                var parent_level = level;
+                parent_level++;
+                var parents = $("select[name='parent'] option[data-level="+parent_level+"]");
+
+                if(parents.length>0){
+                    parents.show()
+                }else{
+                    alert('请至少建立一个父级')
+                }
+            })
+
+
+            $("button[type='submit'] ").on('click',function(){
+                if($("input[name='name']").val() ===''){
+                    alert('请填写部门名称')
+                    return false
+                } else if($("select[name='level'] ").val() ===''){
+                    alert('请选择部门类别')
+                    return false
+                }else if($("select[name='parent'] ").val() ===''){
+                    alert('请选择父级部门')
+                    return false
+                }
+            })
+        })
+
+    </script>
+    {{/section}}

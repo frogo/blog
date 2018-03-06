@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-12">
+        <form action="" method="post">
+            <div class="form-group">
+                <label>名称</label>
+                <input name="name" class="form-control" value="{{category.name}}">
+            </div>
+            <div class="form-group">
+                <label>副名称</label>
+                <input name="subName" class="form-control"  value="{{category.subName}}">
+            </div>
+            <div class="form-group">
+                <label>标记(别名，英文字符，可选)</label>
+                <input name="flag" class="form-control" value="{{category.flag}}">
+            </div>
+            <div class="form-group">
+                <label>父分类</label>
+                <select name="parent" class="form-control input-sm">
+                    <option value="">无</option>
+                    {{#each items}}
+                        <option value="{{id}}" {{#compare ../category.parent '==' id}}selected{{else}}{{/compare}}  {{#compare ../category.id '==' id}}disabled style="color:#ccc" {{else}}{{/compare}} >{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>描述</label>
+                <textarea name="description" rows="8" class="form-control">{{category.description}}</textarea>
+            </div>
+            <input type="hidden" name="_csrf" value="{{token}}">
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+extends layout-blank
+
+block content
+    section#error-container
+        .block-error
+            .alert.alert-danger
+                p #{message}
+                h2= error.status
+                pre #{error.stack}

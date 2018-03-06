@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .lists
+                p 名称：#{category.name}
+                p 副名称：#{category.subName}
+                p 标记(别名)：#{category.flag}
+                p 父分类：#{parentName}
+                p 日期：#{category.created}
+                p 描述：!{category.description}
+
+

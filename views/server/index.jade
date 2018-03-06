@@ -1,0 +1,106 @@
+extends layout
+
+block content
+    .console
+        h2 您好， #{name}
+        //- if(User && User.roles)
+                each role in User.roles
+                    ul.list-group
+                        li.list-group-item 角色：
+                            span.label.label-primary #{role.name}
+                        li.list-group-item 权限：
+                            span.label.label-info #{role.actions}
+                        li.list-group-item 是否有'admin'权限：
+                            span #{role.actions && role.actions.indexOf('admin') > -1}
+    .row
+        //.col-md-3.col-sm-6
+        //    a(href="#{adminDir}/content/")
+        //        .dashboard-tile.detail.tile-turquoise
+        //            .content
+        //                h1.text-left.timer(data-from='0', data-to='180', data-speed='2500') #{data.content}
+        //                p 内容
+        //            .icon
+        //                i.fa.fa-folder
+        //.col-md-3.col-sm-6
+        //    a(href="#{adminDir}/category/")
+        //        .dashboard-tile.detail.tile-red
+        //            .content
+        //                h1.text-left.timer(data-from='0', data-to='180', data-speed='2500') #{data.category}
+        //                p 分类
+        //            .icon
+        //                i.fa.fa-sitemap
+        //.col-md-3.col-sm-6
+        //    a(href="#{adminDir}/comment/")
+        //        .dashboard-tile.detail.tile-blue
+        //            .content
+        //                h1.text-left.timer(data-from='0', data-to='180', data-speed='2500') #{data.comment}
+        //                p 评论
+        //            .icon
+        //                i.fa.fa-comments
+
+
+
+
+
+
+
+    if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('CLIENT_INDEX') > -1))
+        .col-md-3.col-sm-6
+            a(href="#{adminDir}/client/")
+                .dashboard-tile.detail.tile-red
+                    .content
+                        h1.text-left.timer(data-from='0', data-to='86', data-speed='2500') #{data.client}
+                        p 未成交客户
+                    .icon
+                        i.fa.fa-users
+    if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('DEPARTMENT_INDEX') > -1))
+        .col-md-3.col-sm-6
+            a(href="#{adminDir}/department/")
+                .dashboard-tile.detail.tile-purple
+                    .content
+                        h1.text-left.timer(data-from='0', data-to='46', data-speed='2500') #{data.department}
+                        p 机构部门
+                    .icon
+                        i.fa.fa-users
+    if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('BANK_INDEX') > -1))
+        .col-md-3.col-sm-6
+            a(href="#{adminDir}/bank/")
+                .dashboard-tile.detail.tile-orange
+                    .content
+                        h1.text-left.timer(data-from='0', data-to='46', data-speed='2500') #{data.bank}
+                        p 合作银行
+                    .icon
+                        i.fa.fa-users
+    if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('USER_INDEX') > -1))
+        .col-md-3.col-sm-6
+            a(href="#{adminDir}/user/")
+                .dashboard-tile.detail.tile-turquoise
+                    .content
+                        h1.text-left.timer(data-from='0', data-to='56', data-speed='2500') #{data.user}
+                        p 用户
+                    .icon
+                        i.fa.fa-users
+    if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('ROLE_INDEX') > -1))
+        .col-md-3.col-sm-6
+            a(href="#{adminDir}/role/")
+                .dashboard-tile.detail.tile-blue
+                    .content
+                        h1.text-left.timer(data-from='0', data-to='32', data-speed='2500') #{data.role}
+                        p 角色
+                    .icon
+                        i.fa.fa.fa-key
+
+        //.col-md-3.col-sm-6
+        //    a(href="#{adminDir}/file/")
+        //        .dashboard-tile.detail.tile-purple
+        //            .content
+        //                h1.text-left.timer(data-to='105', data-speed='2500') #{data.file}
+        //                p 文件
+        //            .icon
+        //                i.fa.fa-file
+    
+
+block foot-js
+    script.
+
+                

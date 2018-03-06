@@ -1,0 +1,43 @@
+<header id="header">
+    <!-- logo start-->
+    <div class="brand"><a href="{{adminDir}}" class="logo">我的博客测试
+        <!--| 实验室--></a></div>
+    <!-- logo end-->
+    <div class="toggle-navigation toggle-left">
+        <button id="toggle-left" type="button" data-toggle="tooltip" data-placement="left" title="切换左栏" class="btn btn-default"><i class="fa fa-bars"></i></button>
+    </div>
+
+    <!--top menu-->
+<!--    <div class="header-menu">
+        <div class="top-tab">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="{{#compare Path '===' 'content'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/content/">内容</a></li>
+                <li role="presentation" class="{{#compare Path '===' 'category'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/category/">分类</a></li>
+                <li role="presentation" class="{{#compare Path '===' 'tag'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/tag/">标签</a></li>
+                <li role="presentation" class="{{#compare Path '===' 'comment'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/comment/">评论</a></li>
+            </ul>
+        </div>
+    </div>-->
+    <!--top menu-->
+
+    <div class="user-nav">
+        <ul>
+            {{#if User}}
+                <li class="profile-photo"><img src="{{avatar User.email}}" alt="" class="img-circle">
+                </li>
+                <li class="dropdown settings"><a data-toggle="dropdown" href="" class="dropdown-toggle">{{User.name}}<i class="fa fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{adminDir}}/me"><i class="fa fa-user"></i> 个人资料</a></li>
+                        <!--li
+                        a(href='index.html#')
+                            i.fa.fa-envelope
+                            |  消息
+                            span#user-inbox.badge.badge-danager 5
+                        -->
+                        <li><a href="{{adminDir}}/user/logout"><i class="fa fa-power-off"></i> 登出</a></li>
+                    </ul>
+                </li>
+            {{/if}}
+        </ul>
+    </div>
+</header>

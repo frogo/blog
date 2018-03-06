@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="lists">
+            <p>{{comment.content}}</p>
+            <p>来自：{{#if comment.from}}<a href="/content/{{comment.from.id}}" target="_blank">{{comment.from.title}}</a>{{/if}}
+            </p>
+            <p>{{comment.created}}</p>
+            <p>作者：{{#if comment.author}}{{comment.author}}{{else}}匿名{{/if}}
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            a.btn.btn-info(href='#{adminDir}/role/add') 添加角色
+            table.table.table-striped
+                thead
+                    tr
+                        th 名称
+                        th 创建人
+                        th 创建时间
+                        th 操作
+                tbody
+                    - each role in roles
+                        tr
+                            td
+                                a(href='#{adminDir}/role/#{role.id}') #{role.name}
+                            td
+                                if (role.author)
+                                    | #{role.author.username}
+                                else
+                                    | 无
+                            td
+                                | #{moment(role.created).format('LLL')}
+                            td
+                                if (role.status !== 201)
+                                    a.btn.btn-default.btn-xs(href='#{adminDir}/role/#{role.id}/edit') 编辑
+                                | &nbsp;
+                                if (role.status !== 201 && role.status !== 202)
+                                    a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/role/#{role.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                - pageInfo.query = query
+                include ../mixin
+                +pagination(pageInfo)
+
+block foot-js
+    script.
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            $(document).on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var url = $this.attr('href');
+                var messenger = Messenger().post("处理中...");
+                $.post(url, {_csrf: token}, function(res) {
+                    console.log(res);
+                    var status = res.status;
+                    if (status) {
+                        messenger.update({
+                            message: '删除成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                        setTimeout(function() {
+                            $this.closest('tr').remove();
+                        }, 1000)
+                        
+                    } else {
+                        messenger.update({
+                            message: '删除失败',
+                            hideAfter: 3,
+                            type: 'error'
+                        });
+                    }
+                })
+            })
+        })

@@ -1,0 +1,15 @@
+<section id="error-container">
+    <div class="block-error">
+        <div class="alert alert-danger">{{message}}
+            <p>
+              {{#if backPath}}
+                  <a href="{{adminDir}}/{{backPath}}" class="btn btn-info">返回</a>
+              {{else}}
+                  <a href="{{adminDir}}" class="btn btn-info">返回</a>
+              {{/if}}
+
+
+            </p>
+        </div>
+    </div>
+</section>

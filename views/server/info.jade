@@ -1,0 +1,37 @@
+extends layout-blank
+
+block content
+    section#error-container
+        .block-error
+            .alert.alert-danger
+                | #{message}
+                p
+                 if(backPath)
+                     a.btn.btn-info(href='#{adminDir}/#{backPath}') 返回
+                 else
+                     a.btn.btn-info(href='#{adminDir}') 返回
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
