@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>类型</th>
+                <th>动作</th>
+                <th>状态</th>
+                <th>ip</th>
+                <th>信息</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each logs}}
+            <tr>
+                <td> <a href="{{../adminDir}}/log/{{id}}">{{type}}</a></td>
+                <td>{{action}}</td>
+                <td>{{status}}</td>
+                <td>{{ip}}</td>
+                <td>{{message}}</td>
+                <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
+                <td><a href="{{../adminDir}}/log/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        {{#if pageInfo}}
+            {{#compare pageInfo.totalPage '>' 1}}
+                <ul class="pagination">{{{pagination pageInfo}}}</ul>
+            {{/compare}}
+        {{/if}}
+    </div>
+</div>

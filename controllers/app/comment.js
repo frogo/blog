@@ -59,7 +59,7 @@ exports.add = function(req, res) {
 //删除
 exports.del = function(req, res) {
     if(!req.session.user) {
-        return res.render('app/info', {
+        return res.render('app/info.hbs', { layout:'app_layout',
             message: '请先登录'
         });
     }
@@ -68,7 +68,7 @@ exports.del = function(req, res) {
 //删除
 exports.one = function(req, res) {
     if(!req.session.user) {
-        return res.render('app/info', {
+        return res.render('app/info.hbs', { layout:'app_layout',
             message: '请先登录'
         });
     }

@@ -21,8 +21,9 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            res.render('server/page/list', {
-                //title: '列表',
+            res.render('server/page/list.hbs', {
+                title: '单页面',
+                Menu:'page',
                 pages: results,
                 pageInfo: pageInfo
             });
@@ -36,7 +37,7 @@ exports.one = function(req, res) {
     Page.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '该页面不存在'
             });
         }
@@ -51,7 +52,7 @@ exports.del = function(req, res) {
     let id = req.params.id;
     Page.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '留言不存在'
             });
         }
@@ -59,7 +60,7 @@ exports.del = function(req, res) {
         let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '没有权限'
             });
         }
@@ -71,11 +72,11 @@ exports.del = function(req, res) {
                 });
             }
             if(err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '删除失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '删除成功'
             })
         });
@@ -91,7 +92,7 @@ exports.add = function(req, res) {
     let page = new Page(obj);
     page.save(function(err) {
         if (err) {
-            /*return res.render('server/info', {
+            /*return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '发送失败'
             });*/
             console.log(err);
@@ -99,7 +100,7 @@ exports.add = function(req, res) {
                 message: '创建失败'
             })
         }
-        /*return res.render('server/info', {
+        /*return res.render('server/info.hbs', { layout:'layout-blank',
             message: '发送成功'
         });*/
         return res.json({

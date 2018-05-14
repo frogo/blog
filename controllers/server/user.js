@@ -3,7 +3,6 @@
 let mongoose = require('mongoose')
 let User = mongoose.model('User')
 let Role = mongoose.model('Role')
-let Department = mongoose.model('Department')
 let Log = require('../../services/log');
 let config = require('../../config')
 let core = require('../../libs/core')
@@ -11,7 +10,7 @@ let crypto = require('../../libs/crypto')
 let Mailer = require('../../libs/mailer')
 let _ = require('lodash');
 let mailer = new Mailer()
-let backPath = 'user';
+
 /*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
@@ -37,7 +36,7 @@ exports.checkInstall = function(req, res, next) {
             //let path = core.translateAdminDir('/install');
             //return res.redirect(path);
             let path = core.translateAdminDir('/install')
-            return res.render('server/install')
+            return res.render('server/install.hbs',{layout:'layout-blank'})
             //return res.send('请先<a href="' + path + '">安装应用</a>');
         }
     })
@@ -52,7 +51,7 @@ exports.checkInstall = function(req, res, next) {
 });
 user.save(function(err, result) {
     console.log(result);
-    
+
 });*/
 /*User.find({'position': {$near: [113.323571, 23.146439]}}).exec(function(err, res) {
     console.log(res);
@@ -79,75 +78,23 @@ exports.authenticate = function(req, res, next) {
 //用户列表
 exports.list = function(req, res) {
     let condition = {};
-    // if(req.Roles && req.Roles.indexOf('admin') < 0) {
-    //     condition.author = req.session.user._id;
-    // }
-    if (req.session.user) {
-    // console.log('哒哒哒')
-    // console.log(req.session.user.level)
-    console.log('干干干')
-    console.log(req.session.user.level)
+    if(req.Roles && req.Roles.indexOf('admin') < 0) {
+        condition.author = req.session.user._id;
     }
-    if (req.Roles && req.Roles.indexOf('admin') < 0) {//判断是否是管理员
-       // condition.level = { "$lt":req.session.user.level }//不是管理员获取用户的职位等级
-        var department_index;//部门字段对应岗位的下标
-        var department_id;//当前用户所在的部门id
-        switch (req.session.user.level){
-            case 7:
-                department_index = 0;
-                break;
-            case 6:
-                department_index = 1;
-                break;
-            case 5:
-                department_index = 2;
-                break;
-            case 4:
-                department_index = 3;
-                break;
-            case 3:
-                department_index = 4;
-                break;
-            case 2:
-                department_index = 5;
-                break;
-            case 1:
-                department_index = 5;
-                break;
-        }
-          department_id = req.session.user.department[department_index];
-        /*@
-        level对用部门的字段数组下标
-          level=7 : department[0] 老板 ：公司
-          level=6 : department[1] 总经办：总经办
-          level=5 : department[2] 总经理：市场营销部
-          level=4 : department[3] 大区经理：大区
-         level=3 : department[4] 大组长：大组
-         level=2 : department[5] 小组长：小组
-         level=1 : department[5] 业务员：小组
-
-        @*/
-        console.log('哒哒哒')
-        condition = {'department':department_id};
-    }else{
-       // condition.level = { $lt:8 }//是管理员可以查看所有用户
-    }
-    console.log(condition )
-    User.count( function(err, total) {
-        let query = User.find(condition).populate('author').populate('roles').populate('department')
+    User.count(condition, function(err, total) {
+        let query = User.find(condition).populate('author').populate('roles');
         //分页
         let pageInfo = core.createPage(req.query.page, total);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
         query.exec(function(err, results) {
-            console.log(results)
             //console.log(err, results);
-            res.render('server/user/list.html', {
+            res.render('server/user/list.hbs', {
                 title: '用户列表',
                 users: results,
                 pageInfo: pageInfo,
-                Menu: 'list'
+                Menu: 'user'
             });
         });
     })
@@ -156,7 +103,7 @@ exports.list = function(req, res) {
 exports.one = function(req, res) {
     let id = req.params.id;
     User.findById(id).populate('author').populate('roles').exec(function(err, result) {
-        res.render('server/user/item', {
+        res.render('server/user/item.hbs', {
             user: result
         });
     });
@@ -188,7 +135,7 @@ exports.register = function(req, res) {
 
     let method = req.method;
     if (method === 'GET') {
-        res.render('server/user/register', {});
+        res.render('server/user/register.hbs', {layout:'layout-blank'});
     } else if (method === 'POST') {
         let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
         obj.reg_ip = ip;
@@ -198,7 +145,7 @@ exports.register = function(req, res) {
             Role.findOne({status: 202}, function(err, role) {
                 console.log('role', role);
                 if(err || !role) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: '注册失败, 未开放角色:' + config.admin.role.user
                     });
                 }
@@ -207,10 +154,10 @@ exports.register = function(req, res) {
                     obj.author = req.session.user._id;
                 }
                 // TODO：用户激活
-                
+
                 let user = new User(obj);
                 user.save(function(err, result) {
-                    console.log(result);
+                    //console.log(result);
                     // 日志
                     Log.add({
                         type: 'user',
@@ -221,17 +168,17 @@ exports.register = function(req, res) {
                         message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n' + err
                     })
                     if (err) {
-                        console.log(err);
+                        console.log('错误',err);
                         let errors = err.errors;
                         let message = [];
                         for (let i in errors) {
                             message.push(errors[i].message);
                         }
-                        return res.render('server/info', {
+                        return res.render('server/info.hbs', { layout:'layout-blank',
                             message: '注册失败' + message.join('<br/>')
                         });
                     }
-                    res.render('server/info', {
+                    res.render('server/info.hbs', { layout:'layout-blank',
                         message: '注册成功'
                     });
 
@@ -244,23 +191,23 @@ exports.register = function(req, res) {
                 email: obj.email
             }).then((data) => {
                 console.log(data, 'res')
-                if (data && data.email && data.email.frequency > 5) {
-                    res.render('server/info', {
-                        message: '该邮箱已被标记垃圾邮箱，不允许注册'
-                    });
-                    // 日志
-                    Log.add({
-                        type: 'user',
-                        action: 'register',
-                        status: 'spam',
-                        ip: ip,
-                        ua: ua,
-                        message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n stopforumspam'
-                    })
-                } else {
-                    operator()
-                }
-            }, (err) => {
+            if (data && data.email && data.email.frequency > 5) {
+                res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '该邮箱已被标记垃圾邮箱，不允许注册'
+                });
+                // 日志
+                Log.add({
+                    type: 'user',
+                    action: 'register',
+                    status: 'spam',
+                    ip: ip,
+                    ua: ua,
+                    message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n stopforumspam'
+                })
+            } else {
+                operator()
+            }
+        }, (err) => {
                 //console.log(err, 'err')
                 operator()
             })
@@ -274,29 +221,22 @@ exports.register = function(req, res) {
 exports.add = function(req, res) {
     let method = req.method;
     if (method === 'GET') {
-        Department.find().populate({path:'parent',populate:{path:'parent',populate:{path:'parent',populate:{path:'parent',populate:{path:'parent'}}}}}).exec().then(function(departments) {
-            console.log('部门')
-            console.log(departments)
-            res.render('server/user/add.html', {
-                title: '员工添加',
-                Menu: 'add',
-                departments:departments|| []
-            });
-        })
+        res.render('server/user/add.hbs', {
+            Menu: 'add'
+        });
     } else if (method === 'POST') {
         //let obj = req.body;
-        let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name','department', 'level','business_type','avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
-        console.log(obj.department);
+        let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
+        console.log(obj);
         //默认角色
         Role.findOne({status: 202}, function(err, role) {
             console.log('role', role);
             if(err || !role) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '添加失败, 未开放角色:' + config.admin.role.user
                 });
             }
             obj.roles = [role._id];
-            obj.department = obj.department.split(",");
             if (req.session.user) {
                 obj.author = req.session.user._id;
             }
@@ -310,14 +250,12 @@ exports.add = function(req, res) {
                 }
                 if (err) {
                     console.log(err);
-                    return res.render('server/info', {
-                        message: '添加失败',
-                        backPath:backPath
+                    return res.render('server/info.hbs', { layout:'layout-blank',
+                        message: '添加失败'
                     });
                 }
-                res.render('server/info', {
-                    message: '添加成功',
-                    backPath:backPath
+                res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '添加成功'
                 });
             });
         });
@@ -336,25 +274,23 @@ exports.edit = function(req, res) {
             }
             if(err || !user) {
                 console.log(err);
-                return res.render('server/info', {
-                    message: '更新失败',
-                    backPath:backPath
+                return res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '更新失败'
                 });
             }
             if(id === req.session.user._id) {
                 req.session.user = user;
                 res.locals.User = user;
             }
-            res.render('server/info', {
-                message: '更新成功',
-                backPath:backPath
+            res.render('server/info.hbs', { layout:'layout-blank',
+                message: '更新成功'
             });
         })
     };
     if(req.method === 'GET') {
         User.findById(id).populate('author').exec(function(err, result) {
             if(err || !result) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '出错了'
                 });
             }
@@ -362,9 +298,8 @@ exports.edit = function(req, res) {
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
-                    message: '没有权限',
-                    backPath:backPath
+                return res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '没有权限'
                 });
             }
             try{
@@ -372,37 +307,31 @@ exports.edit = function(req, res) {
                 if(req.Roles.indexOf('admin') < 0) {
                     condition.author = req.session.user._id;
                 }
-                Department.find().populate({path:'parent',populate:{path:'parent',populate:{path:'parent',populate:{path:'parent',populate:{path:'parent'}}}}}).exec().then(function(departments) {
-                    Role.find(condition, function(err, results) {
-                        if(!err && results) {
-                            res.render('server/user/edit.html', {
-                                user: result,
-                                roles: results,
-                                departments:departments
-                            });
-                        }
-                    })
+                Role.find(condition, function(err, results) {
+                    if(!err && results) {
+                        res.render('server/user/edit.hbs', {
+                            user: result,
+                            roles: results
+                        });
+                    }
                 })
-
-
             }catch(e) {
-               res.render('server/user/edit.html', {
+                res.render('server/user/edit.hbs', {
                     user: result
                 });
             }
         })
     } else if(req.method === 'POST') {
         //let obj = req.body;
-        let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name','department', 'level', 'business_type','avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions', 'roles');
+        let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions', 'roles');
         //判断是否允许编辑
         User.findById(id).populate('roles').populate('author').exec(function(err, user) {
             let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
             let isAuthor = user.author && ((user.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
-                    message: '没有权限',
-                    backPath:backPath
+                return res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '没有权限'
                 });
             }
             //let roles = core.getRoles(user);
@@ -412,12 +341,11 @@ exports.edit = function(req, res) {
             if(typeof obj.roles === 'string') {
                 query = Role.find({_id: obj.roles});
             } else if(typeof obj.roles === 'object') {
-                query = Role.find({_id: {$in: obj.roles}})    
+                query = Role.find({_id: {$in: obj.roles}})
             }
             if(!query) {
-                return res.render('server/info', {
-                    message: '请至少选择一个角色',
-                    backPath:backPath
+                return res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '请至少选择一个角色'
                 });
             }
             query.exec(function(err, roles) {
@@ -426,14 +354,12 @@ exports.edit = function(req, res) {
                     // TODO: 验证
                     let statuses = _.map(roles, 'status');
                     if(statuses.indexOf(201) === -1) {
-                        return res.render('server/info', {
-                            message: '系统管理员角色不正确',
-                            backPath:backPath
+                        return res.render('server/info.hbs', { layout:'layout-blank',
+                            message: '系统管理员角色不正确'
                         });
                     }
                 }
                 obj.roles = roles;
-                obj.department = obj.department.split(",");//部门用数组形式
                 _.assign(user, obj);
                 editHandler(user);
             });
@@ -446,42 +372,37 @@ exports.del = function(req, res) {
     let deleteHandle = function(user) {
         user.remove(function(err) {
             if(err) {
-                return res.render('server/info', {
-                    message: '删除失败',
-                    backPath:backPath
+                return res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '删除失败'
                 });
             }
-            res.render('server/info', {
-                message: '删除成功',
-                backPath:backPath
+            res.render('server/info.hbs', { layout:'layout-blank',
+                message: '删除成功'
             })
         });
     };
     let id = req.params.id;
     User.findById(id).populate('roles').populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/info', {
-                message: '用户不存在',
-                backPath:backPath
+            return res.render('server/info.hbs', { layout:'layout-blank',
+                message: '用户不存在'
             });
         }
         let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
         let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
-            return res.render('server/info', {
-                message: '没有权限',
-                backPath:backPath
+            return res.render('server/info.hbs', { layout:'layout-blank',
+                message: '没有权限'
             });
         }
         //系统默认用户不能删除
         if(result.status === 101) {
-            return res.render('server/info', {
-                message: '不能删除系统默认管理员',
-                backPath:backPath
+            return res.render('server/info.hbs', { layout:'layout-blank',
+                message: '不能删除系统默认管理员'
             });
         }
-        
+
         result.remove(function(err) {
             if (req.xhr) {
                 return res.json({
@@ -489,9 +410,8 @@ exports.del = function(req, res) {
                 })
             }
             if(err) {
-                return res.render('server/info', {
-                    message: '删除失败',
-                    backPath:backPath
+                return res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '删除失败'
                 });
             }
             //自杀的节奏啊
@@ -502,9 +422,8 @@ exports.del = function(req, res) {
                 let path = core.translateAdminDir('');
                 return res.redirect(path);
             }
-            res.render('server/info', {
-                message: '删除成功',
-                backPath:backPath
+            res.render('server/info.hbs', { layout:'layout-blank',
+                message: '删除成功'
             })
         });
     });
@@ -522,14 +441,14 @@ exports.login = function(req, res) {
     let ua = req.get('User-Agent');
 
     if (req.method === 'GET') {
-        req.session.loginReferer = req.headers.referer; 
-        res.render('server/user/login');
+        req.session.loginReferer = req.headers.referer;
+        res.render('server/user/login.hbs',{layout:'layout-blank'});
     } else if (req.method === 'POST') {
         let username = (req.body.username || '').trim();
         let password = req.body.password;
         if (!username) {
-            return res.render('server/info', {
-                message: '用户名不能为空',
+            return res.render('server/info.hbs', { layout:'layout-blank',
+                message: '用户名不能为空'
             });
         }
         User.findOne({
@@ -549,7 +468,7 @@ exports.login = function(req, res) {
                         ip: ip
                     }) + '\n用户不存在\n' + err
                 })
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '用户名或密码错误'
                 });
             }
@@ -562,7 +481,7 @@ exports.login = function(req, res) {
                 user.save();
                 req.session.user = user;
                 let path = core.translateAdminDir('/');
-                
+
                 let ref = req.session.loginReferer || path;
                 for (let i =0, len = noRedirect.length; i < len; i ++) {
                     if (ref.indexOf(noRedirect[i]) > -1) {
@@ -585,7 +504,8 @@ exports.login = function(req, res) {
                     }) + '\n' + err
                 })
             } else {
-                res.render('server/info', {
+                res.render('server/info.hbs', {
+                    layout:'layout-blank',
                     message: '用户名或密码错误'
                 });
                 //日志
@@ -619,13 +539,13 @@ exports.logout = function(req, res) {
         req.session.destroy();
         res.locals.User = null;
         console.log('注销成功');
-        /*res.render('server/info', {
+        /*res.render('server/info.hbs', { layout:'layout-blank',
             message: '注销成功'
         });*/
         let path = core.translateAdminDir('/');
         res.redirect(path);
     } else {
-        res.render('server/info', {
+        res.render('server/info.hbs', { layout:'layout-blank',
             message: '注销失败'
         });
     }
@@ -635,30 +555,31 @@ exports.forget = function(req, res) {
     if(req.method === 'GET') {
         let hash = req.query.hash;
         if(!hash) {
-            return res.render('server/user/forget');
+            return res.render('server/user/forget.hbs', {layout:'layout-blank'});
         }
         User.findOne({'forget.hash': hash}, function(err, user) {
             console.log(err, user);
             if(err || !user) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: 'hash错误'
                 });
             }
             let till = user.forget.till;
             //检查hash有没有过期
             if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
-                return res.render('server/info', {
+                 return res.render('server/info.hbs', { layout:'layout-blank',
                     message: 'hash已过期，请重新找回密码'
                 });
             }else {
-                res.render('server/user/forget', {
+                res.render('server/user/forget.hbs', {
                     type: 'set',
                     hash: hash,
-                    user: user
+                    user: user,
+                    layout: 'layout-blank'
                 });
             }
         });
-        
+
     } else if(req.method === 'POST') {
         //console.log(req.query);
         if(req.query.hash) {
@@ -668,14 +589,14 @@ exports.forget = function(req, res) {
             User.findOne({'forget.hash': hash}, function(err, user) {
                 //console.log(err, user);
                 if(err || !user) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: '初始后：token已过期，请重新找回密码'
                     });
                 }
                 let till = user.forget.till;
                 //console.log(till.getTime(), Date.now());
                 if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: 'token已过期，请重新找回密码'
                     });
                 }else {
@@ -684,7 +605,7 @@ exports.forget = function(req, res) {
                     user.forget.hash = '';
                     user.forget.till = 0;
                     user.save(function(err, result) {
-                        res.render('server/info', {
+                        res.render('server/info.hbs', { layout:'layout-blank',
                             message: '重置密码成功'
                         });
                     });
@@ -696,7 +617,7 @@ exports.forget = function(req, res) {
         User.findOne({username: obj.username}, function(err, user) {
             //console.log(user);
             if(err || !user) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '没有这个用户'
                 });
             }
@@ -708,34 +629,34 @@ exports.forget = function(req, res) {
             user.save(function(err, result) {
                 //console.log(result);
                 if(err || !result) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: '出错了 '
                     });
                 }
-                
+
                 let url = req.headers.origin + req.originalUrl + '?hash=' + hash;
-                
+
                 mailer.send({
                     from: config.mail.from,
                     to: user.email,
                     subject: '找回密码',
                     html: '<p>你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url + '</p>',
-                  }).then((info) => {
+                }).then((info) => {
                     let message = '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4');
-                    //console.log(err && err.stack);
-                    //console.dir(reply);
-                    res.render('server/info', {
-                        message: message
-                    });
-                }).catch((err) => {
-                    res.render('server/info', {
-                        message: '发送失败'
-                    });
-                })
+                //console.log(err && err.stack);
+                //console.dir(reply);
+                res.render('server/info.hbs', { layout:'layout-blank',
+                    message: message
+                });
+            }).catch((err) => {
+                    res.render('server/info.hbs', { layout:'layout-blank',
+                    message: '发送失败'
+                });
+            })
             });
-            
+
         });
-        
+
     }
 }
 
@@ -745,7 +666,7 @@ exports.changePassword = function(req, res) {
     User.findById(obj.id, function(err, user) {
         user.password = obj.password;
         user.save(function(err, result) {
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '修改密码成功'
             });
             console.log('修改密码成功', result);

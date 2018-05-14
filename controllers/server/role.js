@@ -22,10 +22,10 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(results)
-            res.render('server/role/list', {
+            res.render('server/role/list.hbs', {
                 roles: results,
                 pageInfo: pageInfo,
-                Menu: 'list'
+                Menu: 'role'
             });
         });
     })
@@ -36,11 +36,13 @@ exports.one = function(req, res) {
     Role.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '该内容不存在'
             });
         }
-        res.render('server/role/item', {
+
+        res.render('server/role/item.hbs', {
+            Menu:'role',
             title: result.name,
             role: result
         });
@@ -62,8 +64,8 @@ exports.add = function(req, res) {
                 }
             })
         }
-        res.render('server/role/add', {
-            Menu: 'add',
+        res.render('server/role/add.hbs', {
+            Menu:'role',
             ACTIONS: actions
         });
     } else if (req.method === 'POST') {
@@ -75,7 +77,7 @@ exports.add = function(req, res) {
         if(req.Roles.indexOf('admin') === -1) {
             let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
             if(overAuth.length > 0) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '你不能操作如下权限:' + overAuth.join(',')
                 });
             }
@@ -91,11 +93,11 @@ exports.add = function(req, res) {
                 })
             }
             if (err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '创建失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '创建成功'
             });
         });
@@ -109,12 +111,12 @@ exports.edit = function(req, res) {
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '没有权限'
                 });
             }
             if(result.status === 201) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '系统默认管理员角色不可修改'
                 });   
             }
@@ -132,7 +134,8 @@ exports.edit = function(req, res) {
                     }
                 })
             }
-            res.render('server/role/edit', {
+            res.render('server/role/edit.hbs', {
+                Menu:'role',
                 data: result,
                 ACTIONS: actions
             });
@@ -148,12 +151,12 @@ exports.edit = function(req, res) {
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '没有权限'
                 });
             }
             if(result.status === 201) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '系统默认管理员角色不可修改'
                 });   
             }
@@ -161,7 +164,7 @@ exports.edit = function(req, res) {
             if(req.Roles.indexOf('admin') === -1) {
                 let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
                 if(overAuth.length > 0) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: '你不能操作如下权限:' + overAuth.join(',')
                     });
                 }
@@ -174,7 +177,7 @@ exports.edit = function(req, res) {
                     })
                 }
                 if(err || !role) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: '更新失败'
                     });
                 }
@@ -183,7 +186,7 @@ exports.edit = function(req, res) {
                     req.session.user = user;
                     res.locals.User = user;
                     if(!err) {
-                        res.render('server/info', {
+                        res.render('server/info.hbs', { layout:'layout-blank',
                             message: '更新成功'
                         });
                     }
@@ -197,7 +200,7 @@ exports.del = function(req, res) {
     let id = req.params.id;
     Role.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '角色不存在'
             });
         }
@@ -205,12 +208,12 @@ exports.del = function(req, res) {
         let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '没有权限'
             });
         }
         if(result.status === 201 || result.status === 202) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '系统默认角色不可删除'
             });   
         }
@@ -221,11 +224,11 @@ exports.del = function(req, res) {
                 })
             }
             if(err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '删除失败'
                 });
             }
-            /*res.render('server/info', {
+            /*res.render('server/info.hbs', { layout:'layout-blank',
                 message: '删除成功'
             })*/
             //重置session信息
@@ -233,7 +236,7 @@ exports.del = function(req, res) {
                 req.session.user = user;
                 res.locals.User = user;
                 if(!err) {
-                    res.render('server/info', {
+                    res.render('server/info.hbs', { layout:'layout-blank',
                         message: '删除成功'
                     });
                 }

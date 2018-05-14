@@ -20,7 +20,7 @@
                         <td>
                             <strong>{{author.name}}</strong>
                         </td>
-                        <td>{{created}}</td>
+                        <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
                         <td><a href="{{../adminDir}}/content/{{id}}/edit" class="btn btn-default btn-xs">编辑</a>&nbsp;<a href="{{../adminDir}}/content/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
                     </tr>
                     {{/each}}
@@ -51,7 +51,7 @@
             e.preventDefault();
             var $this = $(this);
             var url = $this.attr('href');
-            var confirm = BootstrapDialog.confirm('<p>确定删除该分类吗</p>', function (result) {
+            var confirm = BootstrapDialog.confirm('<p>确定删除该文章吗</p>', function (result) {
                 if(result) { window.location.href = url; }else{ }
 
             })

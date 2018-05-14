@@ -1,6 +1,6 @@
 'use strict';
 
-let  mongoose = require('mongoose')
+let mongoose = require('mongoose')
 let Content = mongoose.model('Content')
 let Message = mongoose.model('Message')
 let Category = mongoose.model('Category')
@@ -9,7 +9,6 @@ let File = mongoose.model('File')
 let config = require('../../config')
 let core = require('../../libs/core')
 let contentService = require('../../services/content')
-
 exports.index = async function(req, res) {
     let condition = {};
     let key = req.query.key;
@@ -45,8 +44,11 @@ exports.index = async function(req, res) {
                 visits: -1
             }
         })
-
-        res.render('app/index', {
+        //console.log('test000:')
+        //console.log(contents)
+        // console.log(contents)
+        res.render('app/index.hbs', {
+            layout: 'app_layout',
             contents: contents,
             pageInfo: pageInfo,
             key: key,
@@ -57,7 +59,7 @@ exports.index = async function(req, res) {
 
     } catch (e) {
         console.log(e)
-        res.render('app/info', {
+        res.render('app/info.hbs', { layout:'app_layout',
             message: '系统开小差了，请稍等'
         });
     }
@@ -65,21 +67,22 @@ exports.index = async function(req, res) {
 
 exports.contact = function(req, res) {
     if(req.method === 'GET') {
-        res.render('app/contact', {
+        res.render('app/contact.hbs', {
+            layout: 'app_layout',
             Path: 'contact'
         });
     } else if (req.method === 'POST') {
-        let obj = _.pick(req.body, 'name', 'email', 'mobile', 'address', 'content');
+        let obj = _.pick(req.body, 'name', 'email', 'content');
         obj.ip = core.getIp(req);
         let contact = new Message(obj);
         contact.save(function(err, result) {
             console.log(err, result);
             if (err) {
-                return res.render('app/info', {
+                return res.render('app/info.hbs', { layout:'app_layout',
                     message: err.message
                 });
             } else {
-                res.render('app/info', {
+                res.render('app/info.hbs', { layout:'app_layout',
                     message: '提交成功'
                 });
             }

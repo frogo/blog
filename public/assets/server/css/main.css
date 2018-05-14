@@ -543,7 +543,7 @@ pre{
 }
 
 .main-content-wrapper #main-content {
-    border-top: solid thin #e7e8ec;
+    /*border-top: solid thin #e7e8ec;*/
     display: inline-block;
     padding: 15px 15px 0;
     width: 100%
@@ -2131,13 +2131,13 @@ a.btn-info:active,a.btn-info:hover {
     transition: all 3s ease-in-out;
     color: #fff;
     background: #405d8c;
-    background: -moz-radial-gradient(center,ellipse cover,#405d8c 0,#293949 100%);
-    background: -webkit-gradient(radial,center center,0,center center,100%,color-stop(0%,#405d8c),color-stop(100%,#293949));
-    background: -webkit-radial-gradient(center,ellipse cover,#405d8c 0,#293949 100%);
-    background: -o-radial-gradient(center,ellipse cover,#405d8c 0,#293949 100%);
-    background: -ms-radial-gradient(center,ellipse cover,#405d8c 0,#293949 100%);
-    background: radial-gradient(ellipse at center,#405d8c 0,#293949 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#405d8c',endColorstr='#293949',GradientType=1)
+    background: -moz-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: -webkit-gradient(radial,center center,0,center center,100%,color-stop(0%,#50a3a2),color-stop(100%,#53e3a6));
+    background: -webkit-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: -o-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: -ms-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: radial-gradient(ellipse at center,#50a3a2 0,#53e3a6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#50a3a2',endColorstr='#53e3a6',GradientType=1)
 }
 
 #error-container .block-error {
@@ -2564,7 +2564,7 @@ a:link, a:visited{color:#ff6450}
 #leftside-navigation ul ul li{ background: none;width: 80%;  margin: 0 auto;min-height: 44px}
 
 #leftside-navigation ul li a:hover, #leftside-navigation ul li.active>a{color:#666}
- #leftside-navigation ul ul li.active>a,#leftside-navigation ul ul li.active a:hover{ background: #ff6450;color:#fff;border-radius: 3px}
+ #leftside-navigation ul ul li.on>a,#leftside-navigation ul ul li.on a:hover{ background: #ff6450;color:#fff;border-radius: 3px}
 #leftside-navigation ul ul li a:hover{ background: #eee;color:#333}
 
 .client-tab{border-radius: 5px 5px 0 0 ; background: #fff; border-bottom: 1px solid #ccc}
@@ -2619,3 +2619,10 @@ a:link, a:visited{color:#ff6450}
 #leftside-navigation ul li.sub-menu.on{}
 #leftside-navigation ul li.sub-menu.on a{background: #ff6450;color:#fff!important; }
 #leftside-navigation ul li.sub-menu.on a i{color:#fff!important;}
+.mgt10{ margin-top: 10px}
+.mgr5{margin-right: 5px}
+.pdr20{padding-right: 20px}
+
+#login-wrapper .panel-primary {
+    border:1px solid  #1abc9c
+}

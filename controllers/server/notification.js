@@ -29,9 +29,9 @@ exports.list = function(req, res) {
                 //item.isRead = item.read.indexOf(req.session.user._id) > -1;
                 return item;
             })
-            res.render('server/notification/list', {
-                //title: '列表',
-                Menu: 'list',
+            res.render('server/notification/list.hbs', {
+                title: '消息列表',
+                Menu: 'notificationList',
                 notifications: results,
                 pageInfo: pageInfo
             });
@@ -61,8 +61,8 @@ exports.received = function(req, res) {
                 //item.isRead = item.read.indexOf(req.session.user._id) > -1;
                 return item;
             })
-            res.render('server/notification/list', {
-                //title: '列表',
+            res.render('server/notification/list.hbs', {
+                title: '已收到消息列表',
                 Menu: 'received',
                 notifications: results,
                 pageInfo: pageInfo
@@ -95,8 +95,8 @@ exports.sent = function(req, res) {
                 //item.isRead = item.read.indexOf(req.session.user._id) > -1;
                 return item;
             })
-            res.render('server/notification/list', {
-                //title: '列表',
+            res.render('server/notification/list.hbs', {
+                title: '已发出消息列表',
                 Menu: 'sent',
                 notifications: results,
                 pageInfo: pageInfo
@@ -107,7 +107,7 @@ exports.sent = function(req, res) {
 //单条
 exports.one = function(req, res) {
     let id = req.params.id;
-    Notification.findById(id).exec(function(err, result) {
+    Notification.findById(id).populate('from to read unread').exec(function(err, result) {
         // console.log(result, '单条信息+++++++++++++++++');
         if (req.session.user._id) {
             let verify = (result.broadcast || result.to.indexOf(req.session.user._id) > -1);
@@ -120,13 +120,13 @@ exports.one = function(req, res) {
             }
             
         }
-        
+        console.log('消息内容是',result)
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '该留言不存在'
             });
         }
-        res.render('server/notification/item', {
+        res.render('server/notification/item.hbs', {
             title: result.content,
             notification: result
         });
@@ -149,7 +149,7 @@ exports.del = function(req, res) {
     let id = req.params.id;
     Notification.findById(id).exec(function(err, result) {
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '留言不存在'
             });
         }
@@ -161,11 +161,11 @@ exports.del = function(req, res) {
                 });
             }
             if(err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '删除失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '删除成功'
             })
         });

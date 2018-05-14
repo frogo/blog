@@ -18,7 +18,7 @@
             <td>{{subName}}</td>
             <td>{{flag}}</td>
             <td>{{author.name}}</td>
-            <td>{{created}}</td>
+            <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
             <td><a href="{{../adminDir}}/category/{{id}}/edit" class="btn btn-default btn-xs">编辑</a>&nbsp;<a href="{{../adminDir}}/category/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
         </tr>
 {{/each}}

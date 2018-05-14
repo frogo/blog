@@ -68,7 +68,7 @@ exports.list = function(req, res) {
             console.log(err, results);
             console.log(pageInfo)
             res.render('server/content/list.hbs', {
-                title: '内容列表',
+                title: '文章列表',
                 contents: results,
                 pageInfo: pageInfo,
                 Menu: 'contentList'
@@ -87,6 +87,7 @@ exports.add = function(req, res) {
         console.log(condition.author);
         Promise.all([Category.find(condition).exec(), Tag.find(condition).exec()]).then((result) => {
             res.render('server/content/add.hbs', {
+                title:'添加文章',
                 categorys: result[0],
                 tags: result[1],
                 Menu: 'contentAdd',
@@ -94,6 +95,7 @@ exports.add = function(req, res) {
             });
         }).catch((e) => {
             res.render('server/content/add.hbs', {
+                title:'添加文章',
                 Menu: 'contentAdd'
             });
         })
@@ -115,12 +117,12 @@ exports.add = function(req, res) {
             }
             if (err) {
                 console.log(err);
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '创建失败'
                 });
             }
 
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '创建成功'
             });
         });
@@ -137,7 +139,7 @@ exports.edit = function(req, res) {
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '没有权限'
                 });
             }
@@ -176,7 +178,7 @@ exports.edit = function(req, res) {
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '没有权限'
                 });
             }
@@ -188,11 +190,11 @@ exports.edit = function(req, res) {
                     })
                 }
                 if(err || !content) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: '修改失败'
                     });
                 }
-                res.render('server/info', {
+                res.render('server/info.hbs', { layout:'layout-blank',
                     message: '更新成功'
                 });
             });
@@ -204,7 +206,7 @@ exports.del = function(req, res) {
     let id = req.params.id;
     Content.findById(id).populate('author').exec(function(err, result) {
         if(err || !result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '内容不存在'
             });
         }
@@ -212,7 +214,7 @@ exports.del = function(req, res) {
         let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '没有权限'
             });
         }
@@ -224,11 +226,11 @@ exports.del = function(req, res) {
                 });
             }
             if(err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '删除失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '删除成功'
             })
         });

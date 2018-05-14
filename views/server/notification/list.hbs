@@ -1,0 +1,87 @@
+
+
+{{css 'http://cdn.jsdelivr.net/select2/4.0.3/css/select2.min.css'}}
+{{js 'http://cdn.jsdelivr.net/select2/4.0.3/js/select2.min.js' }}
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12"><a href="/admin/notification/add" class="btn btn-info J_post">发私信</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>内容</th>
+                <th>来自</th>
+                <th>发给</th>
+                <!--th 是否已读-->
+                <th>未读</th>
+                <th>已读</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each notifications}}
+            <tr>
+                <td><a href="{{../adminDir}}/notification/{{id}}">{{content}}</a></td>
+                <td>{{from.username}}</td>
+                <td>
+                    {{#each to}}
+                        <span class="badge badge-default">{{name}}</span>
+                    {{/each}}
+                </td>
+                <!--td #{notification.isRead ? '已读' : '未读'}-->
+                <td>
+                    {{#each unread}}
+                        <span class="badge badge-default">{{name}}</span>
+                    {{/each}}
+                </td>
+                <td>
+                    {{#each read}}
+                        <span class="badge badge-default">{{name}}</span>
+                    {{/each}}
+                </td>
+                <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
+                <td><a href="{{../adminDir}}/notification/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        {{#if pageInfo}}
+            {{#compare pageInfo.totalPage '>' 1}}
+                <ul class="pagination">{{{pagination pageInfo}}}</ul>
+            {{/compare}}
+        {{/if}}
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Load these page level functions-->
+{{#section 'scripts'}}
+    <script type="text/javascript">
+
+    </script>
+{{/section}}

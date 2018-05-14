@@ -6,12 +6,13 @@ let config = {
     env: process.env.NODE_ENV || 'development', // development   production
     //mongodb配置信息
     mongodb: {
-        uri: 'mongodb://jinshuai:jinshuai@localhost:27085/blog',
+        uri: 'mongodb://localhost:27017/cms',
+       // uri: 'mongodb://jinshuai:jinshuai@localhost:27085/blog',
         options: {}
     },
     //redis服务，用来session维持，非必须
     redis: {
-        host: '', // �?127.0.0.1 配置此项表示启用redis，需保证redis服务已启�?
+        host: '', // �?127.0.0.1 配置此项表示启用redis，需保证redis服务已启�?
         port: 6379, // 6379
         pass: ''
     },
@@ -30,7 +31,7 @@ let config = {
     //后台相关配置
     admin: {
         dir: 'admin', //后台访问路径，如http://localhost/admin配置为admin
-        role: {//默认角色�?
+        role: {//默认角色�?
             admin: 'admin',
             user: 'user'
         }
@@ -60,9 +61,9 @@ let config = {
         enable: false,
         type: 'admin' // mail | admin, 默认admin
     },
-    // 邮箱配置，找回密码、用户注册使�?
+    // 邮箱配置，找回密码、用户注册使�?
     mail: {
-        // 发信人邮�?
+        // 发信人邮�?
         from: 'username@domain.com',
         // nodemailer config see https://nodemailer.com/about/
         nodemailer: {

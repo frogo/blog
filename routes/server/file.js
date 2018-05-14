@@ -21,9 +21,9 @@ router.route('/').get(action.checkAction('FILE_INDEX'), file.list);
 //添加内容
 router.route('/add').all(action.checkAction('FILE_CREATE'), file.add);
 //单条信息
-router.route('/:id').get(action.checkAction('FILE_DETAIL'), file.one);
+/*router.route('/:id').get(action.checkAction('FILE_DETAIL'), file.one);*/
 //更新信息
-router.route('/:id/edit').all(action.checkAction('FILE_UPDATE'), file.edit);
+/*router.route('/:id/edit').all(action.checkAction('FILE_UPDATE'), file.edit);*/
 //删除信息
 router.route('/:id/del').all(action.checkAction('FILE_DELETE'), file.del);
 

@@ -5,6 +5,7 @@ let Comment = mongoose.model('Comment')
 let Content = mongoose.model('Content')
 let Category = mongoose.model('Category')
 let core = require('../../libs/core')
+let strip = require('strip');
 
 //列表
 exports.list = function(req, res) {
@@ -24,7 +25,8 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            res.render('app/content/list', {
+            res.render('app/content/list.hbs', {
+                layout: 'app_layout',
                 title: '内容列表',
                 contents: results,
                 pageInfo: pageInfo
@@ -36,18 +38,22 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     let id = req.params.id;
-    Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
+    Content.findById(id).populate('tags').populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
         //console.log(result);
         if(!result) {
-            return res.render('app/info', {
+            return res.render('app/info.hbs', { layout:'app_layout',
                 message: '该内容不存在'
             });
         }
         result.visits = result.visits + 1;
         result.save();
-
-        res.render('app/content/item', {
+        console.log("result")
+        console.log(result)
+        res.render('app/content/item.hbs', {
+            layout:'app_layout',
             title: result.title,
+            description:strip(result.content).substr(0,100),
+            keywords: result.tags,
             content: result
         });
     });

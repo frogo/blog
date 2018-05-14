@@ -21,7 +21,8 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            res.render('app/page/list', {
+            res.render('app/page/list.hbs', {
+                layout: 'app_layout',
                 //title: '列表',
                 pages: results,
                 pageInfo: pageInfo
@@ -36,11 +37,13 @@ exports.one = function(req, res) {
     Page.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('app/info', {
+            return res.render('app/info.hbs', {
+                layout: 'app_layout',
                 message: '该留言不存在'
             });
         }
-        res.render('app/page/item', {
+        res.render('app/page/item.hbs', {
+            layout: 'app_layout',
             title: result.title,
             page: result
         });

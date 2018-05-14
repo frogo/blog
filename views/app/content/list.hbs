@@ -1,0 +1,32 @@
+<div class="ui body">
+    <div class="ui container">
+        <div class="ui items">
+            <table class="ui very basic padded table">
+                <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>作者</th>
+                    <th>发布时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each contents}}
+                <tr>
+                    <td><a href="content/{{id}}">{{title}}</a></td>
+                <td>{{#if author}}<strong>{{author.name}}</strong>{{/if}}
+                    </td>
+                    <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="ui center aligned">
+            {{#if pageInfo}}
+                {{#compare pageInfo.totalPage '>' 1}}
+                    <div class="ui pagination menu">{{{app_pagination pageInfo}}}</div>
+                {{/compare}}
+            {{/if}}
+        </div>
+    </div>
+</div>

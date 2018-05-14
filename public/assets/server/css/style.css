@@ -31,6 +31,7 @@ a.btn-danger{
     -webkit-flex-direction: row;
     -webkit-align-items: center;
     -webkit-justify-content: center;
+    overflow: hidden;
 }
 .gallery-item .file-holder{
     font-size: 100px;

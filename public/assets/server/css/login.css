@@ -7,7 +7,7 @@
 }
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: black;
   font-weight: 300;
 }
 body ::-webkit-input-placeholder {

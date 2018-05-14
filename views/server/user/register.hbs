@@ -1,0 +1,34 @@
+<section id="login-container">
+    <div class="row">
+        <div id="login-wrapper" class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">注册</h3>
+                </div>
+                <div class="panel-body">
+                    <p>已经是用户? <a href="{{adminDir}}/user/login"><strong>登录</strong></a></p>
+                    <form role="form" action="" method="post">
+                        <div class="form-group">
+                            <label for="username">用户名</label>
+                            <input id="username" type="text" name="username" placeholder="请输入用户名" autofocus="" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input id="password" type="password" name="password" placeholder="请输入密码" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input id="name" type="text" name="name" placeholder="请输入姓名" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="email" name="email" placeholder="请输入Email" class="form-control">
+                        </div>
+                        <input type="hidden" name="_csrf" value="{{token}}">
+                        <button type="submit" class="btn btn-primary btn-block">注册</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

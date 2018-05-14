@@ -21,11 +21,11 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            res.render('server/tag/list', {
-                //title: '列表',
+            res.render('server/tag/list.hbs', {
+                title: '标签',
                 tags: results,
                 pageInfo: pageInfo,
-                Menu: 'list'
+                Menu: 'tag'
             });
         })
     })
@@ -37,11 +37,12 @@ exports.one = function(req, res) {
     Tag.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '该分类不存在'
             });
         }
-        res.render('server/tag/item', {
+        res.render('server/tag/item.hbs', {
+            Menu:"tag",
             title: result.name,
             tag: result
         });
@@ -51,8 +52,8 @@ exports.one = function(req, res) {
 exports.add = function(req, res) {
 
     if (req.method === 'GET') {
-        res.render('server/tag/add', {
-            Menu: 'add'
+        res.render('server/tag/add.hbs', {
+            Menu: 'tag'
         });
     } else if (req.method === 'POST') {
 
@@ -71,11 +72,11 @@ exports.add = function(req, res) {
                 })
             }
             if (err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '创建失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '创建成功'
             });
         });
@@ -89,11 +90,12 @@ exports.edit = function(req, res) {
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '没有权限'
                 });
             }
-            res.render('server/tag/edit', {
+            res.render('server/tag/edit.hbs', {
+                Menu:'tag',
                 tag: result
             });
         });
@@ -105,7 +107,7 @@ exports.edit = function(req, res) {
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '没有权限'
                 });
             }
@@ -117,7 +119,7 @@ exports.edit = function(req, res) {
                     })
                 }
                 if(!err) {
-                    res.render('server/info', {
+                    res.render('server/info.hbs', { layout:'layout-blank',
                         message: '更新成功'
                     });
                 }
@@ -130,7 +132,7 @@ exports.del = function(req, res) {
     let id = req.params.id;
     Tag.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '分类不存在'
             });
         }
@@ -138,7 +140,7 @@ exports.del = function(req, res) {
         let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '没有权限'
             });
         }
@@ -149,11 +151,11 @@ exports.del = function(req, res) {
                 })
             }
             if(err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '删除失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '删除成功'
             })
         });

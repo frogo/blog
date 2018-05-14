@@ -1,0 +1,48 @@
+
+<!-- main content start-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="lists"><a href="{{adminDir}}/user/add" class="btn btn-info">添加员工</a>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>用户名 </th>
+                            <th>姓名</th>
+                            <th>角色</th>
+                            <th>创建人</th>
+                            <th>创建日期</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each users}}
+                        <tr>
+                            <td> <a href="{{../adminDir}}/user/{{id}}" title="{{user.email}}">{{username}}</a></td>
+                            <td>{{name}}</td>
+                            <td>{{#each roles}}<span class="label label-info mgr5">{{name}}</span>{{/each}}</td>
+                            <td>{{#each author}}{{name}}{{/each}}</td>
+                            <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
+
+                            <td> <a href="{{../adminDir}}/user/{{id}}/edit" class="btn btn-default btn-xs">编辑</a> <a href="{{../adminDir}}/user/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+<!-- main content end-->
+
+<!-- Load these page level functions-->
+
+{{#section 'scripts'}}
+<script type="text/javascript">
+$(function(){
+
+})
+
+
+</script>
+{{/section}}

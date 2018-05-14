@@ -1,0 +1,93 @@
+
+{{css 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/css/jquery.fileupload.css'}}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/vendor/jquery.ui.widget.js' }}
+{{js 'http://cdn.jsdelivr.net/load-image/1.11.1/js/load-image.min.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-process.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-image.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-audio.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-video.js' }}
+{{js 'http://cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-validate.js' }}
+
+<div class="row">
+    <div class="col-md-12">
+        <form action="" method="post">
+            <div class="form-group">
+                <label>上传文件</label>
+                <div id="J_gallery" class="gallery"></div><span class="btn btn-success fileinput-button"><i class="glyphicon glyphicon-plus"></i><span>添加文件</span>
+                    <input id="fileupload" type="file" name="files[]" multiple="multiple"></span>
+                <div style="padding: 10px;"></div>
+                <div id="progress" class="progress progress-striped">
+                    <div class="progress-bar progress-bar-default"></div>
+                </div>
+                <!--#J_preview.preview-->
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Load these page level functions-->
+{{#section 'scripts'}}
+    <script type="text/javascript">
+        $('#fileupload').fileupload({
+            //url: '/upload',
+            url: '/admin/file/add',
+            formData: {
+                _csrf: '{{token}}'
+            },
+            dataType: 'json',
+            progressall: function(e, data) {
+                //console.log(e, data);
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                ).text(progress + '%');
+            },
+            done: function (e, data) {
+                $('#progress .progress-bar').addClass('progress-bar-success').css(
+                        'width',
+                        100 + '%'
+                ).text('100%');
+                $.each(data.result.files, function (index, file) {
+                    var url = file.md_url || file.url,
+                            id = file._id;
+                    var html = ' <div class="gallery-item"><img src="'+ url +'" class="gallery-image">' +
+                            ' <input type="hidden" name="gallery[]" value="'+ id +'"><a href="" class="gallery-remove J_del"><span class="fa fa-times-circle"></span></a>' +
+                            ' </div>'
+                    $('#J_gallery').append(html);
+                });
+            }
+        });
+        //删除图集
+        $('#J_gallery').on('click', '.J_del', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $item = $this.closest('.gallery-item');
+            var confirm = BootstrapDialog.confirm('<p>确定删除图片吗</p><label><input type="checkbox"/> 同时删除原图</label>', function(val) {
+                var $input = confirm.$modal.find('input');
+                var checked = $input[0].checked;
+                if(val) {
+                    if(checked) {
+                        var id = $this.siblings('input').val();
+                        var url = '/admin/file/' + id + '/del';
+                        $.post(url, {
+                            _csrf: '{{token}}'
+                        }, function(json) {
+                            if(json.success) {
+                                $item.remove();
+                            } else{
+                                BootstrapDialog.alert('删除失败');
+                            }
+                        });
+                    } else {
+                        $item.remove();
+                    }
+
+                }
+            });
+        });
+
+    </script>
+{{/section}}

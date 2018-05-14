@@ -5,7 +5,7 @@
             <tr>
                 <th>内容</th>
                 <th>姓名</th>
-                <th>手机</th>
+                <th>邮箱</th>
                 <th>IP</th>
                 <th>时间</th>
                 <th>操作</th>
@@ -17,9 +17,9 @@
                 <td><a href="{{../adminDir}}/message/{{id}}">{{content}}</a></td>
                 <td>{{#if name}}{{name}} {{else}} 匿名{{/if}}
                 </td>
-                <td>{{mobile}}</td>
+                <td>{{email}}</td>
                 <td>{{ip}}</td>
-                <td>{{created}}</td>
+                <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
                 <td><a href="{{../adminDir}}/message/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
             </tr>
             {{/each}}

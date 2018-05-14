@@ -14,7 +14,7 @@ exports.init = function(req, res) {
     let id = req.session.user._id;
     User.findById(id).populate('roles').exec(function(err, user) {
         if (!user) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '出错了'
             });
         }
@@ -45,7 +45,7 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         User.findById(id).populate('roles').exec(function(err, user) {
             let data = _.pick(user, 'name', 'mobile', 'gender', 'birthday');
-            res.render('server/me/edit', {
+            res.render('server/me/edit.hbs', {
                 title: '修改资料',
                 user: data
             });
@@ -57,13 +57,13 @@ exports.edit = function(req, res) {
             user.save(function(err, result) {
                 console.log(err, result);
                 if(err || !result) {
-                    return res.render('server/info', {
+                    return res.render('server/info.hbs', { layout:'layout-blank',
                         message: '修改失败'
                     });
                 }
                 req.session.user = result;
                 res.locals.User = user;
-                res.render('server/info', {
+                res.render('server/info.hbs', { layout:'layout-blank',
                     message: '修改成功'
                 });
             })
@@ -88,13 +88,13 @@ exports.updatePassword = function(req, res) {
                     userController.reload(result._id, function(err, user) {
                         req.session.user = user;
                         res.locals.User = user;
-                        res.render('server/info', {
+                        res.render('server/info.hbs', { layout:'layout-blank',
                             message: '密码修改成功'
                         });
                     });
                 });
             } else {
-                res.render('server/info', {
+                res.render('server/info.hbs', { layout:'layout-blank',
                     message: '原密码不正确'
                 });
             }

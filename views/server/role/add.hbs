@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-md-12">
+        <form action="" method="post">
+            <div class="form-group">
+                <label>角色名</label>
+                <input name="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>权限</label>
+                <h4>选择权限</h4>
+                {{#each ACTIONS}}
+                    {{name}}
+                    <ul class="list-group">
+                        {{#each actions}}
+                        <li class="list-group-item">
+                            <label>
+                                <input name="actions[]" type="checkbox" value="{{value}}">{{name}} {{description}}
+                            </label>
+                        </li>
+                        {{/each}}
+                    </ul>
+                {{/each}}
+
+            </div>
+            <div class="form-group">
+                <label>描述</label>
+                <textarea name="description" rows="8" class="form-control"></textarea>
+            </div>
+            <input type="hidden" name="_csrf" value="{{token}}">
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>
+
+<!-- Load these page level functions-->
+{{#section 'scripts'}}
+    <script type="text/javascript">
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            var messenger;
+            $('form').ajaxForm({
+                beforeSerialize: function() {
+                    console.log('beforeSerialize')
+                },
+                beforeSubmit: function() {
+                    console.log('beforeSubmit')
+                    messenger = Messenger().post("处理中...");
+                },
+                success: function(data, status, xhr, $form) {
+                    console.log(data)
+                    var status = data.status;
+                    if (status) {
+                        messenger.update({
+                            message: '添加成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                        $form[0].reset();
+                    } else {
+                        messenger.update({
+                            message: '添加失败',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                    }
+                },
+                err: function() {
+                    console.log('error')
+                    messenger.update({
+                        message: '系统繁忙',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                }
+            })
+        })
+    </script>
+{{/section}}
+
+

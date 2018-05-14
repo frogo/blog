@@ -1,28 +1,42 @@
 <aside class="sidebar">
-    <div id="leftside-navigation" class="nano">
+    <div id="leftside-navigation">
         <ul class="nano-content">
-                <li class="sub-menu active"><a href="javascript:void(0);"><i class="fa fa-file-text" style="color:#ff6450"></i><span>文章</span></a>
+                <li class="sub-menu active "><a href="javascript:void(0);"><i class="fa fa-file-text" style="color:#ff6450"></i><span>文章</span></a>
                     <ul>
 
-                        <li class="{{#compare Menu '===' 'contentList'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/content">文章列表</a></li>
-                        <li class="{{#compare Menu '===' 'contentAdd'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/content/add">添加文章</a></li>
+                        <li class="{{#compare Menu '===' 'contentList'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/content">文章列表</a></li>
+                        <li class="{{#compare Menu '===' 'contentAdd'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/content/add">添加文章</a></li>
                     </ul>
                 </li>
 
                 <li class="sub-menu active"><a href="javascript:void(0);"><i class="fa fa-th" style="color:#ff6450"></i><span>分类</span></a>
                     <ul>
 
-                        <li class="{{#compare Menu '===' 'categoryList'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/category">分类列表</a></li>
-                        <li class="{{#compare Menu '===' 'categoryAdd'}}active{{else}}{{/compare}}"><a href="{{adminDir}}/category/add">添加分类</a></li>
+                        <li class="{{#compare Menu '===' 'categoryList'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/category">分类列表</a></li>
+                        <li class="{{#compare Menu '===' 'categoryAdd'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/category/add">添加分类</a></li>
                     </ul>
                 </li>
 
-                <li class="sub-menu active"><a href="{{adminDir}}/comment"><i class="fa fa-comment" style="color:#ff6450"></i><span>评论</span></a>
+            <li class="sub-menu {{#compare Menu '===' 'comment'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/comment"><i class="fa fa-comment" style="color:#ff6450"></i><span>评论</span></a></li>
+            <li class="sub-menu {{#compare Menu '===' 'message'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/message"><i class="fa fa-male" style="color:#ff6450"></i><span>留言</span></a></li>
+            <li class="sub-menu {{#compare Menu '===' 'log'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/log"><i class="fa fa-file" style="color:#ff6450"></i><span>日志</span></a></li>
+            <li class="sub-menu {{#compare Menu '===' 'tag'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/tag"><i class="fa fa-file" style="color:#ff6450"></i><span>标签</span></a></li>
+            <li class="sub-menu {{#compare Menu '===' 'role'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/role"><i class="fa fa-unlock-alt" style="color:#ff6450"></i><span>角色</span></a></li>
+            <li class="sub-menu {{#compare Menu '===' 'user'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/user"><i class="fa fa-users" style="color:#ff6450"></i><span>用户</span></a></li>
+            <li class="sub-menu {{#compare Menu '===' 'page'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/page"><i class="fa fa-male" style="color:#ff6450"></i><span>页面</span></a></li>
+            <li class="sub-menu {{#compare Menu '===' 'file'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/file"><i class="fa fa-male" style="color:#ff6450"></i><span>文件</span></a></li>
 
-                </li>
-             <li class="sub-menu active"><a href="{{adminDir}}/message"><i class="fa fa-male" style="color:#ff6450"></i><span>留言</span></a>
+            <li class="sub-menu active"><a href="javascript:void(0);"><i class="fa fa-envelope" style="color:#ff6450"></i><span>站内信</span></a>
+                <ul>
 
+                    <li class="{{#compare Menu '===' 'notificationList'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/notification">全部</a></li>
+                    <li class="{{#compare Menu '===' 'received'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/notification/received">已收到</a></li>
+                    <li class="{{#compare Menu '===' 'sent'}}on{{else}}{{/compare}}"><a href="{{adminDir}}/notification/sent">已发出</a></li>
+                </ul>
             </li>
+
+
+
 
         </ul>
     </div>

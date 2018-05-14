@@ -20,8 +20,8 @@ exports.list = function(req, res) {
         query.exec(function(err, results) {
             //console.log(err, results);
             res.render('server/message/list.hbs', {
-                //title: '列表',
-                Menu: 'list',
+                title: '留言列表',
+                Menu: 'message',
                 messages: results,
                 pageInfo: pageInfo
             });
@@ -35,12 +35,13 @@ exports.one = function(req, res) {
     Message.findById(id).exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '该留言不存在'
             });
         }
         res.render('server/message/item.hbs', {
             title: result.name + '的留言',
+            Menu: 'message',
             message: result
         });
     });
@@ -50,12 +51,12 @@ exports.del = function(req, res) {
     let id = req.params.id;
     Message.findById(id).exec(function(err, result) {
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '留言不存在'
             });
         }
         /*if(req.Roles && req.Roles.indexOf('admin') === -1) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '没有权限'
             });
         }*/
@@ -67,11 +68,11 @@ exports.del = function(req, res) {
                 });
             }
             if(err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '删除失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '删除成功'
             })
         });

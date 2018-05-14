@@ -1,0 +1,276 @@
+<div class="ui container">
+    <div class="ui body post">
+        <h1 class="ui header">{{title}}</h1>
+        <div class="ui">
+            <div class="ui label">作者
+                <div class="detail">{{#if content.author}} {{content.author.name}}{{/if}}</div>
+            </div>
+            <div class="ui label">发布时间
+                <div class="detail">{{dateFormat content.created 'yyyy-MM-dd hh:mm:ss'}}</div>
+            </div>
+            <div class="ui label">分类
+                <div class="detail">{{#if content.category}} {{content.category.name}}{{/if}}    </div>
+            </div>
+            <div class="ui label">访客
+                <div class="detail">{{content.visits}}</div>
+            </div>
+
+
+
+
+        </div>
+        <div class="ui basic segment post-content">
+         {{#if content.gallery}}
+             {{#compare content.gallery.length '===' 1}}
+                 {{#compare content.gallery.[0].type 'contains' 'image'}}
+                     <a href="{{#if content.gallery.[0].sm_url}}{{content.gallery.[0].sm_url}} {{else}} {{content.gallery.[0].url}} {{/if}}" target="_blank">
+                         <img src="{{#if content.gallery.[0].sm_url}}{{content.gallery.[0].sm_url}} {{else}} {{content.gallery.[0].url}} {{/if}}" class="ui fluid image">
+                     </a>
+                 {{/compare}}
+                 {{#compare content.gallery.[0].type 'contains' 'video'}}
+                     <div data-obj="" class="gallery-item">
+                         <video src="{{#if content.gallery.[0].sm_url}}{{content.gallery.[0].sm_url}} {{else}} {{content.gallery.[0].url}} {{/if}}" controls></video>
+                     </div>
+                 {{/compare}}
+             {{else}}
+                 <div class="gallery">
+                     {{#each content.gallery}}
+                         {{#compare type 'contains' 'image'}}
+                         <div data-obj="" class="gallery-item">
+                             <a href="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}">
+                                 <img data-original="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}" class="lazy" src="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}" style="">
+                             </a>
+                         </div>
+                         {{/compare}}
+
+                         {{#compare type 'contains' 'video'}}
+                             <div data-obj="" class="gallery-item">
+                                  <video src="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}" controls></video>
+                             </div>
+                         {{/compare}}
+                     {{/each}}
+
+                 </div>
+             {{/compare}}
+         {{/if}}
+            <div>
+                <p>{{filterContent content.content}}</p>
+            </div>
+        </div>
+
+
+        <div class="post-comments">
+            <h3>评论({{content.comments.length}}) </h3>
+            {{#if content.comments}}
+
+                <div class="ui threaded comments J_list">
+
+                    {{#each content.comments as | comment| }}
+                        {{#unless reply}}
+                               {{{commentItem comment ../content.comments}}}
+                        {{/unless}}
+
+                    {{/each}}
+
+                </div>
+            {{/if}}
+
+            <div class="ui reply form J_commentForm">
+                <div class="field">
+                    <input name="name" placeholder="your name" class="J_input_name" >
+                </div>
+                <div class="field">
+                    <input name="email" placeholder="your email" class="J_input_email" >
+                </div>
+                <div class="field">
+                    <textarea name="content" placeholder="small talk" class="J_textarea"></textarea>
+                </div>
+                <div class="ui primary submit labeled icon button J_submit"><i class="icon edit"></i>发送</div>
+            </div>
+
+
+    </div>
+</div>
+</div>
+
+<script id="J_tmpl_comment_item" type="x-tmpl-mustache">
+        <div data-id="{{id}}" data-reply="{{reply}}" class="comment J_comment"><a class="avatar"><img src="{{avatar}}"></a>
+          <div class="content"><a class="author">{{name}}</a>
+            <div class="metadata">
+              <div class="date">{{created}}</div>
+            </div>
+            <div class="text">
+              <p>{{content}}</p>
+            </div>
+            <div class="actions"><a href="javascript:" class="reply J_reply">回复</a></div>
+          </div>
+        </div>
+      </script>
+
+{{css '//cdn.jsdelivr.net/highlight.js/9.10.0/styles/tomorrow-night.min.css'}}
+{{css '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/css/blueimp-gallery.min.css'}}
+
+{{js '//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js' }}
+{{js '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery.min.js' }}
+{{js '//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js' }}
+
+<!-- Load these page level functions-->
+{{#section 'scripts'}}
+
+    <script type="text/javascript">
+
+            {{#if User}}
+              var userInfo = {
+                name: '{{User.name}}',
+                email: '{{User.email}}'
+              };
+              localStorage.setItem('comment_user', JSON.stringify(userInfo));
+            {{/if}}
+
+        moment.locale('zh-cn');
+        var token = '{{token}}';
+        var cid = '{{content.id}}';
+        $(document).ready(function() {
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        });
+        $('.gallery a').on('click', function(e) {
+            var $img = $(this);
+            blueimp.Gallery($('.gallery a'), {
+                index: this,
+                event: e
+
+            })
+        });
+        $(".lazy").lazyload();
+
+        var commentUser = JSON.parse(localStorage.getItem('comment_user'));
+        if (commentUser) {
+            $('.J_input_name').val(commentUser.name).hide();
+            $('.J_input_email').val(commentUser.email).hide();
+        }
+
+        //提交回复评论处理
+        $(document).on('click', '.J_submit', function() {
+            var $this = $(this);
+            var $form = $this.closest('.J_commentForm')
+            var $list = $form.siblings('.J_list');
+            var $name = $form.find('.J_input_name');
+            var $email = $form.find('.J_input_email');
+            var $textarea = $form.find('.J_textarea');
+            var reply = $form.attr('data-reply');
+            var name = $name.val();
+            var email = $email.val();
+            var content = $textarea.val();
+            if(!email) {
+                alert('请输入email');
+                return;
+            }
+            if(!content) {
+                alert('请输入评论内容');
+                return;
+            }
+            var data = {
+                from: cid,
+                name: name,
+                email: email,
+                content: content,
+                _csrf: token
+            };
+            if(reply) {
+                data.reply = reply;
+            }
+            $.post('/comment/add', data, function(json) {
+                if(json.success === true) {
+                    json.data.created = moment(json.data.created).fromNow();
+
+
+
+
+                    var html =
+                            '<div data-id="'+json.data.id+'" data-reply="'+json.data.reply+'" class="comment J_comment">'+
+                            '<a class="avatar"><img src="'+json.data.avatar+'"></a>'+
+                            '<div class="content"><a class="author">'+json.data.name+'</a>'+
+                            '<div class="metadata">'+
+                            '    <div class="date">'+json.data.created+'</div>'+
+                            '</div>'+
+                            '   <div class="text">'+
+                            '     <p>'+json.data.content+'</p>'+
+                            '</div>'+
+                            '     <div class="actions"><a href="javascript:" class="reply J_reply">回复</a></div>'+
+                            '</div>'+
+                            '</div>'
+                    if($list.length < 1) {
+                        html = '<div class="ui comments J_list">' + html + '</div>'
+                        $form.after(html);
+                    } else {
+                        $list.append(html);
+                    }
+
+                    // 清空输入
+                    $textarea.val('');
+                    var commentUser = {
+                        name: name,
+                        email: email
+                    };
+                    localStorage.setItem('comment_user', JSON.stringify(commentUser));
+                }else{
+                    alert(json.message);
+                }
+            });
+        });
+
+        //点击展开评论框
+        $(document).on('click', '.J_reply', function() {
+            var $this = $(this);
+            var $comment = $this.closest('.J_comment');
+            var $content = $comment.find('.content')
+            var $list = $comment.children('.J_list');
+            //var $form = $comment.find('.J_commentForm');
+            var $form = $comment.children('.J_commentForm');
+            var id = $comment.attr('data-id');
+
+            if($form.length > 0) {
+                $form.toggle();
+                return;
+            }
+            var commentUser = JSON.parse(localStorage.getItem('comment_user'));
+            var data = $.extend({reply: id}, commentUser)
+            var userName_isShow = '',
+                userEmail_isShow = '',
+                userName = '',
+                userEmail = ''
+            if(commentUser){
+                if(commentUser.name){
+                    userName_isShow= 'display: none'
+                    userName = commentUser.name
+                }
+                if(commentUser.email){
+                    userEmail_isShow = 'display: none'
+                    userEmail = commentUser.email
+                }
+            }
+            var tmpl = '<div data-reply="'+id+'" class="ui reply form J_commentForm">'+
+                        '<div style="'+userName_isShow+'" class="field">' +
+                          '<input name="name" placeholder="your name" value="'+userName+'" class="J_input_name">'+
+                        '</div>'+
+                        '<div style="'+userEmail_isShow+'" class="field">'+
+                          '<input name="email" placeholder="your email" value="'+userEmail+'" class="J_input_email">'+
+                         '</div>'+
+                         '<div class="field"><textarea name="content" placeholder="small talk" class="J_textarea"></textarea>'+
+                      '</div>'+
+                      '<div class="ui primary submit labeled icon button J_submit"><i class="icon edit"></i>发送</div>'+
+                      '</div>';
+
+
+            if ($list.length > 0) {
+                $list.before(tmpl);
+            } else {
+                $content.after(tmpl);
+            }
+
+        });
+
+    </script>
+{{/section}}

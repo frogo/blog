@@ -19,13 +19,18 @@
                 <td>{{#if from }}<a href="/content/{{from._id}}#{{id}}" target="_blank">{{from.title}} <i class="fa fa-external-link"></i></a>{{/if}}
                 </td>
                 <td>{{ip}}</td>
-                <td>{{created}}</td>
+                <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
                 <td><a href="{{../adminDir}}/comment/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
             </tr>
             {{/each}}
             </tbody>
         </table>
-        <ul class="pagination">{{{pagination pageInfo}}}</ul>
+        {{#if pageInfo}}
+            {{#compare pageInfo.totalPage '>' 1}}
+                <ul class="pagination">{{{pagination pageInfo}}}</ul>
+            {{/compare}}
+        {{/if}}
+
     </div>
 </div>
 

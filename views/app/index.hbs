@@ -1,0 +1,99 @@
+<div class="ui body">
+    <div class="ui stackable grid container">
+
+        {{#if key}}
+            <div class="search-area">搜索 <strong>"{{key}}" </strong>共有 <strong>{{total}} </strong>条结果</div>
+        {{/if}}
+
+
+        <div class="row">
+            <div class="twelve wide column">
+                <div class="ui divided items">
+                    {{#each contents}}
+                    <div class="item">
+                        {{#if gallery}}
+                            {{#compare gallery.[0].type 'contains' 'image'}}
+                                <div class="image">
+                                    <img src="{{#if gallery.[0].sm_url}}{{gallery.[0].sm_url}} {{else}} {{gallery.[0].url}} {{/if}}">
+                                </div>
+                            {{else}}
+<!--                                <div class="image">
+                                    <img src="/assets/app/images/video-thumb.png">
+                                </div>-->
+                            {{/compare}}
+
+                        {{/if}}
+                        <div class="content"><a href="/content/{{_id}}" class="ui large header">{{title}}</a>
+                            <div class="meta">
+                                <div class="cinema"> </div>
+                            </div>
+                            <div class="description">
+                                <p>{{strip100 content}}</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui label">{{dateFromNow created}}
+                                    <div class="detail">{{#if author}} {{author.name}} {{/if}}</div>
+                                </div>
+                                <div class="ui label">评论:
+                                    <div class="detail">{{#if comments}} {{comments.length}} {{else}} 0 {{/if}}</div>
+                                </div>
+                                <div class="ui label">
+
+                                    访客:
+                                    <div class="detail">{{visits}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+
+                </div>
+
+
+                <div class="ui center aligned">
+                    {{#if pageInfo}}
+                        {{#compare pageInfo.totalPage '>' 1}}
+                            <div class="ui pagination menu">{{{app_pagination pageInfo}}}</div>
+                        {{/compare}}
+                    {{/if}}
+                </div>
+            </div>
+            <div class="four wide column">
+                <div class="ui right-search">
+                    <form action="/" method="get">
+                        <div style="width: 100%;" class="ui icon input">
+                            <input type="text" name="key" id="key" value="" required="required"><i class="search icon"></i>
+                            <!--button.ui.button(type="submit") 搜索-->
+                        </div>
+                    </form>
+                </div>
+                <div class="sixteen wide">
+                    <div class="ui segment">
+                        <div class="ui header">最新Top10</div>
+                        <div class="ui selection list">
+                            {{#each newest}}
+                            <div class="item">
+                                <div class="content"><a href="/content/{{id}}" class="header">{{title}}</a>
+                                    <div class="description">{{dateFromNow created}}</div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="ui segment">
+                        <div class="ui header">最热Top10</div>
+                        <div class="ui selection list">
+                             {{#each hotest}}
+                            <div class="item">
+                                <div class="content"><a href="/content/{{id}}" class="header">{{title}}</a>
+                                    <div class="description">热度 {{visits}}</div>
+                                </div>
+                            </div>
+                             {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

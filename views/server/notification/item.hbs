@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="lists">
+            <p>内容：{{notification.content}}</p>
+            <p>来自：   {{#each notification.from}}<span class="badge badge-default">{{name}}</span>{{/each}}</p>
+            <p>发给：{{#each notification.to}}<span class="badge badge-default">{{name}}</span>{{/each}}</p>
+            <p>已读：{{#each notification.read}}<span class="badge badge-default">{{name}}</span>{{/each}}</p>
+            <p>未读：{{#each notification.unread}}<span class="badge badge-default">{{name}}</span>{{/each}}</p>
+            <p>日期：{{dateFormat notification.created 'yyyy-MM-dd hh:mm:ss'}}</p>
+        </div>
+    </div>
+</div>

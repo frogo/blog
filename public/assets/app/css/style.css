@@ -139,3 +139,11 @@ html, body{
 }
 
 
+.pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover {
+    background-color: #1abc9c;
+    border-color: #1abc9c
+}
+
+.pagination>li>a,.pagination>li>span {
+    color: #1abc9c
+}

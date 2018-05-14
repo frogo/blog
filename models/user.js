@@ -18,71 +18,62 @@ let UserSchema = new Schema({
         required: '请输入用户名',
         unique: true
     },
-    
+
     email: {
         type: String,
         required: '请输入邮箱',
         unique: true
     },
-    
+
     mobile: {
         type: String
     },
-    
+
     name: {
         type: String,
         required: '请输入姓名'
     },
-    department:[{//定义关联的部门ID，长度最长是6个，第一个是公司，第二个是总经办，第三个是总经理办公室，第四个是大区经理，第五个是大组，第六个是小组
-        type: Schema.ObjectId,
-        ref: 'Department'
-    }],
-    level:{//等级设置，有7,6,5,4,3,2,1 七个职位等级，分别对应老板，总经办，总经理，大区经理，大组长，小组长，基层员工
-        type:Number
-    },
-    business_type:{//业务类型，1.银行抵押2.自由资金3.信用贷款
-        type:String
-    },
+
     avatar: {
         type: String
     },
-    
+
     gender: {
         type: String,
         enum: ['男', '女', '保密']
     },
-    
+
     birthday: {
         type: Date,
         default: Date.now
     },
-    
+
     description: {
         type: String
     },
-    
+
     address: {
         type: String
     },
-    
+
 
 
     roles: [{
         type: Schema.ObjectId,
         ref: 'Role'
     }],
-    
+
     last_login_date: Date,
-    
+
     last_login_ip: String,
-    
+
     position: {
         type: Array,
         index: '2dsphere'
     },
-    
+
     reg_ip: String,//注册ip
-    
+
     created: {
         type: Date,
         default: Date.now
@@ -188,7 +179,7 @@ UserSchema.methods = {
      * @return {Boolean}
      * @api public
      */
-     //通过角色名判断权限
+    //通过角色名判断权限
     hasRole: function(role) {
         let roles = [];
         this.roles.forEach(function(item) {

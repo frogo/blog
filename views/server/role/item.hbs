@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="lists">
+            <p>名称：{{role.name}}</p>
+            <p>创建人： {{#if role.name}}{{role.name}} {{else}}无{{/if}}
+            </p>
+            <p>权限：<span class="label label-info">{{role.actions}}</span><!--{{#each role.actions}}<span class="label label-info">{{action}}</span>{{/each}}-->
+            </p>
+            <p>日期：{{dateFormat role.created 'yyyy-MM-dd hh:mm:ss'}}</p>
+            <p>描述：{{role.description}}</p>
+        </div>
+    </div>
+</div>

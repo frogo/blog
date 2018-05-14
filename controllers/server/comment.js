@@ -21,7 +21,8 @@ exports.list = function(req, res) {
         query.exec(function(err, results) {
             //console.log(err, results);
             res.render('server/comment/list.hbs', {
-                //title: '列表',
+                title: '评论列表',
+                Menu:'comment',
                 comments: results,
                 pageInfo: pageInfo
             });
@@ -35,12 +36,13 @@ exports.one = function(req, res) {
     Comment.findById(id).populate('author', 'username name email').populate('from').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '该评论不存在'
             });
         }
         res.render('server/comment/item.hbs', {
             title: result.name,
+            Menu:'comment',
             comment: result
         });
     });
@@ -50,7 +52,7 @@ exports.del = function(req, res) {
     let id = req.params.id;
     Comment.findById(id).populate('author').populate('from').exec(function(err, result) {
         if(!result) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '评论不存在'
             });
         }
@@ -59,7 +61,7 @@ exports.del = function(req, res) {
         let isOwner = result.from && ((result.from.author + '') === req.session.user._id);
 
         if(!isAdmin && !isOwner) {
-            return res.render('server/info', {
+            return res.render('server/info.hbs', { layout:'layout-blank',
                 message: '没有权限'
             });
         }
@@ -71,11 +73,11 @@ exports.del = function(req, res) {
                 });
             }
             if(err) {
-                return res.render('server/info', {
+                return res.render('server/info.hbs', { layout:'layout-blank',
                     message: '删除失败'
                 });
             }
-            res.render('server/info', {
+            res.render('server/info.hbs', { layout:'layout-blank',
                 message: '删除成功'
             })
         });

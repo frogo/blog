@@ -35,7 +35,7 @@ exports.checkAction = function(actionName) {
                     msg: '无权访问'
                 })
             } else {
-                res.render('server/info', {
+                res.render('server/info.hbs', { layout:'layout-blank',
                     message: '无权访问'
                 });
             }

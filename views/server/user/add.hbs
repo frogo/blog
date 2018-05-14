@@ -1,0 +1,96 @@
+
+<!-- main content start-->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">添加用户</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" action="" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputEmail2" class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-10">
+                                    <input id="inputEmail2" type="text" name="username" placeholder="用户名" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-10">
+                                    <input id="inputPassword3" type="password" name="password" placeholder="密码" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-10">
+                                    <input id="name" type="text" name="name" placeholder="姓名" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword5" class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input id="inputPassword5" type="email" name="email" placeholder="Email" class="form-control">
+                                </div>
+                            </div>
+                            <input type="hidden" name="_csrf" value="{{token}}">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- main content end-->
+
+<!-- Load these page level functions-->
+
+{{#section 'scripts'}}
+<script type="text/javascript">
+
+
+    $(function() {
+//        var messenger;
+//        $('form').ajaxForm({
+//            beforeSerialize: function() {
+//                console.log('beforeSerialize')
+//            },
+//            beforeSubmit: function() {
+//                console.log('beforeSubmit')
+//                messenger = Messenger().post("处理中...");
+//            },
+//            success: function(data, status, xhr, $form) {
+//                console.log(data)
+//                var status = data.status;
+//                if (status) {
+//                    messenger.update({
+//                        message: '添加成功',
+//                        hideAfter: 3,
+//                        type: 'success'
+//                    });
+//                    $form[0].reset();
+//                } else {
+//                    messenger.update({
+//                        message: '添加失败',
+//                        hideAfter: 3,
+//                        type: 'success'
+//                    });
+//                }
+//            },
+//            err: function() {
+//                console.log('error')
+//                messenger.update({
+//                    message: '系统繁忙',
+//                    hideAfter: 3,
+//                    type: 'success'
+//                });
+//            }
+//        })//end ajaxform
+
+
+    })
+
+</script>
+{{/section}}
