@@ -398,7 +398,7 @@ if (config.env === 'production') {
 
 //定义全局字段
 app.locals = {
-    title: config.title || 'nodejs 博客系统',
+    title: config.title || 'nodejs 博客',
     pretty: true,
     moment: moment,
     _: _,

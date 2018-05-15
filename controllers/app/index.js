@@ -50,6 +50,13 @@ exports.index = async function(req, res) {
         res.render('app/index.hbs', {
             layout: 'app_layout',
             contents: contents,
+            keywords:[
+                {'name':'node.js'},
+                {'name':'js全栈'},
+                {'name':'博客系统'},
+                {'name':'mongodb数据库'}
+            ],
+            description:'采用node.js+mongodb+handlebars的多用户博客系统',
             pageInfo: pageInfo,
             key: key,
             total: total,

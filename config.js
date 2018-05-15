@@ -27,7 +27,7 @@ let config = {
             expiresIn: '10h'
         }
     },
-    title: '管理后台',
+    title: '',
     //后台相关配置
     admin: {
         dir: 'admin', //后台访问路径，如http://localhost/admin配置为admin
