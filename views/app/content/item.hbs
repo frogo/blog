@@ -36,7 +36,7 @@
                  <div class="gallery">
                      {{#each content.gallery}}
                          {{#compare type 'contains' 'image'}}
-                         <div data-obj="" class="gallery-item">
+                         <div data-obj="{{this}}" class="gallery-item">
                              <a href="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}">
                                  <img data-original="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}" class="lazy" src="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}" style="">
                              </a>
@@ -106,6 +106,19 @@
           </div>
         </div>
       </script>
+
+
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+        <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator">
+    </ol>
+</div>
+
 
 {{css '//cdn.jsdelivr.net/highlight.js/9.10.0/styles/tomorrow-night.min.css'}}
 {{css '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/css/blueimp-gallery.min.css'}}
