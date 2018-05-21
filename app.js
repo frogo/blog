@@ -297,7 +297,7 @@ var hbs = handlebars.create({
                         '<div class="content">'+
                         '<a class="author">'+comment.name+'</a>'+
                         '<div class="metadata">'+
-                        '<div class="date">'+moment(comment.create).fromNow()+'</div>'+
+                        '<div class="date">'+moment(comment.created).fromNow()+'</div>'+
                         '</div>'+
                         '<div class="text"> <p>'+comment.content+'</p></div>'+
                         '<div class="actions">'+
