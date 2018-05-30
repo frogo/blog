@@ -2,11 +2,11 @@
 
 let appPath = process.cwd();
 let config = {
-    port: 7000,
+    port: 7001,
     env: process.env.NODE_ENV || 'development', // development   production
     //mongodb配置信息
     mongodb: {
-        uri: 'mongodb://localhost:27017/cms',
+        uri: 'mongodb://localhost:27017/blog',
        // uri: 'mongodb://jinshuai:jinshuai@localhost:27085/blog',
         options: {}
     },

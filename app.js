@@ -373,7 +373,7 @@ var hbs = handlebars.create({
             return strip(content).substr(0,100)
         },
         filterContent: function (content) {
-            return xss(content)
+            return xss(marked(content))
         }
 
 
