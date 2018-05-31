@@ -370,7 +370,7 @@ var hbs = handlebars.create({
             return moment(date).fromNow()
         },
         strip100: function (content) {
-            return strip(marked(content)).substr(0,100)
+            return strip(marked(content)).substr(0,100).replace(/\s+/g,"")
         },
         filterContent: function (content) {
             return xss(marked(content))
