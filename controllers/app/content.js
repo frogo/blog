@@ -52,7 +52,7 @@ exports.one = function(req, res) {
         res.render('app/content/item.hbs', {
             layout:'app_layout',
             title: result.title,
-            description:strip(result.content).substr(0,100),
+            description:result.content,
             keywords: result.tags,
             content: result
         });
