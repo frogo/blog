@@ -106,7 +106,8 @@ html, body{
     padding-right: 0;
 }
 .post-content img{
-    max-width: 100%;
+    /*max-width: 100%;*/
+	max-width:600px
 }
 .post-content blockquote{
     padding: 0 1em;
