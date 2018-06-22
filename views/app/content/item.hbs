@@ -1,14 +1,12 @@
 
 <div class="post mgt20">
         <h1 class="post-title">{{title}}</h1>
-
         <div class="post-detail">
             <!--作者 <span>{{#if content.author}} {{content.author.name}}{{/if}}</span> --->
             发布时间 <span>{{dateFormat content.created 'yyyy-MM-dd hh:mm:ss'}}</span> -
             分类 <span><a href="#">{{#if content.category}} {{content.category.name}}{{/if}}</a>  </span> -
             访客 <span>{{content.visits}}</span>
         </div>
-
         <div class="post-content mgt20">
          {{#if content.gallery}}
              {{#compare content.gallery.length '===' 1}}
@@ -32,7 +30,6 @@
                              </a>
                          </div>
                          {{/compare}}
-
                          {{#compare type 'contains' 'video'}}
                              <div data-obj="" class="gallery-item">
                                   <video src="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}" controls></video>
@@ -47,23 +44,17 @@
                 <p>{{{filterContent content.content}}}</p>
             </div>
         </div>
-
         <div class="post-comments">
             <h3 class="pdtb20">评论({{content.comments.length}}) </h3>
             {{#if content.comments}}
-
                 <div class="ui threaded comments J_list">
-
                     {{#each content.comments as | comment| }}
                         {{#unless reply}}
                                {{{commentItem comment ../content.comments}}}
                         {{/unless}}
-
                     {{/each}}
-
                 </div>
             {{/if}}
-
             <div class="ui reply form J_commentForm pdt20">
                 <div class="field">
                     <input name="name" placeholder="您的名字" class="J_input_name">
@@ -76,15 +67,8 @@
                 </div>
                 <button class="J_submit">发送</button>
             </div>
-
-
     </div>
 </div>
-
-
-
-
-
 <div id="blueimp-gallery" class="blueimp-gallery">
     <div class="slides">
         <h3 class="title"></h3>
@@ -96,21 +80,15 @@
     </ol>
 </div>
 </div>
-
 {{css '//cdn.jsdelivr.net/highlight.js/9.10.0/styles/tomorrow-night.min.css'}}
 {{css '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/css/blueimp-gallery.min.css'}}
-
-
-
 {{js '//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js' }}
 {{js '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery.min.js' }}
 {{js '//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js' }}
 {{js '//cdn.jsdelivr.net/momentjs/2.18.1/moment-with-locales.min.js' }}
 <!-- Load these page level functions-->
 {{#section 'scripts'}}
-
     <script type="text/javascript">
-
             {{#if User}}
               var userInfo = {
                 name: '{{User.name}}',
@@ -118,7 +96,6 @@
               };
               localStorage.setItem('comment_user', JSON.stringify(userInfo));
             {{/if}}
-
         moment.locale('zh-cn');
         var token = '{{token}}';
         var cid = '{{content.id}}';
@@ -176,10 +153,6 @@
             $.post('/comment/add', data, function(json) {
                 if(json.success === true) {
                     json.data.created = moment(json.data.created).fromNow();
-
-
-
-
                     var html =
                             '<div data-id="'+json.data.id+'" data-reply="'+json.data.reply+'" class="comment J_comment">'+
                             '<a class="avatar"><img src="'+json.data.avatar+'"></a>'+
@@ -199,7 +172,6 @@
                     } else {
                         $list.append(html);
                     }
-
                     // 清空输入
                     $textarea.val('');
                     var commentUser = {
@@ -212,7 +184,6 @@
                 }
             });
         });
-
         //点击展开评论框
         $(document).on('click', '.J_reply', function() {
             var $this = $(this);
@@ -222,7 +193,6 @@
             //var $form = $comment.find('.J_commentForm');
             var $form = $comment.children('.J_commentForm');
             var id = $comment.attr('data-id');
-
             if($form.length > 0) {
                 $form.toggle();
                 return;
@@ -263,6 +233,5 @@
             }
 
         });
-
     </script>
 {{/section}}

@@ -47,8 +47,6 @@ exports.one = function(req, res) {
         }
         result.visits = result.visits + 1;
         result.save();
-        console.log("result")
-        console.log(result)
         res.render('app/content/item.hbs', {
             layout:'app_layout',
             title: result.title,

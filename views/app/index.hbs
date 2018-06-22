@@ -1,19 +1,10 @@
-
-
-
-    <section class="article">
-
-
+<section class="article">
         {{#if key}}
             <div class="search-tips pdtb20">搜索 "{{key}}" 共有 {{total}} 条结果</div>
         {{/if}}
-
-
       {{#each contents}}
         <article class="post post-list">
             <div class="post-entry">
-
-
                 {{#if gallery}}
                     {{#compare gallery.[0].type 'contains' 'image'}}
                         <div class="image">
@@ -22,35 +13,23 @@
                     {{else}}
                     {{/compare}}
                 {{/if}}
-
                 <div class="content">
                     <h3 class="entry-title"><a href="/content/{{_id}}">{{title}}</a></h3>
                     <div  class="entry-content">
                         {{strip100 content}}
                     </div>
                 </div>
-
                 <div class="details">
                     {{dateFromNow created}} - {{visits}} 热度 - {{#if comments}}  {{comments.length}} {{else}} 0 {{/if}} 评论
                 </div>
             </div>
-
         </article><!-- #post-## -->
       {{/each}}
-
-
         {{#if pageInfo}}
             {{#compare pageInfo.totalPage '>' 1}}
                 <div class="pagination pdtb20">{{{app_pagination pageInfo}}}</div>
             {{/compare}}
         {{/if}}
-
-    </section><!-- #main -->
-<!--    <aside class="sidebar">
-
-
-
-
-    </aside>-->
+</section><!-- #main -->
 
 

@@ -44,9 +44,6 @@ exports.index = async function(req, res) {
                 visits: -1
             }
         })
-        //console.log('test000:')
-        //console.log(contents)
-        // console.log(contents)
         res.render('app/index.hbs', {
             layout: 'app_layout',
             contents: contents,
