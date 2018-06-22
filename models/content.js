@@ -21,6 +21,9 @@ let ContentSchema = new Schema({
         type: String,
         required: true
     },
+    keywords:{
+        type: String
+    },
     gallery: [{
         type: Schema.ObjectId,
         ref: 'File'

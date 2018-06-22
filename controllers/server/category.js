@@ -4,7 +4,7 @@ let  mongoose = require('mongoose')
 let Category = mongoose.model('Category')
 let _ = require('lodash')
 let core = require('../../libs/core')
-
+let backPath = 'category'
 //列表
 exports.list = function(req, res) {
     let condition = {};
@@ -25,7 +25,7 @@ exports.list = function(req, res) {
                 title: '分类列表',
                 categorys: results,
                 pageInfo: pageInfo,
-                Menu: 'categoryList'
+                Menu: 'category'
             });
         })
     })
@@ -67,7 +67,7 @@ exports.add = function(req, res) {
         Category.find(condition).exec().then(function(categorys) {
             res.render('server/category/add.hbs', {
                 title:'添加分类',
-                Menu: 'categoryAdd',
+                Menu: 'category',
                 items: categorys || []
             });
         })
@@ -88,11 +88,11 @@ exports.add = function(req, res) {
             }
             if (err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '创建失败'
+                    message: '创建失败',backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '创建成功'
+                message: '创建成功',backPath:backPath
             });
         });
     }
@@ -108,7 +108,7 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限',backPath:backPath
                 });
             }
             let condition = {};
@@ -135,7 +135,7 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限',backPath:backPath
                 });
             }
             _.assign(result, obj);
@@ -152,7 +152,7 @@ exports.edit = function(req, res) {
 
                     res.render('server/info.hbs', { layout:'layout-blank',
 
-                        message: '更新成功了吗'
+                        message: '更新成功',backPath:backPath
                     });
                 }
             });
@@ -165,7 +165,7 @@ exports.del = function(req, res) {
         Category.findById(id).populate('author').exec(function (err, result) {
             if (!result) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '分类不存在'
+                    message: '分类不存在',backPath:backPath
                 });
             }
             let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
@@ -173,7 +173,7 @@ exports.del = function(req, res) {
 
             if (!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限',backPath:backPath
                 });
             }
             result.remove(function (err) {
@@ -184,11 +184,11 @@ exports.del = function(req, res) {
                 }
                 if (err) {
                     return res.render('server/info.hbs', { layout:'layout-blank',
-                        message: '删除失败'
+                        message: '删除失败',backPath:backPath
                     });
                 }
                 res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除成功了吗'
+                    message: '删除成功',backPath:backPath
                 })
             });
         });

@@ -1,56 +1,47 @@
-body{
-    font-family: '微软雅黑' Monaco;
-}
-.preview img{
-    max-width: 200px;
-    max-height: 200px;
-}
-a.btn-danger{
-    color: #fff;
-}
-.gallery{
-    padding-bottom: 15px;
-}
-.gallery:after{
-    content: '';
-    clear: both;
-    display: table;
-}
-.gallery-item{
-    width: 200px;
-    height: 200px;
-    background-color: #f2f2f2;
-    background-size: cover;
-    float: left;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    text-align: center;
-    border: 2px solid #fff;
-    position: relative;
-    display: -webkit-flex;
-    -webkit-flex-direction: row;
-    -webkit-align-items: center;
-    -webkit-justify-content: center;
-    overflow: hidden;
-}
-.gallery-item .file-holder{
-    font-size: 100px;
-}
-.gallery-item img{
-    max-width: 100%;
-    max-height: 100%;
-}
-.gallery-remove{
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    font-size: 24px;
-    line-height: 0;
-    color: #000 !important;
-}
-.media-list{
-    border-left: 4px solid #eee;
-    padding: 0px 15px;
-    margin: 10px 0;
+body{font-family:'微软雅黑' Monaco}
+.preview img{max-width:200px;max-height:200px}
+a.btn-danger{color:#fff}
+
+*{font:12px/1.5 '微软雅黑',Verdana,Helvetica,Arial,sans-serif;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-box-sizing:border-box;padding:0;margin:0;list-style:none;box-sizing:border-box}
+body,html{height:100%;overflow:hidden}
+body{background:#f1f1f1;background-size:cover}
+a{color:#27A9E3;text-decoration:none;cursor:pointer}
+/* 初始化密码 登录 忘记密码 找回密码 */
+.login.install{max-width:420px;}
+.login .box{padding:30px 30px;background-color:#ffffff;border-radius:4px;box-sizing:border-box}
+.login{margin:150px auto 0 auto;margin-left:auto;margin-right:auto;max-width:320px;}
+.login h4{margin:0;padding:0 0 40px 0;font-weight:700}
+.login h6{margin:0 0 20px 0}
+.login a{color:#666}
+.login label{ font-size:12px; font-weight:normal}
+.login .help{padding:10px}
+input[type=text],input[type=file],input[type=password],input[type=email],select{border:1px solid #DCDEE0;vertical-align:middle;border-radius:3px;height:40px;padding:0px 16px;font-size:14px;color:#555555;outline:none;width:100%}
+input[type=text]:focus,input[type=file]:focus,input[type=password]:focus,input[type=email]:focus,select:focus{border:1px solid #27A9E3}
+input[type=submit],input[type=button]{display:inline-block;vertical-align:middle;padding:8px 20px;margin:0px;font-size:16px;line-height:24px;text-align:center;white-space:nowrap;vertical-align:middle;cursor:pointer;color:#ffffff;background-color:#0a1922;border-radius:3px;border:none;-webkit-appearance:none;outline:none;width:100%}
+hr.hr15{height:15px;border:none;margin:0px;padding:0px;width:100%}
+hr.hr20{height:20px;border:none;margin:0px;padding:0px;width:100%}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
+/* 成功提示 错误提示 */
+.info-container{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-transition: all 3s ease-in-out;
+    -moz-transition: all 3s ease-in-out;
+    -o-transition: all 3s ease-in-out;
+    -ms-transition: all 3s ease-in-out;
+    transition: all 3s ease-in-out;
+    color: #fff;
+    background:#f1f1f1
+/*    background: #405d8c;
+    background: -moz-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: -webkit-gradient(radial,center center,0,center center,100%,color-stop(0%,#50a3a2),color-stop(100%,#53e3a6));
+    background: -webkit-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: -o-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: -ms-radial-gradient(center,ellipse cover,#50a3a2 0,#53e3a6 100%);
+    background: radial-gradient(ellipse at center,#50a3a2 0,#53e3a6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#50a3a2',endColorstr='#53e3a6',GradientType=1)*/}
+.info-container .info-message{padding:15px;width:400px;margin:50px auto 0;color:#555;background:#fff;border-radius:5px}

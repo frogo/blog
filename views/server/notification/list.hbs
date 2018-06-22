@@ -14,8 +14,14 @@
 
 
 <div class="row">
-    <div class="col-md-12"><a href="/admin/notification/add" class="btn btn-info J_post">发私信</a>
-        <table class="table table-striped">
+    <div class="col-md-12">
+        <p class="lead">
+            <a href="/admin/notification/add" class="btn btn-default btn-sm J_post">发私信</a>
+        <a href="/admin/notification/" class="btn btn-default btn-sm {{#compare Menu '===' 'all'}}disabled{{else}}{{/compare}}">全部私信</a>
+            <a href="/admin/notification/sent" class="btn btn-default btn-sm {{#compare Menu '===' 'sent'}}disabled{{else}}{{/compare}}">已发私信</a>
+            <a href="/admin/notification/received" class="btn btn-default btn-sm {{#compare Menu '===' 'received'}}disabled{{else}}{{/compare}}">已收私信</a>
+        </p>
+        <table class="table">
             <thead>
             <tr>
                 <th>内容</th>
@@ -35,22 +41,29 @@
                 <td>{{from.username}}</td>
                 <td>
                     {{#each to}}
-                        <span class="badge badge-default">{{name}}</span>
+                        {{name}}
                     {{/each}}
                 </td>
                 <!--td #{notification.isRead ? '已读' : '未读'}-->
                 <td>
                     {{#each unread}}
-                        <span class="badge badge-default">{{name}}</span>
+                        {{name}}
                     {{/each}}
                 </td>
                 <td>
                     {{#each read}}
-                        <span class="badge badge-default">{{name}}</span>
+                        {{name}}
                     {{/each}}
                 </td>
                 <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
-                <td><a href="{{../adminDir}}/notification/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+                <td>
+
+                    <a data-toggle="modal"
+                       data-target="#myModal"
+                       data-url="{{../adminDir}}/notification/{{id}}/del"
+                       class="btn btn-default btn-xs">删除</a>
+
+                </td>
             </tr>
             {{/each}}
             </tbody>
@@ -63,25 +76,110 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Load these page level functions-->
 {{#section 'scripts'}}
     <script type="text/javascript">
+        var token = '{{token}}'
+        $(document).on('click', '.J_post', function(e) {
+            e.preventDefault()
+            var $this = $(this),
+                $modal = $('#myModal'),
+                url = $this.attr('href')
+            var request = function(to, content) {
+                $.post(url, {
+                    _csrf: token,
+                    //from: user._id,
+                    to: to,
+                    content: content
+                }, function(json) {
+                    console.log(json);
+                    alert('发送成功')
+                    window.location.reload()
+                });
+            }
+
+            var htmlStr = '      <div class="modal-header">\n' +
+                    '                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+                    '                <h4 class="modal-title" id="myModalLabel">发送私信</h4>\n' +
+                    '            </div>\n' +
+                    '            <div class="modal-body">\n' +
+                    '                      <div class="form-group">' +
+                    '              <label>收信人</label>' +
+                    '    <select class="form-control J_to_users" name="kw" style="width:60%" multiple="multiple"></select>\n' +
+                    '          </div>' +
+                    '          <div class="form-group">' +
+                    '              <label>内容</label>' +
+                    '              <textarea rows="4" class="form-control"></textarea>' +
+                    '          </div>' +
+                    '            </div>\n' +
+                    '            <div class="modal-footer">\n' +
+                    '                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>\n' +
+                    '                <button type="button" class="btn btn-danger confirm">发送</button>\n' +
+                    '            </div>'
+
+            $modal.find('.modal-dialog').removeClass('modal-sm')
+            $modal.find('.modal-content').empty().append(htmlStr)
+            $modal.modal('show')
+            $modal.on('click','button.confirm',function(){
+                   var  to = $modal.find('.J_to_users').val(),
+                        content = $modal.find('textarea').val()
+                request(to, content)
+            })
+
+
+            $modal.find(".J_to_users").select2({
+                ajax: {
+                    url: '{{queryUrl}}',
+                    //dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
+                        data.items.map(function(item) {
+                            item.id = item._id;
+                            return item;
+                        });
+                        console.log(data.items);
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+                minimumInputLength: 1,
+                templateResult: function (repo) {
+                    if (repo.loading) return repo.text;
+
+                    var markup = '<div class="clearfix">' +
+                            '<div clas="col-sm-10">' +
+                            '<div class="clearfix">' +
+                            '<div class="col-sm-6">' + repo.name + '</div>' +
+                            '</div>';
+
+                    markup += '</div></div>';
+
+                    return markup;
+                },
+                templateSelection: function (repo) {
+                    return repo.name || repo.text;
+                }
+            })
+        });
 
     </script>
 {{/section}}

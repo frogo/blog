@@ -1,7 +1,6 @@
 <header id="header">
     <!-- logo start-->
-    <div class="brand"><a href="{{adminDir}}" class="logo">我的博客测试
-        <!--| 实验室--></a></div>
+    <div class="brand"><a href="{{adminDir}}" class="logo">Frogo</a></div>
     <!-- logo end-->
     <div class="toggle-navigation toggle-left">
         <button id="toggle-left" type="button" data-toggle="tooltip" data-placement="left" title="切换左栏" class="btn btn-default"><i class="fa fa-bars"></i></button>
@@ -25,9 +24,12 @@
             {{#if User}}
                 <li class="profile-photo"><img src="{{avatar User.email}}" alt="" class="img-circle">
                 </li>
-                <li class="dropdown settings"><a data-toggle="dropdown" href="" class="dropdown-toggle">{{User.name}}<i class="fa fa-angle-down"></i></a>
+                <li class="dropdown settings"><a data-toggle="dropdown" href="" class="dropdown-toggle">{{User.name}}  <i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{adminDir}}/me"><i class="fa fa-user"></i> 个人资料</a></li>
+                        <li><a href="{{adminDir}}/me">
+                            <i class="fa fa-user">
+
+                        </i> 个人资料</a></li>
                         <!--li
                         a(href='index.html#')
                             i.fa.fa-envelope

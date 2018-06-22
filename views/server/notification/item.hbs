@@ -1,5 +1,10 @@
 <div class="row">
     <div class="col-md-12">
+        <p class="lead">
+            <a href="/admin/notification/" class="btn btn-default btn-sm J_post">全部私信</a>
+            <a href="/admin/notification/sent" class="btn btn-default btn-sm J_post">已发私信</a>
+            <a href="/admin/notification/received" class="btn btn-default btn-sm J_post">已收私信</a>
+        </p>
         <div class="lists">
             <p>内容：{{notification.content}}</p>
             <p>来自：   {{#each notification.from}}<span class="badge badge-default">{{name}}</span>{{/each}}</p>

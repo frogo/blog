@@ -4,7 +4,7 @@ let mongoose = require('mongoose')
 let Page = mongoose.model('Page')
 let _ = require('lodash')
 let core = require('../../libs/core')
-
+let backPath = 'page'
 //列表
 exports.list = function(req, res) {
     let condition = {};
@@ -38,10 +38,10 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '该页面不存在'
+                message: '该页面不存在' ,backPath:backPath
             });
         }
-        res.render('server/page/item', {
+        res.render('server/page/item.hbs', {
             title: result.title,
             page: result
         });
@@ -53,7 +53,7 @@ exports.del = function(req, res) {
     Page.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '留言不存在'
+                message: '留言不存在' ,backPath:backPath
             });
         }
         let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
@@ -61,7 +61,7 @@ exports.del = function(req, res) {
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '没有权限'
+                message: '没有权限' ,backPath:backPath
             });
         }
         console.log(result)
@@ -73,11 +73,11 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除失败'
+                    message: '删除失败' ,backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '删除成功'
+                message: '删除成功' ,backPath:backPath
             })
         });
     });

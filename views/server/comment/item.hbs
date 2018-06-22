@@ -1,5 +1,10 @@
 <div class="row">
     <div class="col-md-12">
+
+        <p class="lead">
+            <a href="{{adminDir}}/comment/" class="btn btn-default btn-sm">评论列表</a>
+        </p>
+
         <div class="lists">
             <p>{{comment.content}}</p>
             <p>来自：{{#if comment.from}}<a href="/content/{{comment.from.id}}" target="_blank">{{comment.from.title}}</a>{{/if}}

@@ -4,7 +4,7 @@ let mongoose = require('mongoose')
 let Tag = mongoose.model('Tag')
 let _ = require('lodash')
 let core = require('../../libs/core')
-
+let backPath = 'tag'
 //列表
 exports.list = function(req, res) {
     let condition = {};
@@ -38,7 +38,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '该分类不存在'
+                message: '该分类不存在' ,backPath:backPath
             });
         }
         res.render('server/tag/item.hbs', {
@@ -73,11 +73,11 @@ exports.add = function(req, res) {
             }
             if (err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '创建失败'
+                    message: '创建失败' ,backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '创建成功'
+                message: '创建成功' ,backPath:backPath
             });
         });
     }
@@ -91,7 +91,7 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限' ,backPath:backPath
                 });
             }
             res.render('server/tag/edit.hbs', {
@@ -108,7 +108,7 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限' ,backPath:backPath
                 });
             }
             _.assign(result, obj);
@@ -120,7 +120,7 @@ exports.edit = function(req, res) {
                 }
                 if(!err) {
                     res.render('server/info.hbs', { layout:'layout-blank',
-                        message: '更新成功'
+                        message: '更新成功' ,backPath:backPath
                     });
                 }
             });
@@ -133,7 +133,7 @@ exports.del = function(req, res) {
     Tag.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '分类不存在'
+                message: '分类不存在' ,backPath:backPath
             });
         }
         let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
@@ -141,7 +141,7 @@ exports.del = function(req, res) {
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '没有权限'
+                message: '没有权限' ,backPath:backPath
             });
         }
         result.remove(function(err) {
@@ -152,11 +152,11 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除失败'
+                    message: '删除失败' ,backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '删除成功'
+                message: '删除成功' ,backPath:backPath
             })
         });
     });

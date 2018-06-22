@@ -8,7 +8,7 @@ let core = require('../../libs/core')
 let strip = require('strip');
 
 //列表
-exports.list = function(req, res) {
+/*exports.list = function(req, res) {
     let condition = {};
     let category = req.query.category;
     if(category) {
@@ -34,7 +34,7 @@ exports.list = function(req, res) {
         });
     });
     
-};
+};*/
 //单条
 exports.one = function(req, res) {
     let id = req.params.id;
@@ -53,7 +53,7 @@ exports.one = function(req, res) {
             layout:'app_layout',
             title: result.title,
             description:result.content,
-            keywords: result.tags,
+            keywords: result.keywords,
             content: result
         });
     });

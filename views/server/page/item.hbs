@@ -1,9 +1,13 @@
 <div class="row">
     <div class="col-md-12">
+        <p class="lead">
+            <a href="{{adminDir}}/page/" class="btn btn-default btn-sm J_post">页面列表</a>
+            <a href="{{adminDir}}/page/add" class="btn btn-default btn-sm J_post">新增页面</a>
+        </p>
         <div class="lists">
-            <p>内容：{{message.content}}</p>
-            <p>日期：{{message.created}}</p>
-            <p>作者：{{#if message.name}}{{message.name}}{{/if}}
+            <p>内容：{{page.content}}</p>
+            <p>日期：{{page.created}}</p>
+            <p>作者：{{#if page.author}}{{page.author.name}}{{/if}}
             </p>
         </div>
     </div>

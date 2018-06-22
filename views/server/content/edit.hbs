@@ -15,6 +15,12 @@
 
 
 <div class="col-md-12">
+
+    <p class="lead">
+        <a class="btn btn-default btn-sm" href="{{adminDir}}/content/" role="button">文章列表</a>
+        <a class="btn btn-default btn-sm" href="{{adminDir}}/content/add" role="button">新增文章</a>
+    </p>
+
     <form action="" method="post">
         <div class="form-group">
             <label>标题</label>
@@ -30,17 +36,32 @@
                 {{/each}}
             </select>
         </div>
+
+        <div class="form-group">
+            <label>关键字</label><span>(一个以上关键字请用英文半角逗号,隔开)</span>
+            <input name="keywords" class="form-control" value="{{content.keywords}}">
+        </div>
         <div class="form-group">
             <label>图集</label>
             <div id="J_gallery" class="gallery">
                  {{#each content.gallery}}
                      <div class="gallery-item"><img src="{{url}}" class="gallery-image">
-                          <input type="hidden" name="gallery[]" value="{{id}}"><a href="" class="gallery-remove J_del"><span class="fa fa-times-circle"></span></a>
+                          <input type="hidden" name="gallery[]" value="{{id}}">
+                         <a href="" class="gallery-remove J_del"
+                            data-token="{{../token}}"
+                            data-type="ajax"
+                            data-url="{{../adminDir}}/file/{{id}}/del"
+                            data-toggle="modal"
+                            data-target="#myModal">
+                             <span class="fa fa-times-circle">
+
+                             </span>
+                         </a>
                           </div>
                      {{/each}}
             </div><span class="btn btn-success fileinput-button"><i class="glyphicon glyphicon-plus"></i><span>添加文件</span>
                     <input id="fileupload" type="file" name="files[]" multiple="multiple"></span>
-            <div id="progress" class="progress progress-striped">
+            <div id="progress" class="progress progress-striped mgt10">
                 <div class="progress-bar progress-bar-default progress-bar-success"></div>
             </div>
         </div>
@@ -48,20 +69,8 @@
             <label>内容</label>
             <textarea id="J_editor" name="content" rows="20" style="background-color: rgb(255, 255, 255); border: none;" class="form-control">{{content.content}}</textarea>
         </div>
-        <div class="form-group">
-            <label>标签</label>
-            <div>
-                <select id="J_select_tags" data-placeholder="请选择标签" name="tags[]" multiple="" style="width: 500px;">
-                    {{#each tags}}
-                        <option value="{{id}}" {{#where ../content.tags 'id' id}}selected{{else}}{{/where}} {{../content.tags}}>{{name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </div>
-        <!--.help-blockspan.btn.btn-info.btn-xs 新增标签
-        -->
         <input type="hidden" name="_csrf" value="{{token}}">
-        <button type="submit" class="btn btn-primary">提交</button>
+        <button type="submit" class="btn btn-default">提交</button>
     </form>
 </div>
 
@@ -69,10 +78,6 @@
     {{#section 'scripts'}}
     <script type="text/javascript">
     var token = '{{token}}';
-    Messenger.options = {
-        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-        theme: 'flat'
-    };
     $(function () {
         var mditor =  Mditor.fromTextarea(document.getElementById('J_editor'));
         mditor.split = false;
@@ -91,107 +96,36 @@
                 $('#progress .progress-bar').css(
                         'width',
                         progress + '%'
-                ).text(progress + '%');
+                ).text(progress + '%')
             },
             done: function (e, data) {
                 $('#progress .progress-bar').addClass('progress-bar-success').css(
                         'width',
                         100 + '%'
-                ).text('100%');
+                ).text('100%')
                 $.each(data.result.files, function (index, file) {
                     console.log(file)
                     var url = file.md_url || file.url,
                         id = file._id;
                     var html = ' <div class="gallery-item"><img src="'+ url +'" class="gallery-image">' +
-                               ' <input type="hidden" name="gallery[]" value="'+ id +'"><a href="" class="gallery-remove J_del"><span class="fa fa-times-circle"></span></a>' +
-                               ' </div>'
-                    $('#J_gallery').append(html);
-                });
-            }
-        });
-        //删除图集
-        $('#J_gallery').on('click', '.J_del', function(e) {
-            e.preventDefault()
-            var $this = $(this);
-            var $item = $this.closest('.gallery-item');
-            swal({
-                title: '确定删除图片吗?',
-                text: '选中下方的复选框将会删除原图',
-                type: 'question',
-                input: 'checkbox',
-                inputValue: true,
-                showLoaderOnConfirm: true,
-                showCancelButton: true,
-                confirmButtonText: '是的',
-                cancelButtonText: '不了',
-                preConfirm: function(checked) {
-                    return new Promise(function(resolve, reject) {
-                        if (checked) {
-                            var id = $this.siblings('input').val();
-                            var url = '/admin/file/' + id + '/del';
-                            $.post(url, {
-                                _csrf: '{{token}}'
-                            }, function(json) {
-                                if(json.success) {
-                                    resolve()
-                                    $item.remove();
-                                } else{
-                                    reject('删除失败')
-                                }
-                            });
-
-                        } else {
-                            $item.remove();
-                            resolve()
-                        }
-                    })
-                }
-            }).then(function() {
-                var checked = swal.getInput().checked;
-                swal('已删除!', '', 'success')
-            }, function(dismiss) {
-                // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-            })
-        });
-        var messenger;
-        $('form').ajaxForm({
-            beforeSerialize: function() {
-                console.log('beforeSerialize')
-            },
-            beforeSubmit: function() {
-                console.log('beforeSubmit')
-                messenger = Messenger().post("处理中...");
-            },
-            success: function(data, status, xhr, $form) {
-                console.log(data)
-                var status = data.status;
-                if (status) {
-                    messenger.update({
-                        message: '发布成功',
-                        hideAfter: 3,
-                        type: 'success'
-                    });
-                    $form[0].reset();
-                    mditor.editor.value = ''
-                    $('#J_gallery').empty();
-                } else {
-                    messenger.update({
-                        message: '发布失败',
-                        hideAfter: 3,
-                        type: 'success'
-                    });
-                }
-            },
-            err: function() {
-                console.log('error')
-                messenger.update({
-                    message: '系统繁忙',
-                    hideAfter: 3,
-                    type: 'success'
-                });
+                            ' <input type="hidden" name="gallery[]" value="'+ id +'">' +
+                            '<a data-token="'+token+'" ' +
+                            'data-type="ajax" ' +
+                            'data-url="/admin/file/' + id + '/del" ' +
+                            'class="gallery-remove" ' +
+                            'data-toggle="modal" ' +
+                            'data-target="#myModal">' +
+                            '<span class="fa fa-times-circle"></span>' +
+                            '</a>' +
+                            ' </div>'
+                    $('#J_gallery').append(html)
+                })
             }
         })
 
-    });
+
+
+
+    })
     </script>
     {{/section}}

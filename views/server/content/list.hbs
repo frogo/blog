@@ -1,15 +1,13 @@
 
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>标题</th>
-                        <th>作者</th>
-                        <th>发布时间</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
+
+                <p class="lead">
+                    <a class="btn btn-default btn-sm" href="{{adminDir}}/content/add" role="button">新增文章</a>
+                </p>
+
+
+                <table class="table">
                     <tbody>
                     {{#each contents}}
                     <tr>
@@ -18,48 +16,28 @@
                             <i class="fa fa-external-link"></i></a>
                         </td>
                         <td>
-                            <strong>{{author.name}}</strong>
+                           {{author.name}}
                         </td>
                         <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
-                        <td><a href="{{../adminDir}}/content/{{id}}/edit" class="btn btn-default btn-xs">编辑</a>&nbsp;<a href="{{../adminDir}}/content/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+                        <td><a href="{{../adminDir}}/content/{{id}}/edit" class="btn btn-default btn-xs">编辑</a>
+                            <a data-toggle="modal"
+                               data-target="#myModal"
+                               data-url="{{../adminDir}}/content/{{id}}/del"
+                               class="btn btn-default btn-xs">删除</a>
+                        </td>
                     </tr>
                     {{/each}}
                     </tbody>
                 </table>
+
                 {{#if pageInfo}}
                     {{#compare pageInfo.totalPage '>' 1}}
-                        <ul class="pagination">{{{pagination pageInfo}}}</ul>
+
+                            <ul class="pagination pagination-sm">
+                                {{{pagination pageInfo}}}
+                            </ul>
+
                     {{/compare}}
                 {{/if}}
             </div>
         </div>
-
-
-
-<!-- Load these page level functions-->
-    {{#section 'scripts'}}
-    <script type="text/javascript">
-    var token = '{{token}}';
-    Messenger.options = {
-    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-    theme: 'flat'
-    };
-    $(function() {
-
-
-        $(document).on('click', '.J_del', function(e) {
-            e.preventDefault();
-            var $this = $(this);
-            var url = $this.attr('href');
-            var confirm = BootstrapDialog.confirm('<p>确定删除该文章吗</p>', function (result) {
-                if(result) { window.location.href = url; }else{ }
-
-            })
-
-        })
-
-
-
-    })
-    </script>
-    {{/section}}

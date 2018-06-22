@@ -1,9 +1,22 @@
-<section id="error-container">
-    <div class="block-error">
-        <div class="alert alert-danger">
-            <p>{{message}}</p>
-            <h2>{{error.status}}</h2>
-            <pre>{{error.stack}}</pre>
-        </div>
+
+
+
+<section class="info-container">
+    <div class="info-message">
+        <p>{{message}}</p>
+        <p>
+            {{error.status}}
+        </p>
+        <p>
+            {{error.stack}}
+        </p>
+
+        <p>
+            {{#if backPath}}
+                <a href="{{adminDir}}/{{backPath}}" class="btn btn-default">返回</a>
+            {{else}}
+                <a href="{{adminDir}}" class="btn btn-default">返回</a>
+            {{/if}}
+        </p>
     </div>
 </section>

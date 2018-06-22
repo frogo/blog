@@ -7,7 +7,6 @@ let config = {
     //mongodb配置信息
     mongodb: {
         uri: 'mongodb://localhost:27017/blog',
-       // uri: 'mongodb://jinshuai:jinshuai@localhost:27085/blog',
         options: {}
     },
     //redis服务，用来session维持，非必须
@@ -64,7 +63,7 @@ let config = {
     // 邮箱配置，找回密码、用户注册使�?
     mail: {
         // 发信人邮�?
-        from: 'username@domain.com',
+        from: '66118181@qq.com',
         // nodemailer config see https://nodemailer.com/about/
         nodemailer: {
             // https://nodemailer.com/smtp/

@@ -1,63 +1,30 @@
 {{#if type}}
-<section id="login-container">
-    <div class="row">
-        <div id="login-wrapper" class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">设置密码 </h3>
-                </div>
-                <div class="panel-body">
-                    <p> 请设置新密码 {{user.username}}</p>
-                    <form role="form" action="" method="post" class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <input id="email" type="password" name="password" placeholder="请输入新密码" autofocus="" class="form-control"><i class="fa fa-user"></i>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <input id="password" type="password" name="repassword" placeholder="确认新密码" class="form-control"><i class="fa fa-lock"></i>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <input type="hidden" name="hash" value="{{hash}}">
-                                <input type="hidden" name="_csrf" value="{{token}}">
-                                <button type="submit" class="btn btn-primary btn-block">提交</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<div class="login forgot"">
+    <div class="box>
+        <h6>请为 <strong>{{user.username}}</strong> 设置新密码 </h6>
+        <form method="post">
+            <input id="password" type="password" name="password" placeholder="新密码" />
+            <hr class="hr15">
+            <input id="password" type="password" name="repassword" placeholder="确认新密码" />
+            <hr class="hr15">
+            <input type="hidden" name="hash" value="{{hash}}">
+            <input type="hidden" name="_csrf" value="{{token}}">
+            <input value="提交" style="width:100%;" type="submit">
+
+        </form>
     </div>
-</section>
+
+</div>
 {{else}}
-<section id="login-container">
-    <div class="row">
-        <div id="login-wrapper" class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">找回密码 </h3>
-                </div>
-                <div class="panel-body">
-                    <p> 请输入您的用户名</p>
-                    <form role="form" action="" method="post" class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <input id="email" type="text" name="username" placeholder="用户名" autofocus="" class="form-control"><i class="fa fa-user"></i>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <input type="hidden" name="_csrf" value="{{token}}">
-                                <button type="submit" class="btn btn-primary btn-block">提交</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="login  findPassword">
+        <div class="box">
+        <h6>请输入你的用户名找回密码</h6>
+        <form method="post">
+            <input id="username" name="username" placeholder="用户名" required="" type="text">
+            <hr class="hr15">
+            <input type="hidden" name="_csrf" value="{{token}}">
+            <input value="提交" style="width:100%;" type="submit">
+        </form>
         </div>
     </div>
-</section>
 {{/if}}

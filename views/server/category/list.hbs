@@ -1,6 +1,8 @@
 <div class="row">
-<div class="col-md-12"><a href="/admin/category/add" class="btn btn-info">添加分类</a>
-    <table class="table table-striped">
+<div class="col-md-12">
+    <p class="lead"><a href="/admin/category/add" class="btn btn-default btn-sm">添加分类</a></p>
+
+    <table class="table">
         <thead>
         <tr>
             <th>名称</th>
@@ -19,7 +21,16 @@
             <td>{{flag}}</td>
             <td>{{author.name}}</td>
             <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
-            <td><a href="{{../adminDir}}/category/{{id}}/edit" class="btn btn-default btn-xs">编辑</a>&nbsp;<a href="{{../adminDir}}/category/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+            <td><a href="{{../adminDir}}/category/{{id}}/edit" class="btn btn-default btn-xs">编辑</a>&nbsp;
+
+                <a data-toggle="modal"
+                   data-target="#myModal"
+                   data-url="{{../adminDir}}/category/{{id}}/del"
+                   class="btn btn-default btn-xs"
+                >删除
+                </a>
+
+                <!--<a href="{{../adminDir}}/category/{{id}}/del" class="btn btn-default btn-xs J_del">删除</a>--></td>
         </tr>
 {{/each}}
         </tbody>
@@ -32,31 +43,3 @@
 </div>
 </div>
 
-
-<!-- Load these page level functions-->
-{{#section 'scripts'}}
-    <script type="text/javascript">
-        var token = '{{token}}';
-        Messenger.options = {
-            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-            theme: 'flat'
-        };
-        $(function() {
-
-
-            $(document).on('click', '.J_del', function(e) {
-                e.preventDefault();
-                var $this = $(this);
-                var url = $this.attr('href');
-                var confirm = BootstrapDialog.confirm('<p>确定删除该分类吗</p>', function (result) {
-                    if(result) { window.location.href = url; }else{ }
-
-                })
-
-            })
-
-
-
-        })
-    </script>
-{{/section}}

@@ -3,10 +3,12 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">用户信息</div>
-            <div class="panel-body">
-                <div class="form-horizontal">
+        <p class="lead">
+            <a href="{{adminDir}}/user/" class="btn btn-default btn-sm">用户列表</a>
+            <a href="{{adminDir}}/user/add" class="btn btn-default btn-sm">用户添加</a>
+        </p>
+
+
                     <div class="form-group">
                         <label class="col-sm-2 control-label">ID</label>
                         <div class="col-sm-10">
@@ -47,7 +49,7 @@
                         <label class="col-sm-2 control-label">角色</label>
                         <div class="col-sm-10">
                             <p class="form-control-static">
-                                {{#each user.roles}}<span class="label label-info mgr5">{{name}}</span>{{/each}}
+                                {{#each user.roles}}<span class="label label-default mgr5">{{name}}</span>{{/each}}
                             </p>
                         </div>
                     </div>
@@ -68,7 +70,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">上次登录时间</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static">{{dateFormat user.last_login_date 'yyyy-MM-dd hh:mm:ss'}}</p>
+                            <p class="form-control-static">{{#if user.last_login_date}}{{dateFormat user.last_login_date 'yyyy-MM-dd hh:mm:ss'}}{{else}}无{{/if}}</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,22 +78,8 @@
                         <div class="col-sm-10">
                             <p class="form-control-static">{{user.last_login_ip}}</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
-<!-- main content end-->-
-
-<!-- Load these page level functions-->
-
-{{#section 'scripts'}}
-<script type="text/javascript">
-$(function(){
-
-})
-
-
-</script>
-{{/section}}
+</div>
+<!-- main content end-->

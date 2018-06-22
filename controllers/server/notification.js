@@ -4,7 +4,7 @@ let mongoose = require('mongoose')
 let Notification = mongoose.model('Notification')
 let core = require('../../libs/core')
 let _ = require('lodash')
-
+let backPath = 'notification'
 //列表
 exports.list = function(req, res) {
     let condition = {};
@@ -31,9 +31,10 @@ exports.list = function(req, res) {
             })
             res.render('server/notification/list.hbs', {
                 title: '消息列表',
-                Menu: 'notificationList',
+                Menu: 'all',
                 notifications: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                queryUrl: core.translateAdminDir("/user/query")
             });
         })
     })
@@ -65,7 +66,8 @@ exports.received = function(req, res) {
                 title: '已收到消息列表',
                 Menu: 'received',
                 notifications: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                queryUrl: core.translateAdminDir("/user/query")
             });
         })
     })
@@ -99,7 +101,8 @@ exports.sent = function(req, res) {
                 title: '已发出消息列表',
                 Menu: 'sent',
                 notifications: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                queryUrl: core.translateAdminDir("/user/query")
             });
         })
     })
@@ -123,7 +126,7 @@ exports.one = function(req, res) {
         console.log('消息内容是',result)
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '该留言不存在'
+                message: '该留言不存在' ,backPath:backPath
             });
         }
         res.render('server/notification/item.hbs', {
@@ -150,7 +153,7 @@ exports.del = function(req, res) {
     Notification.findById(id).exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '留言不存在'
+                message: '留言不存在' ,backPath:backPath
             });
         }
         console.log(result)
@@ -162,11 +165,11 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除失败'
+                    message: '删除失败' ,backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '删除成功'
+                message: '删除成功' ,backPath:backPath
             })
         });
     });

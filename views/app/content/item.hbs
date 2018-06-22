@@ -1,25 +1,15 @@
-<div class="ui container">
-    <div class="ui body post">
-        <h1 class="ui header">{{title}}</h1>
-        <div class="ui">
-            <div class="ui label">作者
-                <div class="detail">{{#if content.author}} {{content.author.name}}{{/if}}</div>
-            </div>
-            <div class="ui label">发布时间
-                <div class="detail">{{dateFormat content.created 'yyyy-MM-dd hh:mm:ss'}}</div>
-            </div>
-            <div class="ui label">分类
-                <div class="detail">{{#if content.category}} {{content.category.name}}{{/if}}    </div>
-            </div>
-            <div class="ui label">访客
-                <div class="detail">{{content.visits}}</div>
-            </div>
 
+<div class="post mgt20">
+        <h1 class="post-title">{{title}}</h1>
 
-
-
+        <div class="post-detail">
+            <!--作者 <span>{{#if content.author}} {{content.author.name}}{{/if}}</span> --->
+            发布时间 <span>{{dateFormat content.created 'yyyy-MM-dd hh:mm:ss'}}</span> -
+            分类 <span><a href="#">{{#if content.category}} {{content.category.name}}{{/if}}</a>  </span> -
+            访客 <span>{{content.visits}}</span>
         </div>
-        <div class="ui basic segment post-content">
+
+        <div class="post-content mgt20">
          {{#if content.gallery}}
              {{#compare content.gallery.length '===' 1}}
                  {{#compare content.gallery.[0].type 'contains' 'image'}}
@@ -58,9 +48,8 @@
             </div>
         </div>
 
-
         <div class="post-comments">
-            <h3>评论({{content.comments.length}}) </h3>
+            <h3 class="pdtb20">评论({{content.comments.length}}) </h3>
             {{#if content.comments}}
 
                 <div class="ui threaded comments J_list">
@@ -75,23 +64,23 @@
                 </div>
             {{/if}}
 
-            <div class="ui reply form J_commentForm">
+            <div class="ui reply form J_commentForm pdt20">
                 <div class="field">
-                    <input name="name" placeholder="your name" class="J_input_name" >
+                    <input name="name" placeholder="您的名字" class="J_input_name">
                 </div>
                 <div class="field">
-                    <input name="email" placeholder="your email" class="J_input_email" >
+                    <input name="email" placeholder="您的邮箱" class="J_input_email">
                 </div>
                 <div class="field">
-                    <textarea name="content" placeholder="small talk" class="J_textarea"></textarea>
+                    <textarea name="content" placeholder="您的留言" class="J_textarea"></textarea>
                 </div>
-                <div class="ui primary submit labeled icon button J_submit"><i class="icon edit"></i>发送</div>
+                <button class="J_submit">发送</button>
             </div>
 
 
     </div>
 </div>
-</div>
+
 
 
 
@@ -106,15 +95,17 @@
     <ol class="indicator">
     </ol>
 </div>
-
+</div>
 
 {{css '//cdn.jsdelivr.net/highlight.js/9.10.0/styles/tomorrow-night.min.css'}}
 {{css '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/css/blueimp-gallery.min.css'}}
 
+
+
 {{js '//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js' }}
 {{js '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery.min.js' }}
 {{js '//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js' }}
-
+{{js '//cdn.jsdelivr.net/momentjs/2.18.1/moment-with-locales.min.js' }}
 <!-- Load these page level functions-->
 {{#section 'scripts'}}
 
@@ -254,14 +245,14 @@
             }
             var tmpl = '<div data-reply="'+id+'" class="ui reply form J_commentForm">'+
                         '<div style="'+userName_isShow+'" class="field">' +
-                          '<input name="name" placeholder="your name" value="'+userName+'" class="J_input_name">'+
+                          '<input name="name" placeholder="您的名字" value="'+userName+'" class="J_input_name">'+
                         '</div>'+
                         '<div style="'+userEmail_isShow+'" class="field">'+
-                          '<input name="email" placeholder="your email" value="'+userEmail+'" class="J_input_email">'+
+                          '<input name="email" placeholder="您的邮箱" value="'+userEmail+'" class="J_input_email">'+
                          '</div>'+
-                         '<div class="field"><textarea name="content" placeholder="small talk" class="J_textarea"></textarea>'+
+                         '<div class="field"><textarea name="content" placeholder="您的留言" class="J_textarea"></textarea>'+
                       '</div>'+
-                      '<div class="ui primary submit labeled icon button J_submit"><i class="icon edit"></i>发送</div>'+
+                      '<button class="J_submit">发送</button>'+
                       '</div>';
 
 

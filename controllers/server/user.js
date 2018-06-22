@@ -10,7 +10,7 @@ let crypto = require('../../libs/crypto')
 let Mailer = require('../../libs/mailer')
 let _ = require('lodash');
 let mailer = new Mailer()
-
+let backPath = 'user'
 /*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
@@ -222,7 +222,7 @@ exports.add = function(req, res) {
     let method = req.method;
     if (method === 'GET') {
         res.render('server/user/add.hbs', {
-            Menu: 'add'
+            Menu: 'user'
         });
     } else if (method === 'POST') {
         //let obj = req.body;
@@ -233,7 +233,7 @@ exports.add = function(req, res) {
             console.log('role', role);
             if(err || !role) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '添加失败, 未开放角色:' + config.admin.role.user
+                    message: '添加失败, 未开放角色:' + config.admin.role.user,backPath:backPath
                 });
             }
             obj.roles = [role._id];
@@ -251,11 +251,11 @@ exports.add = function(req, res) {
                 if (err) {
                     console.log(err);
                     return res.render('server/info.hbs', { layout:'layout-blank',
-                        message: '添加失败'
+                        message: '添加失败',backPath:backPath
                     });
                 }
                 res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '添加成功'
+                    message: '添加成功',backPath:backPath
                 });
             });
         });
@@ -275,7 +275,7 @@ exports.edit = function(req, res) {
             if(err || !user) {
                 console.log(err);
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '更新失败'
+                    message: '更新失败', backPath:backPath
                 });
             }
             if(id === req.session.user._id) {
@@ -283,7 +283,7 @@ exports.edit = function(req, res) {
                 res.locals.User = user;
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '更新成功'
+                message: '更新成功', backPath:backPath
             });
         })
     };
@@ -291,7 +291,7 @@ exports.edit = function(req, res) {
         User.findById(id).populate('author').exec(function(err, result) {
             if(err || !result) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '出错了'
+                    message: '出错了', backPath:backPath
                 });
             }
             let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
@@ -299,7 +299,7 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限', backPath:backPath
                 });
             }
             try{
@@ -310,6 +310,7 @@ exports.edit = function(req, res) {
                 Role.find(condition, function(err, results) {
                     if(!err && results) {
                         res.render('server/user/edit.hbs', {
+                            Menu: 'user',
                             user: result,
                             roles: results
                         });
@@ -331,7 +332,7 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限', backPath:backPath
                 });
             }
             //let roles = core.getRoles(user);
@@ -345,7 +346,7 @@ exports.edit = function(req, res) {
             }
             if(!query) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '请至少选择一个角色'
+                    message: '请至少选择一个角色', backPath:backPath
                 });
             }
             query.exec(function(err, roles) {
@@ -355,7 +356,7 @@ exports.edit = function(req, res) {
                     let statuses = _.map(roles, 'status');
                     if(statuses.indexOf(201) === -1) {
                         return res.render('server/info.hbs', { layout:'layout-blank',
-                            message: '系统管理员角色不正确'
+                            message: '系统管理员角色不正确', backPath:backPath
                         });
                     }
                 }
@@ -377,7 +378,7 @@ exports.del = function(req, res) {
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '删除成功'
+                message: '删除成功', backPath:backPath
             })
         });
     };
@@ -385,7 +386,7 @@ exports.del = function(req, res) {
     User.findById(id).populate('roles').populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '用户不存在'
+                message: '用户不存在', backPath:backPath
             });
         }
         let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
@@ -393,13 +394,13 @@ exports.del = function(req, res) {
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '没有权限'
+                message: '没有权限', backPath:backPath
             });
         }
         //系统默认用户不能删除
         if(result.status === 101) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '不能删除系统默认管理员'
+                message: '不能删除系统默认管理员', backPath:backPath
             });
         }
 
@@ -411,7 +412,7 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除失败'
+                    message: '删除失败', backPath:backPath
                 });
             }
             //自杀的节奏啊
@@ -423,7 +424,7 @@ exports.del = function(req, res) {
                 return res.redirect(path);
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '删除成功'
+                message: '删除成功', backPath:backPath
             })
         });
     });
@@ -442,7 +443,10 @@ exports.login = function(req, res) {
 
     if (req.method === 'GET') {
         req.session.loginReferer = req.headers.referer;
-        res.render('server/user/login.hbs',{layout:'layout-blank'});
+        res.render('server/user/login.hbs',{
+            title:'博客管理登录',
+            layout:'layout-blank'
+        });
     } else if (req.method === 'POST') {
         let username = (req.body.username || '').trim();
         let password = req.body.password;
@@ -469,6 +473,7 @@ exports.login = function(req, res) {
                     }) + '\n用户不存在\n' + err
                 })
                 return res.render('server/info.hbs', { layout:'layout-blank',
+
                     message: '用户名或密码错误'
                 });
             }
@@ -555,7 +560,7 @@ exports.forget = function(req, res) {
     if(req.method === 'GET') {
         let hash = req.query.hash;
         if(!hash) {
-            return res.render('server/user/forget.hbs', {layout:'layout-blank'});
+            return res.render('server/user/forget.hbs', { title:'博客找回密码',layout:'layout-blank'});
         }
         User.findOne({'forget.hash': hash}, function(err, user) {
             console.log(err, user);

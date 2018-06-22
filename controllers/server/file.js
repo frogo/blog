@@ -7,6 +7,7 @@ let File = mongoose.model('File')
 let _ = require('lodash')
 let config = require('../../config')
 let core = require('../../libs/core')
+let backPath = 'file'
 console.log(config.upload)
 let uploader = require('../../libs/uploader')(config.upload);
 //列表
@@ -34,22 +35,6 @@ exports.list = function(req, res) {
         });
     })
 };
-//单条
-/*exports.one = function(req, res) {
-    let id = req.params.id;
-    File.findById(id).populate('author').exec(function(err, result) {
-        console.log(result);
-        if(!result) {
-            return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '该文件不存在'
-            });
-        }
-        res.render('server/file/item', {
-            title: result.name,
-            role: result
-        });
-    });
-};*/
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
@@ -75,7 +60,7 @@ exports.add = function(req, res) {
 
                     if(!isAdmin && !isAuthor) {
                         return res.render('server/info.hbs', { layout:'layout-blank',
-                            message: '没有权限'
+                            message: '没有权限' ,backPath:backPath
                         });
                     }
                     //TODO: 删除之前的文件 uploader.delete()?
@@ -117,51 +102,13 @@ exports.add = function(req, res) {
         });
     }
 };
-/*exports.edit = function(req, res) {
-    if(req.method === 'GET') {
-        let id = req.params.id;
-        File.findById(id).populate('author').exec(function(err, result) {
-            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
-
-            if(!isAdmin && !isAuthor) {
-                return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
-                });
-            }
-            res.render('server/file/edit.hbs', {
-
-                file: result
-            });
-        });
-    } else if(req.method === 'POST') {
-        let id = req.params.id;
-        let obj = _.pick(req.body, 'url', 'md_url', 'sm_url', 'size', 'type', 'description');
-        File.findById(id).populate('author').exec(function(err, result) {
-            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
-
-            if(!isAdmin && !isAuthor) {
-                return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
-                });
-            }
-            _.assign(result, obj);
-            result.save(function(err, role) {
-                res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '更新成功'
-                });
-            });
-        });
-    }
-};*/
 //删除
 exports.del = function(req, res) {
     let id = req.params.id;
     File.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '文件不存在'
+                message: '文件不存在' ,backPath:backPath
             });
         }
         let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
@@ -169,7 +116,7 @@ exports.del = function(req, res) {
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '没有权限'
+                message: '没有权限' ,backPath:backPath
             });
         }
         //console.log(result);
@@ -191,11 +138,11 @@ exports.del = function(req, res) {
                 }
                 if(err) {
                     return res.render('server/info.hbs', { layout:'layout-blank',
-                        message: '删除失败'
+                        message: '删除失败' ,backPath:backPath
                     });
                 }
                 res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除成功'
+                    message: '删除成功' ,backPath:backPath
                 });
             })
         })

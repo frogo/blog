@@ -9,7 +9,7 @@ router.use(function(req, res, next) {
     res.locals.Path = 'content';
     next();
 });
-router.route('/').get(content.list);
+/*router.route('/').get(content.list);*/
 router.route('/:id').get(content.one);
 
 module.exports = function(app) {

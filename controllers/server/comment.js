@@ -3,7 +3,7 @@
 let  mongoose = require('mongoose')
 let Comment = mongoose.model('Comment')
 let core = require('../../libs/core')
-
+let backPath = 'comment'
 //列表
 exports.list = function(req, res) {
     let condition = {};
@@ -37,7 +37,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '该评论不存在'
+                message: '该评论不存在' ,backPath:backPath
             });
         }
         res.render('server/comment/item.hbs', {
@@ -53,7 +53,7 @@ exports.del = function(req, res) {
     Comment.findById(id).populate('author').populate('from').exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '评论不存在'
+                message: '评论不存在' ,backPath:backPath
             });
         }
 
@@ -62,7 +62,7 @@ exports.del = function(req, res) {
 
         if(!isAdmin && !isOwner) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '没有权限'
+                message: '没有权限' ,backPath:backPath
             });
         }
         console.log(result)
@@ -74,11 +74,11 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除失败'
+                    message: '删除失败' ,backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '删除成功'
+                message: '删除成功' ,backPath:backPath
             })
         });
     });

@@ -210,7 +210,7 @@ var hbs = handlebars.create({
             var html_next = function () {
                 query.page = nextPage
                 var next_status = '';
-                if (currentPage === 1) {
+                if (currentPage === totalPage) {
                     next_status = 'disabled'
                 }
                 return "<li class='" + next_status + "'><a href='?" + core.stringify(query) + "'>&raquo;</a></li>";
@@ -276,7 +276,7 @@ var hbs = handlebars.create({
             var html_next = function () {
                 query.page = nextPage
                 var next_status = '';
-                if (currentPage === 1) {
+                if (currentPage === totalPage) {
                     next_status = 'disabled'
                 }
                 return "<a class='item " + next_status + "' href='?" + core.stringify(query) + "'>&raquo;</a>";
@@ -308,15 +308,17 @@ var hbs = handlebars.create({
 
                 if(comments){
                     if (comment.comments && comment.comments.length > 0){
-                        htmlChild = '<div class="ui comments J_list">';
-                        var c;
-                        var cid = comment.comments[0].id.toString('hex')
-                        //for(var cid in comment.comments){
+
+                       var htmlChild = '<div class="ui comments J_list">';
+                        for(var i=0; i<comment.comments.length; i++){
+                            var c;
+                            var cid = comment.comments[i].id.toString('hex')
                             c = comments.filter(function(item) {return (item._id + '') === (cid + '')})
-                        //}
-                        var d = f(c[0],comments)
-                        htmlChild += d
-                        htmlChild += '</div>'
+                            var d = f(c[0],comments)
+                            htmlChild +=  d ;
+                        }
+                       htmlChild += '</div>';
+
                     }
                 }
                 return html+ htmlChild +'</div>'
@@ -370,7 +372,7 @@ var hbs = handlebars.create({
             return moment(date).fromNow()
         },
         strip100: function (content) {
-            return strip(marked(content)).substr(0,100).replace(/\s+/g,"")
+            return strip(marked(content)).substr(0,120)
         },
         filterContent: function (content) {
             return xss(marked(content))
@@ -398,7 +400,9 @@ if (config.env === 'production') {
 
 //定义全局字段
 app.locals = {
-    title: config.title || 'nodejs 博客',
+    title: config.title || 'nodejs+mongodb 博客',
+    keywords:'node.js,js全栈,博客系统,mongodb数据库',
+    description:'采用node.js+mongodb+handlebars的多用户博客系统',
     pretty: true,
     moment: moment,
     _: _,

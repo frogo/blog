@@ -3,6 +3,7 @@
 let mongoose = require('mongoose')
 let Message = mongoose.model('Message')
 let core = require('../../libs/core')
+let backPath = 'message';
 //列表
 exports.list = function(req, res) {
     let condition = {};
@@ -36,7 +37,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '该留言不存在'
+                message: '该留言不存在' ,backPath:backPath
             });
         }
         res.render('server/message/item.hbs', {
@@ -52,7 +53,7 @@ exports.del = function(req, res) {
     Message.findById(id).exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '留言不存在'
+                message: '留言不存在' ,backPath:backPath
             });
         }
         /*if(req.Roles && req.Roles.indexOf('admin') === -1) {
@@ -69,11 +70,11 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除失败'
+                    message: '删除失败' ,backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '删除成功'
+                message: '删除成功' ,backPath:backPath
             })
         });
     });

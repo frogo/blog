@@ -1,30 +1,21 @@
-<div class="ui body">
-    <div class="ui container">
+
+    <div class="contact-content">
+
         <form action="" method="POST" role="form" class="ui form">
-            <div class="four wide field">
-                <label for="">名字</label>
-                <input type="text" placeholder="请输入姓名" name="name">
-            </div>
-            <!--.form-group
-            label.control-label(for='') 手机
-            input.form-control(type='text', placeholder='请输入手机号', name='mobile')
-            -->
-            <div class="four wide field">
-                <label for="">邮箱</label>
-                <input type="text" placeholder="请输入邮箱" name="email">
-            </div>
-            <!--.form-group
-            label(for='') 通讯地址
-            input.form-control(type='text', placeholder='', name='address')
-            -->
+        <div class="ui reply form J_commentForm pdt20">
             <div class="field">
-                <label for="">留言</label>
-                <textarea placeholder="留言内容" name="content" rows="5"></textarea>
+                <input name="name" placeholder="您的名字" class="J_input_name">
+            </div>
+            <div class="field">
+                <input name="email" placeholder="您的邮箱" class="J_input_email">
+            </div>
+            <div class="field">
+                <textarea name="content" placeholder="您的留言" class="J_textarea"></textarea>
                 <input type="hidden" name="_csrf" value="{{token}}">
             </div>
-            <div class="inline field">
-                <button type="submit" class="ui primary button">提交 </button>
-            </div>
+            <button class="J_submit">发送</button>
+        </div>
         </form>
+
+
     </div>
-</div>

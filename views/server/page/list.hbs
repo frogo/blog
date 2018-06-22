@@ -1,6 +1,10 @@
 <div class="row">
-    <div class="col-md-12"><a href="{{adminDir}}/page/add" class="btn btn-info J_post">新增页面</a>
-        <table class="table table-striped">
+    <div class="col-md-12">
+       <p class="lead">
+           <a href="{{adminDir}}/page/add" class="btn btn-default btn-sm J_post">新增页面</a>
+       </p>
+
+        <table class="table">
             <thead>
             <tr>
                 <th>标题</th>
@@ -13,9 +17,14 @@
             {{#each pages}}
             <tr>
                 <td> <a href="/page/{{id}}" target="_blank">{{title}} <i class="fa fa-external-link"></i></a></td>
-                <td>{{content}}</td>
+                <td><a href="{{../adminDir}}/page/{{id}}">{{content}}</a> </td>
                 <td>{{dateFormat created 'yyyy-MM-dd hh:mm:ss'}}</td>
-                <td><a href="{{../adminDir}}/page/{{id}}/del" class="btn btn-danger btn-xs J_del">删除</a></td>
+                <td>
+                    <a data-toggle="modal"
+                       data-target="#myModal"
+                       data-url="{{../adminDir}}/page/{{id}}/del"
+                       class="btn btn-default btn-xs">删除</a>
+                    </td>
             </tr>
             {{/each}}
             </tbody>
@@ -29,96 +38,59 @@
 </div>
 
 
+
+
+
 <!-- Load these page level functions-->
 {{#section 'scripts'}}
     <script type="text/javascript">
-      //  var user = JSON.stringify({{User}});
-        var token = '{{token}}';
-        Messenger.options = {
-            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-            theme: 'flat'
-        };
+        var token = '{{token}}'
         $(document).on('click', '.J_post', function(e) {
-            e.preventDefault();
-            var $this = $(this);
-            var url = $this.attr('href');
-            var request = function(title, content, dialog) {
+            e.preventDefault()
+            var $this = $(this),
+                $modal = $('#myModal') ,
+                url = $this.attr('href')
+            var request = function(title, content) {
                 $.post(url, {
                     _csrf: token,
                     title: title,
                     content: content
                 }, function(json) {
-                    console.log(json);
-                    dialog.close();
-                    BootstrapDialog.alert(json.message);
+                    console.log(json)
+                    alert('增加成功')
+                    window.location.reload()
                 });
             };
 
-            var $dialog = BootstrapDialog.show({
-                title: '新增页面',
-                message: '<div class="form-group">' +
-                '              <label>标题</label>' +
-                '              <input name="title" class="form-control">' +
-                '            </div>' +
-                '            <div class="form-group">' +
-                '              <label>内容</label>' +
-                '              <textarea rows="4" name="content" class="form-control"></textarea>' +
-                '            </div>',
-                buttons: [
-                    {
-                        label: '提交',
-                        cssClass: 'btn-primary',
-                        action: function(dialog) {
-                            console.log(dialog)
-                            var title = dialog.$modalBody.find('input').val();
-                            var content = dialog.$modalBody.find('textarea').val();
-                            request(title, content, dialog);
-                        }
-                    },
-                    {
-                        label: '取消',
-                        action: function(dialogItself) {
-                            dialogItself.close();
-                        }
-                    }
-                ]
-            });
-        });
+            var htmlStr = '      <div class="modal-header">\n' +
+                    '                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+                    '                <h4 class="modal-title" id="myModalLabel">新增页面</h4>\n' +
+                    '            </div>\n' +
+                    '            <div class="modal-body">\n' +
+                    '                      <div class="form-group">' +
+                                '              <label>标题</label>' +
+                                '              <input name="title" class="form-control">' +
+                                '          </div>' +
+                                '          <div class="form-group">' +
+                                '              <label>内容</label>' +
+                                '              <textarea rows="4" name="content" class="form-control"></textarea>' +
+                                '          </div>' +
+                    '            </div>\n' +
+                    '            <div class="modal-footer">\n' +
+                    '                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>\n' +
+                    '                <button type="button" class="btn btn-danger confirm">提交</button>\n' +
+                    '            </div>'
 
-        $(document).on('click', '.J_del', function(e) {
-            e.preventDefault();
-            var $this = $(this);
-            var $tr = $this.closest('tr');
-            var url = $this.attr('href');
-            var messenger = Messenger().post("处理中...");
-            $.post(url, {_csrf: token}, function(json) {
-                console.log(json);
-                var status = json.status;
-                if(status === true) {
-                    //- Messenger().post({
-                    //-     message: '删除成功',
-                    //-     hideAfter: 3,
-                    //-     type: 'success'
-                    //- });
-                    messenger.update({
-                        message: '删除成功',
-                        hideAfter: 3,
-                        type: 'success'
-                    });
-                    $tr.remove();
-                } else {
-                    //- Messenger().post({
-                    //-     message: '删除失败',
-                    //-     hideAfter: 3,
-                    //-     type: 'error'
-                    //- });
-                    messenger.update({
-                        message: '删除失败',
-                        hideAfter: 3,
-                        type: 'error'
-                    });
-                }
+
+            $modal.find('.modal-dialog').removeClass('modal-sm')
+            $modal.find('.modal-content').empty().append(htmlStr)
+            $modal.modal('show')
+            $modal.on('click','button.confirm',function(){
+                var title = $modal.find('input').val(),
+                    content = $modal.find('textarea').val()
+                request(title, content)
             })
         });
+
     </script>
 {{/section}}

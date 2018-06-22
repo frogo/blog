@@ -6,7 +6,7 @@ let userController = require('./user')
 let _ = require('lodash')
 let core = require('../../libs/core')
 const ACTIONS = require('../../actions')
-
+let backPath = 'role'
 //列表
 exports.list = function(req, res) {
     let condition = {};
@@ -37,7 +37,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '该内容不存在'
+                message: '该内容不存在' ,backPath:backPath
             });
         }
 
@@ -78,7 +78,7 @@ exports.add = function(req, res) {
             let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
             if(overAuth.length > 0) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '你不能操作如下权限:' + overAuth.join(',')
+                    message: '你不能操作如下权限:' + overAuth.join(',') ,backPath:backPath
                 });
             }
         }
@@ -94,11 +94,11 @@ exports.add = function(req, res) {
             }
             if (err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '创建失败'
+                    message: '创建失败' ,backPath:backPath
                 });
             }
             res.render('server/info.hbs', { layout:'layout-blank',
-                message: '创建成功'
+                message: '创建成功' ,backPath:backPath
             });
         });
     }
@@ -112,12 +112,12 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限' ,backPath:backPath
                 });
             }
             if(result.status === 201) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '系统默认管理员角色不可修改'
+                    message: '系统默认管理员角色不可修改' ,backPath:backPath
                 });   
             }
             //console.log(result)
@@ -152,12 +152,12 @@ exports.edit = function(req, res) {
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '没有权限'
+                    message: '没有权限' ,backPath:backPath
                 });
             }
             if(result.status === 201) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '系统默认管理员角色不可修改'
+                    message: '系统默认管理员角色不可修改' ,backPath:backPath
                 });   
             }
             //如果不是管理员，检查是否超出权限
@@ -165,7 +165,7 @@ exports.edit = function(req, res) {
                 let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
                 if(overAuth.length > 0) {
                     return res.render('server/info.hbs', { layout:'layout-blank',
-                        message: '你不能操作如下权限:' + overAuth.join(',')
+                        message: '你不能操作如下权限:' + overAuth.join(',') ,backPath:backPath
                     });
                 }
             }
@@ -178,7 +178,7 @@ exports.edit = function(req, res) {
                 }
                 if(err || !role) {
                     return res.render('server/info.hbs', { layout:'layout-blank',
-                        message: '更新失败'
+                        message: '更新失败' ,backPath:backPath
                     });
                 }
                 //重置session信息
@@ -187,7 +187,7 @@ exports.edit = function(req, res) {
                     res.locals.User = user;
                     if(!err) {
                         res.render('server/info.hbs', { layout:'layout-blank',
-                            message: '更新成功'
+                            message: '更新成功' ,backPath:backPath
                         });
                     }
                 });
@@ -201,7 +201,7 @@ exports.del = function(req, res) {
     Role.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '角色不存在'
+                message: '角色不存在' ,backPath:backPath
             });
         }
         let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
@@ -209,12 +209,12 @@ exports.del = function(req, res) {
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '没有权限'
+                message: '没有权限' ,backPath:backPath
             });
         }
         if(result.status === 201 || result.status === 202) {
             return res.render('server/info.hbs', { layout:'layout-blank',
-                message: '系统默认角色不可删除'
+                message: '系统默认角色不可删除' ,backPath:backPath
             });   
         }
         result.remove(function(err) {
@@ -225,7 +225,7 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info.hbs', { layout:'layout-blank',
-                    message: '删除失败'
+                    message: '删除失败' ,backPath:backPath
                 });
             }
             /*res.render('server/info.hbs', { layout:'layout-blank',
@@ -237,7 +237,7 @@ exports.del = function(req, res) {
                 res.locals.User = user;
                 if(!err) {
                     res.render('server/info.hbs', { layout:'layout-blank',
-                        message: '删除成功'
+                        message: '删除成功' ,backPath:backPath
                     });
                 }
             });
