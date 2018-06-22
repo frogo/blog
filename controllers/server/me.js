@@ -7,7 +7,7 @@ let userController = require('./user')
 let _ = require('lodash')
 let config = require('../../config')
 let core = require('../../libs/core')
-const ACTIONS = require('../../actions')
+const ACTIONS = require('../../public/actions')
 
 //管理员资料
 exports.init = function(req, res) {

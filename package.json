@@ -1,12 +1,10 @@
 {
-  "name": "cms",
+  "name": "F_Blog",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development nodemon --inspect ./app.js --ignore public/ --ignore views/",
-    "server": "cross-env NODE_ENV=production node app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "cross-env NODE_ENV=production node app"
   },
   "dependencies": {
     "axios": "^0.16.0",

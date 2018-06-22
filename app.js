@@ -44,15 +44,6 @@ let app = express();
 app.use(compression())
 
 //连接数据库
-/*mongoose.Promise = global.Promise;
-mongoose.connect(config.mongodb.uri);
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback() {
-    console.log('mongodb连接成功++++');
-});*/
-
-//连接数据库
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb.uri, {
     useMongoClient: true
@@ -432,9 +423,9 @@ app.use(session({
 app.use(multipart({
     uploadDir: config.upload.tmpDir
 }));
-core.walk(appPath + '/routes/api', 'middlewares', function(path) {
+/*core.walk(appPath + '/routes/api', 'middlewares', function(path) {
     require(path)(app);
-});
+});*/
 app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
@@ -505,6 +496,6 @@ if (config.env === 'development') {
 let debug = require('debug')('blog');
 app.set('port', process.env.PORT || config.port || 7000);
 let server = app.listen(app.get('port'), function() {
-    console.log('网站服务已启动，端口号： ' + server.address().port);
+    console.log('服务已经启动，端口号： ' + server.address().port);
 });
 

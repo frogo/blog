@@ -5,7 +5,7 @@ let Role = mongoose.model('Role')
 let userController = require('./user')
 let _ = require('lodash')
 let core = require('../../libs/core')
-const ACTIONS = require('../../actions')
+const ACTIONS = require('../../public/actions')
 let backPath = 'role'
 //列表
 exports.list = function(req, res) {
