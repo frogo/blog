@@ -64,24 +64,23 @@ a:hover{ text-decoration: none}
 main{min-height: 680px}
 @media (max-width:1280px){.site-main{padding:0 0}
 }.site-content{max-width:960px;margin:0 auto;}
-article.post-list{margin:0 0 5% 0;position:relative}
-article.post-list .image{; float: right; margin: 10px 0 10px 30px}
+article.post-list{margin:0 0 20px 0;position:relative}
+article.post-list .image{ float: right; margin: 10px 0 10px 30px}
 article.post-list .image img{width:100px;height:100px;border-radius:50%;padding:2px;border:1px solid #DADADA;position:relative}
 article.post-list .image:hover .overlay i{opacity:1}
-article.post-list h3.entry-title{font-size:20px;font-weight:400;line-height:50px;position:relative;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:70%}
-article.post-list h3.entry-title{font-size:20px;font-weight:400;line-height:50px;position:relative;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:70%}
+article.post-list h3.entry-title{font-size:20px;font-weight:400;line-height:2em;position:relative;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:70%}
 article.post-list h3.entry-title a{color:#504E4E}
 article.post-list h3.entry-title a:hover{color:#8fd0cc}
 article.post-list .post-entry .content{}
 article.post-list .post-entry .content .entry-content{font-size:14px;color:#232323;letter-spacing:1px;line-height:30px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2; }
-article.post-list .details{clear:right;color:#999;text-align: left;border-top:1px dashed #ececec; margin-top: 10px;padding-top: 5px}
+article.post-list .details{clear:right;color:#999;text-align: left;border-top:1px dashed #ececec; margin-top: 5px;padding-top: 8px}
 .post-list:hover .info-meta{-webkit-transform:translate3d(-230px,0,0);transform:translate3d(-230px,0,0);opacity:1;visibility:visible}
 .pagination a{font-size:16px;padding: 3px 9px;color:#666;border-radius: 15px;margin: 0 5px; }
 .pagination a:hover{color:#8fd0cc}
 .pagination a.active{color: #fff;background: #8fd0cc}
 .pagination a.disabled{display: none}
 .bg-black{ background:#0a1922; min-height: 100px}
-header{border-bottom: 1px solid rgba(0,0,0,.05);color:#555;min-height: 60px}
+header{border-bottom: 1px solid rgba(0,0,0,.05);color:#555;min-height: 100px}
 header a{color:#555}
 header h1{ font-size:32px;font-weight: normal}
 header .name{}
@@ -117,7 +116,7 @@ footer .info a.green{color:#8fd0cc;}
 .post .post-detail{font-size: 14px;color:#999;border-bottom: 1px solid #eaeaea; padding: 10px 0}
 .post .post-detail a{color:#666;}
 .post .post-content img{max-width:700px;margin: 15px auto}
-.post .post-content p{ font-size: 16px; line-height: 2.2em}
+.post .post-content p{ font-size: 16px; line-height: 2.2em;padding: 5px 0}
 .post .post-comments h3{ border-bottom: 1px solid #eaeaea;font-size: 20px}
 .comment .reply.form{margin-left: 3.5rem;}/*
 *
