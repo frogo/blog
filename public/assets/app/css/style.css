@@ -116,7 +116,7 @@ footer .info a.green{color:#8fd0cc;}
 .post .post-detail{font-size: 14px;color:#999;border-bottom: 1px solid #eaeaea; padding: 10px 0}
 .post .post-detail a{color:#666;}
 .post .post-content img{max-width:700px;margin: 15px auto}
-.post .post-content p{ font-size: 16px; line-height: 2.2em;padding: 5px 0}
+.post .post-content p{ font-size: 16px; line-height: 1.8em;padding: 0.6em 0}
 .post .post-comments h3{ border-bottom: 1px solid #eaeaea;font-size: 20px}
 .comment .reply.form{margin-left: 3.5rem;}/*
 *
