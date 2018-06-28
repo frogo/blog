@@ -30,12 +30,20 @@
 .pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover{color:#504E4E;background:#dfdfdf;border-color:#dfdfdf}
 .pagination>li>a:focus,.pagination>li>a:hover,.pagination>li>span:focus,.pagination>li>span:hover{color:#504E4E}
 .pagination>li>a,.pagination>li>span{color:#504E4E}
-.gallery{padding-bottom:15px}
+.gallery{padding-bottom:55px}
 .gallery:after{content:'';clear:both;display:table}
-.gallery-item{width:100px;height:100px;background-size:cover;float:left;margin-right:5px;margin-bottom:5px;text-align:center;border:2px solid #fff;position:relative;display:-webkit-flex;-webkit-flex-direction:row;-webkit-align-items:center;-webkit-justify-content:center;overflow:hidden}
+.gallery-item{width:100px;height:100px;background-size:cover;float:left;margin:0 15px 0 0;text-align:center;border:1px solid #dfdfdf;position:relative;display:-webkit-flex;-webkit-flex-direction:row;-webkit-align-items:center;-webkit-justify-content:center;}
+.table .gallery-item{overflow: hidden}
 .gallery-item .file-holder{font-size:100px}
+.gallery-item .setThumb,.gallery-item .insertContent{position: absolute;left:0}
+.gallery-item .setThumb{bottom: -36px}
+.gallery-item .insertContent{bottom: -50px}
+
 .gallery-item img{max-width:100%;max-height:100%}
-.gallery-remove{position:absolute;right:2px;top:2px;font-size:24px;line-height:0;color:#000 !important}
+.gallery-remove{position:absolute;right:-10px;top:-14px;font-size:20px;line-height:0;color:#ccc}
 .media-list{border-left:4px solid #eee;padding:0px 15px;margin:10px 0}
 .form-control{color:#717171;outline:0;height:18px;padding:6px 11px;line-height:18px;font-size:13px;background-color:#fafafa;min-height:36px;filter:none!important;-webkit-box-shadow:none!important;-moz-box-shadow:none!important;box-shadow:none!important;-webkit-border-radius:3px;-moz-border-radius:3px;-ms-border-radius:3px;-o-border-radius:3px;border-radius:3px;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-o-transition:all .2s linear;-ms-transition:all .2s linear;transition:all .2s linear}
 .table>thead>tr>th,.table>tbody>tr>td{border-bottom:1px solid #f1f2f7}
+a{color:#555;}
+a:hover{color:#444}
+a:focus, a:hover {color:#444;outline: none}

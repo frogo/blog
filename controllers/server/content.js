@@ -163,9 +163,12 @@ exports.edit = function(req, res) {
         });
     } else if(req.method === 'POST') {
         let id = req.params.id;
-        let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'category', 'tags','keywords');
+        let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'thumb','category', 'tags','keywords');
         console.log(obj);
-        console.log(obj.gallery)
+
+        if(obj.thumb === '') {
+            obj.thumb = null;
+        }
         if(obj.category === '') {
             obj.category = null;
         }

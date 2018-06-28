@@ -47,6 +47,7 @@ exports.add = function(req, res) {
         console.log(req.headers.host)
         uploader.post(req, res, function (result) {
             console.log('上传结果', result);
+
             if(!result || !result.files) {
                 return;
             }
@@ -80,6 +81,9 @@ exports.add = function(req, res) {
             result.files.forEach(function(item) {
                 if(req.session.user) {
                     item.author = req.session.user._id;
+                }
+                if(item.url.indexOf('%20')){
+                    item.url=item.url.replace("%20"," ");
                 }
                 //这里还可以处理url
                 let fileObj = item;//_.pick(item, 'name', 'size', 'type', 'url');

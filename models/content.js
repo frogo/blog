@@ -28,6 +28,9 @@ let ContentSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'File'
     }],
+    thumb:{
+        type: Schema.ObjectId
+    },
     author: {
         type: Schema.ObjectId,
         ref: 'User'

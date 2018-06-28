@@ -6,12 +6,15 @@
         <article class="post post-list">
             <div class="post-entry">
                 {{#if gallery}}
-                    {{#compare gallery.[0].type 'contains' 'image'}}
-                        <div class="image">
-                                <img src="{{#if gallery.[0].sm_url}}{{gallery.[0].sm_url}} {{else}} {{gallery.[0].url}} {{/if}}">
-                        </div>
-                    {{else}}
-                    {{/compare}}
+                    {{#if thumb}}
+                        {{#each gallery}}
+                            {{#compare ../thumb '==' id}}
+                                <div class="image">
+                                    <img src="{{#if sm_url}}{{sm_url}} {{else}} {{url}} {{/if}}">
+                                </div>
+                            {{/compare}}
+                        {{/each}}
+                    {{/if}}
                 {{/if}}
                 <div class="content">
                     <h3 class="entry-title"><a href="/content/{{_id}}">{{title}}</a></h3>
