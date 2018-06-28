@@ -170,7 +170,7 @@
 
         })
         $('#J_gallery').on('click','.insertContent',function(){
-            var     imgUrl = $(this).attr('data-imgUrl'),
+            var     imgUrl = $(this).siblings('img').attr('src'),
                     index=imgUrl.lastIndexOf("/uploaded"),
                     imgUrl=imgUrl.substring(index,imgUrl.length),
                     mdStr = '![alt]('+ imgUrl +')'

@@ -182,7 +182,7 @@
                             '              <input type="checkbox" class="setThumbCk" value='+ id +'> 设为缩略图' +
                             '           </label>' +
                             '    </div>'+
-                            '<a class="insertContent btn btn-default btn-xs" data-imgUrl='+ url +'>插入到文章</a>'+
+                            '<a class="insertContent btn btn-default btn-xs">插入到文章</a>'+
                             ' </div>'
                     $('#J_gallery').append(html)
                 })
@@ -203,7 +203,7 @@
 
         })
         $('#J_gallery').on('click','.insertContent',function(){
-            var     imgUrl = $(this).attr('data-imgUrl'),
+            var     imgUrl = $(this).siblings('img').attr('src'),
                     index=imgUrl.lastIndexOf("/uploaded"),
                     imgUrl=imgUrl.substring(index,imgUrl.length),
                     mdStr = '![alt]('+ imgUrl +')'

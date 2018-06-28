@@ -34,7 +34,7 @@ module.exports = function(opts) {
     checkExists(options.uploadDir);
     //已上传的文件防重名
     let nameCountFunc = function(s, index, ext) {
-        return ' (' + ((parseInt(index, 10) || 0) + 1) + ')' + (ext || '');
+        return '_' + ((parseInt(index, 10) || 0) + 1) + '_' + (ext || '');
     };
     let safeName = function(_name) {
         // Prevent directory traversal and creating hidden system files:
