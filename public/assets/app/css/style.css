@@ -1,49 +1,20 @@
 
-*{word-wrap:break-word}
-html,body,h1,h2,h3,h4,h5,h6,hr,p,iframe,dl,dt,dd,ul,ol,li,pre,form,button,input,textarea,th,td,fieldset{margin:0;padding:0}
-ul,ol,dl{list-style-type:none}
-html,body{*position:static}
-html{font-family: sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
-address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}
-input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
-input,button{overflow: visible;vertical-align:middle;outline:none}
-body,th,td,button,input,select,textarea{font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,tahoma,arial,Verdana,sans-serif,"WenQuanYi Micro Hei","\5B8B\4F53";font-size:12px;color: #333;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing:grayscale}
+*{ margin: 0;padding: 0}
+.cl:after,.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}.cl,.clearfix{zoom:1}
+body,th,td,button,input,select,textarea{
+    font-family:"";
+    font-size:12px;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing:grayscale}
 body{line-height:1.6}
 h1,h2,h3,h4,h5,h6{font-size:100%}
 a,area{outline:none;blr:expression(this.onFocus=this.blur())}
 a{text-decoration:none;cursor: pointer}
-a:hover{text-decoration:underline;outline:none}
-a.ie6:hover{zoom:1}
+a:hover{text-decoration:none;outline:none;color:#888}
 a:focus{outline:none}
 a:hover,a:active{outline:none}:focus{outline:none}
-sub,sup{vertical-align:baseline}
-button,input[type="button"], input[type="submit"] {line-height:normal !important}
-/*img*/
 img{border:0;vertical-align:middle}
-a img,img{-ms-interpolation-mode:bicubic}
-.img-responsive{max-width: 100%;height: auto}
-
-/*IE下a:hover 背景闪烁*/
-*html{overflow:-moz-scrollbars-vertical;zoom:expression(function(ele){ele.style.zoom = "1";document.execCommand("BackgroundImageCache",false,true)}(this))}
-
-/*HTML5 reset*/
-header,footer,section,aside,details,menu,article,section,nav,address,hgroup,figure,figcaption,legend{display:block;margin:0;padding:0}time{display:inline}
-audio,canvas,video{display:inline-block;*display:inline;*zoom:1}
-audio:not([controls]){display:none}
-legend{width:100%;margin-bottom:20px;font-size:21px;line-height:40px;border:0;border-bottom:1px solid #e5e5e5}
-legend small{font-size:15px;color:#999}
-svg:not(:root) {overflow: hidden}
-fieldset {border-width:0;padding: 0.35em 0.625em 0.75em;margin: 0 2px;border: 1px solid #c0c0c0}
-input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button {height: auto}
-input[type="search"] {-webkit-appearance: textfield; /* 1 */-moz-box-sizing: content-box;-webkit-box-sizing: content-box; /* 2 */box-sizing: content-box}
-input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration {-webkit-appearance: none}
-/*
-Name:			style_clearfix
-Example:		class="clearfix|cl"
-Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高度缺失能问题
-*/
-.cl:after,.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}.cl,.clearfix{zoom:1}
-a:hover{ text-decoration: none}
 .fl{ float: left}
 .fr{ float: right}
 .pdt10{ padding-top: 10px}
@@ -70,14 +41,14 @@ article.post-list .image img{object-fit:cover;width:100px;height:100px;border-ra
 article.post-list .image:hover .overlay i{opacity:1}
 article.post-list h3.entry-title{font-size:20px;font-weight:400;line-height:2em;position:relative;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:70%}
 article.post-list h3.entry-title a{color:#504E4E}
-article.post-list h3.entry-title a:hover{color:#8fd0cc}
+article.post-list h3.entry-title a:hover{color:#888888}
 article.post-list .post-entry .content{}
 article.post-list .post-entry .content .entry-content{font-size:14px;color:#232323;letter-spacing:1px;line-height:30px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2; }
 article.post-list .details{clear:right;color:#999;text-align: left;border-top:1px dashed #ececec; margin-top: 5px;padding-top: 8px}
 .post-list:hover .info-meta{-webkit-transform:translate3d(-230px,0,0);transform:translate3d(-230px,0,0);opacity:1;visibility:visible}
 .pagination a{font-size:16px;padding: 3px 9px;color:#666;border-radius: 15px;margin: 0 5px; }
-.pagination a:hover{color:#8fd0cc}
-.pagination a.active{color: #fff;background: #8fd0cc}
+.pagination a:hover{color:#ccc}
+.pagination a.active{color: #fff;background: #ccc}
 .pagination a.disabled{display: none}
 .bg-black{ background:#0a1922; min-height: 100px}
 header{border-bottom: 1px solid rgba(0,0,0,.05);color:#555;min-height: 100px}
@@ -99,7 +70,7 @@ aside.sidebar{width:32%;float: right}
 footer{min-height: 80px;}
 footer .info {color:#999;border-top:1px solid rgba(0,0,0,.05)}
 footer .info a {text-decoration: none;color:#999}
-footer .info a.green{color:#8fd0cc;}
+footer .info a.red{color:red;}
 .tips{ font-size: 1.2em}
 /*form*/
 .gallery{display:flex;display:-webkit-flex;flex-wrap:wrap;margin-bottom:1rem}
@@ -116,7 +87,6 @@ footer .info a.green{color:#8fd0cc;}
 .post .post-detail{font-size: 14px;color:#999;border-bottom: 1px solid #eaeaea; padding: 10px 0}
 .post .post-detail a{color:#666;}
 .post .post-content img{max-width:700px;margin: 15px auto}
-.post .post-content p{ font-size: 16px; line-height: 1.8em;padding: 0.6em 0}
 .post .post-comments h3{ border-bottom: 1px solid #eaeaea;font-size: 20px}
 .comment .reply.form{margin-left: 3.5rem;}/*
 *

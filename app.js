@@ -32,7 +32,7 @@ marked.setOptions({
 
 
 
-
+console.log(process.env.NODE_ENV)
 
 let appPath = process.cwd();
 let config = require('./config');

@@ -7,7 +7,7 @@
             分类 <span><a href="#">{{#if content.category}} {{content.category.name}}{{/if}}</a>  </span> -
             访客 <span>{{content.visits}}</span>
         </div>
-        <div class="post-content mgt20">
+        <div class="post-content markdown-body mgt20">
          <!--{{#if content.gallery}}
              {{#compare content.gallery.length '===' 1}}
                  {{#compare content.gallery.[0].type 'contains' 'image'}}
@@ -80,6 +80,7 @@
     </ol>
 </div>
 </div>
+{{css '/assets/plugins/mditor/css/mditor.min.css'}}
 {{css '//cdn.jsdelivr.net/highlight.js/9.10.0/styles/tomorrow-night.min.css'}}
 {{css '//cdn.jsdelivr.net/blueimp-gallery/2.15.0/css/blueimp-gallery.min.css'}}
 {{js '//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js' }}

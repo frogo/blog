@@ -66,7 +66,7 @@ exports.list = function(req, res) {
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
         query.exec(function(err, results) {
-            console.log(err, results);
+            //console.log(err, results);
             console.log(pageInfo)
             res.render('server/content/list.hbs', {
                 title: '文章列表',
