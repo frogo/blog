@@ -66,3 +66,12 @@
 6. npm run dev 进入开发环境
 7. 浏览器打开<http://localhost:7000/admin/> 按照提示安装初始化
 8. 调试可以打开chrome,地址栏输入 chrome://inspect ，打开`Open dedicated DevTools for Node`会出来一个调试窗口，当然也可以使用WebStorm使用debug模式。
+
+## ScreenShot
+
+![alt](http://frogo.cn/images/screenshot_index.png)
+
+![alt](http://frogo.cn/images/screenshot_login.png)
+
+![alt](http://frogo.cn/images/screenshot_admin.png)
+
