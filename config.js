@@ -11,7 +11,7 @@ let config = {
     },
     //redis服务，用来session维持，非必须
     redis: {
-        host: '', // �?127.0.0.1 配置此项表示启用redis，需保证redis服务已启�?
+        host: '', // 127.0.0.1 配置此项表示启用redis，需保证redis服务已启用
         port: 6379, // 6379
         pass: ''
     },
@@ -30,7 +30,7 @@ let config = {
     //后台相关配置
     admin: {
         dir: 'admin', //后台访问路径，如http://localhost/admin配置为admin
-        role: {//默认角色�?
+        role: {//默认角色?
             admin: 'admin',
             user: 'user'
         }
