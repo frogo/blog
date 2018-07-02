@@ -69,9 +69,11 @@
 
 ## ScreenShot
 
-![alt](http://frogo.cn/images/screenshot_index.png)
 
-![alt](http://frogo.cn/images/screenshot_login.png)
+![alt](http://frogo.cn/images/screenshot_index_.png)
 
-![alt](http://frogo.cn/images/screenshot_admin.png)
+![alt](http://frogo.cn/images/screenshot_login_.png)
+
+![alt](http://frogo.cn/images/screenshot_admin_.png)
+
 
