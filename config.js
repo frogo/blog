@@ -6,7 +6,7 @@ let config = {
     env: process.env.NODE_ENV || 'development', // development   production
     //mongodb配置信息
     mongodb: {
-        uri: 'mongodb://localhost:27017/blog',
+        uri: 'mongodb://jinshuai:jinshuai@121.40.123.2:27085/blog',
         options: {}
     },
     //redis服务，用来session维持，非必须
