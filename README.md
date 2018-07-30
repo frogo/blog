@@ -12,7 +12,7 @@ This is a good practice and reference for those who want to move from front-end 
 
 ## 演示地址/Demo site
 
-个人博客[blog.frogo.cn](http://blog.frogo.cn)，该博客是部署在阿里云的centOS6.5上面，部署教程可参照 [node部署在centOS](http://)
+个人博客[blog.frogo.cn](http://blog.frogo.cn)，该博客是部署在阿里云的centOS6.5上面，部署教程可参照 [在阿里云ECS CentOS7上部署基于MongoDB+Node.js的博客](http://blog.frogo.cn/content/5b5ed2810a7a1d0a11922bd5)
 
 Personal Blog [blog.frogo.cn](http://blog.frogo.cn)。
 
