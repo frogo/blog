@@ -28,7 +28,7 @@
     "moment": "^2.18.0",
     "mongoose": "^4.9.2",
     "morgan": "~1.8.1",
-    "nodemailer": "^4.0.1",
+    "nodemailer": "^6.4.16",
     "qn": "^0.2.2",
     "qs": "^2.3.3",
     "sendmail": "^1.1.1",
