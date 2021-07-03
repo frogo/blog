@@ -76,7 +76,7 @@ module.exports = function(opts) {
             if(url.indexOf(options.storage.options.domain) > -1) {
                 try {
                     client.delete(fileName, function(err) {
-                        callback && callback.call(null, err);            
+                        callback && callback.call(null, err);
                     })
                 } catch(e) {
                     console.log('删除7牛图片失败', e);
@@ -85,7 +85,7 @@ module.exports = function(opts) {
             } else {
                 fs.unlink(options.uploadDir + '/' + fileName, function (err) {
                     callback && callback.call(null, err);
-                });    
+                });
             }
         } else {
             callback && callback.call(null, '文件类型错误');
@@ -144,7 +144,8 @@ module.exports = function(opts) {
                 console.log('头部信息2',req.header)
                 console.log('主机名：',host)
                 result.push({
-                    url: initUrls(host, sName),
+                    // url: initUrls(host, sName),
+                    url: options.uploadUrl + encodeURIComponent(sName),
                     name: sName,
                     size: file.size,
                     type: file.type
