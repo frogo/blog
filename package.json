@@ -25,7 +25,7 @@
     "lodash": "^4.17.4",
     "marked": "^0.3.3",
     "mkdirp": "^0.5.0",
-    "moment": "^2.18.0",
+    "moment": "^2.29.4",
     "mongoose": "^4.9.2",
     "morgan": "~1.8.1",
     "nodemailer": "^4.0.1",
